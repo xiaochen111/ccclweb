@@ -1,0 +1,40 @@
+.conatiner {
+  width: 100%;
+}
+
+.banner {
+  width: 100%;
+  height: 600px;
+  background-color: blue;
+}
+
+.middleLoginBox {
+  width:440px;
+  height:558px;
+  background:rgba(255,255,255,1);
+  border:1px solid rgba(151,151,151,1);
+  margin: 217px auto 0;
+  border-radius: 8px;
+  position: relative;
+  box-sizing: border-box;
+  padding: 80px 40px;
+}
+
+.logo{
+  display: block; 
+  width: 100px;
+  height: 100px;
+  background-color: #fff;
+  border-radius: 50%; 
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%,-130px);
+  border:1px solid rgba(151,151,151,1);
+}
+
+.title{
+  line-height: 1;
+  color: #333;
+  font-size: 24px;
+  font-weight: bold;
+}
