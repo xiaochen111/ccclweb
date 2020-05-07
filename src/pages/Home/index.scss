@@ -1,3 +1,5 @@
+@import '@/styles/flexible.scss';
+
 .conatiner {
   width: 100%;
 }
@@ -12,3 +14,87 @@
   max-width: 1200px;
   margin: 0 auto;
 }
+
+
+
+
+.title{
+  @extend [layout];
+  @extend [layout=row];
+  @extend [layout-align="space-around center"];
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  height: 170px;
+}
+
+
+.clearfloat:after{display:block;clear:both;content:"";visibility:hidden;height:0}
+.clearfloat{zoom:1}
+
+.SpecialOfferItem{
+  width: 270px;
+  height: 254px;
+  margin-right: 40px;
+  margin-bottom: 40px;
+  float: left;
+  &:nth-child(4n){
+    margin-right: 0;
+  }
+}
+
+.picPort{
+  width: 270px;
+  height: 180px;
+  background: #ccc;
+  position: relative;
+}
+
+.ports{
+  height: 40px;
+  @extend [layout];
+  @extend [layout=row];
+  @extend [layout-align="start center"];
+  padding-left: 20px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  background: rgba(0, 0, 0, .5);
+  color: #fff;
+}
+
+.bottomPart{
+  border:1px solid #ccc; 
+  height: 70px;
+  padding: 15px 20px;
+  @extend [layout];
+  @extend [layout=row];
+  @extend [layout-align="center center"];
+  ul{
+    li{
+      @extend [layout];
+      @extend [layout=column];
+      @extend [layout-align="space-between"];
+      width: 68px;
+      float: left;
+      p{
+        &:first-child{
+          color: #999;
+          font-size: 12px;
+        }
+        &:nth-child(2){
+          color: #FF7D14;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}
+
+// serviec
+.serviceMain{
+  height: 560px;
+  background: url(../../assets/img/bg_fuwuyoushi.png) no-repeat center;
+}
+
+
