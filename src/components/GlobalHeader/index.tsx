@@ -17,30 +17,29 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
       { name: '门到门专区', link: '/zone' },
       { name: '关于我们', link: '/about' },
       { name: '控制中心', link: '/control-center' },
-    ];
-    const navsLogin = [{ name: '登录｜注册', link: '/login' }];
-    let allNavs =
-      location.pathname === '/login' ? navsLogin : [...navs, ...navsLogin];
+      { name: '登录｜注册', link: '/login' }
+    ]
+
     return (
       <div className={styles.wrap}>
         <Link to="/">
-          <img className={styles.logo} src={logo} />
+          <img className={styles.logo} src={logo}/>
         </Link>
         <nav className={styles.navsWrap}>
-          {allNavs.map(item => (
-            <Link
-              to={item.link}
-              key={item.link}
-              className={`${styles.navItem} ${
-                item.link === location.pathname ? styles.active : ''
-              }`}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {
+            navs.map(item => (
+              <Link 
+                to={item.link} 
+                key={item.link} 
+                className={`${styles.navItem} ${item.link === location.pathname ? styles.active : ''}`}
+              >
+                {item.name}
+              </Link>
+            ))
+          }
         </nav>
       </div>
-    );
+    )
   }
 }
 

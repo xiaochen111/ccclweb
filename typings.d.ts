@@ -1,7 +1,8 @@
 declare module '*.css';
+<<<<<<< HEAD
 declare module '*.less';
 declare module '*.scss';
+=======
+>>>>>>> umi-old
 declare module "*.png";
-declare module '*.svg' {
-  export function ReactComponent(props: React.SVGProps<SVGSVGElement>): React.ReactElement
-}
+declare module "*.scss";

@@ -1,4 +1,5 @@
 export default [
+<<<<<<< HEAD
   {
     path: '/',
     component: '@/layouts/BasicLayout',
@@ -18,3 +19,19 @@ export default [
     ],
   },
 ];
+=======
+  { 
+    path: '/',
+    component: '../layouts/BasicLayout',
+    routes: [
+      {
+        path: '/', redirect: '/index',
+      },
+      {
+        path: '/index',
+        component: './Home/index'
+      }
+    ] 
+  }
+]
+>>>>>>> umi-old
