@@ -11,7 +11,6 @@ const config: IConfig =  {
       antd: true,
       dva: true,
       dynamicImport: false,
-      title: 'umi@2',
       dll: false,
       
       routes: {
