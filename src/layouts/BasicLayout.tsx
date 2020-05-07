@@ -6,6 +6,7 @@ import GlobalHeader from '@/components/GlobalHeader';
 import styles from './index.scss';
 
 const { Header, Content } = Layout;
+const logo = require('../assets/img/logo.png');
 
 export interface BasicLayoutProps {
   location: H.Location;
@@ -14,13 +15,12 @@ export interface BasicLayoutProps {
 class BasicLayout extends Component<BasicLayoutProps, any> {
   render() {
     const { children, location } = this.props;
-    // 如果是登录页面，全局头部不展示普通导航菜单
     const isLogin = location.pathname.includes('login');
 
     return (
       <Layout>
         <Header className={styles.header}>
-          <GlobalHeader {...this.props} logo={''} isLogin={isLogin}/>
+          <GlobalHeader {...this.props} logo={logo} isLogin={isLogin}/>
         </Header>
         <Content>
           {children}
