@@ -37,7 +37,13 @@
 
 .registerContainer {
   background-color: #fff;
-  padding-top: 80px;
+  padding: 80px 0;
+  width: 100%;
+}
+
+.registerContent {
+  width: 600px;
+  margin: 0 auto;
 }
 
 .registerTabs {

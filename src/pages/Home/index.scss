@@ -15,9 +15,6 @@
   margin: 0 auto;
 }
 
-
-
-
 .title{
   @extend [layout];
   @extend [layout=row];
@@ -28,11 +25,19 @@
   height: 170px;
 }
 
+.clearfloat:after {
+  display: block;
+  clear: both;
+  content: "";
+  visibility: hidden;
+  height: 0;
+}
 
-.clearfloat:after{display:block;clear:both;content:"";visibility:hidden;height:0}
-.clearfloat{zoom:1}
+.clearfloat {
+  zoom:1
+}
 
-.SpecialOfferItem{
+.SpecialOfferItem {
   width: 270px;
   height: 254px;
   margin-right: 40px;
@@ -43,14 +48,14 @@
   }
 }
 
-.picPort{
+.picPort {
   width: 270px;
   height: 180px;
   background: #ccc;
   position: relative;
 }
 
-.ports{
+.ports {
   height: 40px;
   @extend [layout];
   @extend [layout=row];
@@ -63,26 +68,26 @@
   color: #fff;
 }
 
-.bottomPart{
+.bottomPart {
   border:1px solid #ccc; 
   height: 70px;
   padding: 15px 20px;
   @extend [layout];
   @extend [layout=row];
   @extend [layout-align="center center"];
-  ul{
-    li{
+  ul {
+    li {
       @extend [layout];
       @extend [layout=column];
       @extend [layout-align="space-between"];
       width: 68px;
       float: left;
-      p{
-        &:first-child{
+      p {
+        &:first-child {
           color: #999;
           font-size: 12px;
         }
-        &:nth-child(2){
+        &:nth-child(2) {
           color: #FF7D14;
           font-size: 16px;
         }
