@@ -6,18 +6,18 @@ import styles from './index.scss';
 interface GlonbalHeaderProps {
   logo: string;
   location: H.Location;
+  isLogin: boolean;
 }
 
 class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
   render() {
-    const { logo, location } = this.props;
+    const { logo, location, isLogin } = this.props;
 
-    const navs = [
+    const navs = isLogin ? [] : [
       { name: '首页', link: '/index' },
       { name: '门到门专区', link: '/zone' },
       { name: '关于我们', link: '/about' },
       { name: '控制中心', link: '/control-center' },
-      { name: '登录｜注册', link: '/login' }
     ]
 
     return (
@@ -37,6 +37,18 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
               </Link>
             ))
           }
+          <Link 
+            to={'/login/index'} 
+            className={`${styles.navItem} ${styles.otherItem}`}
+          >
+            登录
+          </Link> ｜
+          <Link 
+            to={'/login/register'} 
+            className={`${styles.navItem} ${styles.otherItem}`}
+          >
+            注册
+          </Link>
         </nav>
       </div>
     )

@@ -19,12 +19,12 @@
   font-size: 14px;
   color: #fff;
   .navItem {
-    margin-left: 60px;
+    margin-right: 60px;
     color: #fff;
     cursor: pointer;
-    &:nth-of-type(1) {
-      margin-left: 0;
-    }
+  }
+  .otherItem {
+    margin-right: 0;
   }
   .active {
     font-weight: bold;
