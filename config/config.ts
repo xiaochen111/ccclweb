@@ -6,4 +6,7 @@ export default defineConfig({
     type: 'none',
   },
   routes: pageRoutes,
+  targets: {
+    ie: 9,
+  },
 });
