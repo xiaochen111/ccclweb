@@ -102,4 +102,124 @@
   background: url(../../assets/img/bg_fuwuyoushi.png) no-repeat center;
 }
 
+.serviceItem{
+  text-align: center;
+  padding: 0 50px;
+  color: #fff;
+  cursor: pointer;
+  &:hover{
+    img{
+      transform: scale(0.7);
+      animation: myAnimateImg 1s;
+    }
+    .text{
+      animation: myAnimateText 1s;
+      transform: translateY(-20px);
+    }
+  }
+  .text{
+    p{
+      &:first-child{
+        font-size: 20px; 
+        margin-top: 50px;
+      }
+      &:nth-child(2){
+        margin-top: 30px;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+    }
+  }
+}
 
+@keyframes myAnimateImg {
+  0%   {transform: scale(1);}
+  100% {transform: scale(0.7);}
+}
+@keyframes myAnimateText {
+  0%   {transform: translateY(0px);}
+  100% {transform: translateY(-20px);}
+}
+
+.videoNews {
+  display: flex; 
+  justify-content: space-between;
+}
+
+.vedio {
+  width: 580px;
+  height: 400px;
+  background: url(../../assets/img/vedio.png);
+}
+
+.newsMain {
+  width: 580px;
+  height: 400px;
+}
+
+.newsPic {
+  height: 162px;
+  display: flex;
+  justify-content: space-between;
+  li{
+    height: 162px;
+  }
+}
+
+
+.newTit {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1;
+  margin-top: 20px;
+  position: relative; 
+  padding-left: 15px;
+  &::before{
+    content: '';
+    display: block;
+    height: 22px;
+    width: 8px;
+    background:linear-gradient(180deg,rgba(13,70,239,1) 0%,rgba(47,93,244,1) 100%);
+    position: absolute;
+    left: 0; 
+  }
+  span{
+    color:#0D46EF; 
+    font-size: 22px;
+  }
+  a{
+    font-size:18px;
+    color:#999;
+  }
+}
+
+.newsList {
+  li{
+    line-height: 1;
+    margin-top: 22px;
+    position: relative;
+    padding-left: 15px;
+    font-size: 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    &::before{
+      content: '';
+      display: block;
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      background:linear-gradient(180deg,rgba(13,70,239,1) 0%,rgba(47,93,244,1) 100%);
+      position: absolute;
+      left: 0;
+      top: 5px; 
+    }
+    span:nth-of-type(1){
+      color:#333;
+    }
+    span:nth-of-type(2){
+      color:#999;
+    }
+  }
+}
