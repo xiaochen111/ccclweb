@@ -4,7 +4,8 @@
     "start": "umi dev",
     "build": "umi build",
     "test": "umi test",
-    "lint": "eslint {src,mock,tests}/**/*.{ts,tsx} --fix",
+    "lint:es": "eslint --ext .js src",
+    "lint:ts": "tslint \"src/**/*.ts\" \"src/**/*.tsx\"",
     "precommit": "lint-staged"
   },
   "dependencies": {
@@ -13,7 +14,9 @@
     "node-sass": "^4.14.1",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "sass-loader": "^8.0.2"
+    "sass-loader": "^8.0.2",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^5.0.0"
   },
   "devDependencies": {
     "@types/jest": "^23.3.12",
@@ -34,14 +37,16 @@
     "umi-plugin-react": "^1.8.0",
     "umi-types": "^0.3.0"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint-staged"
+    }
+  },
   "lint-staged": {
-    "*.{ts,tsx}": [
-      "eslint --fix",
-      "git add"
-    ],
-    "*.{js,jsx}": [
-      "eslint --fix",
-      "git add"
+    "**/*.scss": "stylelint --syntax less",
+    "**/*.{js,jsx,ts,tsx}": "eslint --ext .js,.jsx,.ts,.tsx ",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
+      "prettier --write"
     ]
   },
   "engines": {

@@ -9,8 +9,8 @@ export default {
     changeTitle(state, { payload }) {
       return {
         ...state,
-        title: payload
-      }
-    }
-  }
-}
+        title: payload,
+      };
+    },
+  },
+};
