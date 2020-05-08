@@ -6,8 +6,7 @@
     "test": "umi test",
     "lint:es": "eslint --ext .js src",
     "lint:ts": "tslint \"src/**/*.ts\" \"src/**/*.tsx\"",
-    "lint-staged": "lint-staged",
-    "style-fix": "stylelint 'src/**/*.scss' --fix"
+    "precommit": "lint-staged"
   },
   "dependencies": {
     "antd": "^3.19.5",
@@ -17,7 +16,9 @@
     "react-dom": "^16.8.6",
     "sass-loader": "^8.0.2",
     "stylelint": "^13.3.3",
-    "stylelint-scss": "^3.17.2",
+    "stylelint-config-rational-order": "^0.1.2",
+    "stylelint-config-standard": "^20.0.0",
+    "tslint": "^6.1.2",
     "tslint-eslint-rules": "^5.4.0",
     "tslint-react": "^5.0.0"
   },
@@ -42,11 +43,13 @@
     "umi-types": "^0.3.0"
   },
   "lint-staged": {
-    "**/*.scss": "stylelint --syntax scss",
-    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
-    "**/*.{js,jsx,tsx,ts,less,md,json}": [
-      "prettier --write"
-    ]
+    "lint-staged": {
+      "**/*.scss": "stylelint --syntax scss",
+      "**/*.{js,jsx,ts,tsx}": "eslint --ext .js,.jsx,.ts,.tsx ",
+      "**/*.{js,jsx,tsx,ts,less,md,json}": [
+        "prettier --write"
+      ]
+    }
   },
   "engines": {
     "node": ">=8.0.0"
