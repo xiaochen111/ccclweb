@@ -20,6 +20,17 @@ export default [
       {
         path: '/login/register',
         component: './Login/Register',
+      },
+      {
+        path: 'door', redirect: '/door/search',
+      },
+      {
+        path: '/door/search',
+        component: './Door/Search',
+      },
+      {
+        path: '/door/price-plan',
+        component: './Door/PricePlan',
       }
     ] 
   }

@@ -3,9 +3,9 @@ import { Button, Row, Col } from 'antd';
 import styles from './index.scss';
 import { Link } from 'umi';
 
-interface IProps {
+interface IProps { }
 
-}
+
 
 
 
@@ -136,9 +136,7 @@ class HomePage extends Component {
     const arrList = [1, 1, 1, 1, 1, 1, 1, 1];
     return (
       <main className={styles.conatiner}>
-        <div className={styles.banner}>
-          banner
-        </div>
+        <div className={styles.banner}>banner</div>
         <p className={styles.title}>专线特价区</p>
         <div className={`${styles.middleWrap} ${styles.clearfloat}`}>
           {
@@ -150,8 +148,8 @@ class HomePage extends Component {
         {/* 新闻资讯 */}
         {this.news()}
       </main>
-    )
+    );
   }
 }
 
-export default HomePage; 
+export default HomePage;

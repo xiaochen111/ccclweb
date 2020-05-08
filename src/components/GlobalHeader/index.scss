@@ -2,8 +2,9 @@
 
 .wrap {
   @extend [layout];
-  @extend [layout=row];
-  @extend [layout-align="space-between center"];
+  @extend [layout='row'];
+  @extend [layout-align='space-between center'];
+
   max-width: 1200px;
   height: 100%;
   margin: 0 auto;
@@ -12,12 +13,12 @@
 .logo {
   width: 138px;
   height: 50px;
-  background-color: red($color: #000000);
+  background-color: red($color: #000);
 }
 
 .navsWrap {
-  font-size: 14px;
   color: #fff;
+  font-size: 14px;
   .navItem {
     margin-right: 60px;
     color: #fff;

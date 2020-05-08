@@ -1,0 +1,56 @@
+.container {
+  width: 100%;
+  padding: 80px 0;
+  color: #333;
+}
+
+.header {
+  .title {
+    vertical-align: bottom;
+    .text {
+      font-size: 24px;
+    }
+    .desc {
+      margin-left: 14px;
+      color: #666;
+      font-size: 14px;
+    }
+  }
+}
+
+.tableContainer {
+  margin-top: 40px;
+  :global {
+    .ant-table-thead > tr > th {
+      background-color: #ebebeb;
+    }
+    .ant-table-tbody {
+      background-color: #fff;
+    }
+    .ant-table-expanded-row {
+      background-color: #fff;
+    }
+  }
+  .line {
+    font-size: 24px;
+  }
+  .voyage {
+    color: #666;
+    font-size: 20px;
+  }
+  .price {
+    color: #ff7d14;
+    font-weight: bold;
+    font-size: 20px;
+  }
+  .total {
+    color: #ff0808;
+    font-weight: bold;
+    font-size: 20px;
+  }
+}
+
+.expandeContent {
+  color: #999;
+  font-size: 14px;
+}

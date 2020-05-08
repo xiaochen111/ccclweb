@@ -12,46 +12,42 @@ interface GlonbalHeaderProps {
 class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
   render() {
     const { logo, location, isLogin } = this.props;
-
-    const navs = isLogin ? [] : [
-      { name: '首页', link: '/index' },
-      { name: '门到门专区', link: '/zone' },
-      { name: '关于我们', link: '/about' },
-      { name: '控制中心', link: '/control-center' },
-    ]
+    const navs = isLogin
+      ? []
+      : [
+          { name: '首页', link: '/index' },
+          { name: '门到门专区', link: '/door' },
+          { name: '关于我们', link: '/about' },
+          { name: '控制中心', link: '/control-center' },
+        ];
 
     return (
       <div className={styles.wrap}>
         <Link to="/">
-          <img className={styles.logo} src={logo}/>
+          <img className={styles.logo} src={logo} />
         </Link>
         <nav className={styles.navsWrap}>
-          {
-            navs.map(item => (
-              <Link 
-                to={item.link} 
-                key={item.link} 
-                className={`${styles.navItem} ${item.link === location.pathname ? styles.active : ''}`}
-              >
-                {item.name}
-              </Link>
-            ))
-          }
-          <Link 
-            to={'/login/index'} 
-            className={`${styles.navItem} ${styles.otherItem}`}
-          >
+          {navs.map(item => (
+            <Link
+              to={item.link}
+              key={item.link}
+              className={`${styles.navItem} ${
+                item.link === location.pathname ? styles.active : ''
+              }`}
+            >
+              {item.name}
+            </Link>
+          ))}
+          <Link to={'/login/index'} className={`${styles.navItem} ${styles.otherItem}`}>
             登录
-          </Link> ｜
-          <Link 
-            to={'/login/register'} 
-            className={`${styles.navItem} ${styles.otherItem}`}
-          >
+          </Link>{' '}
+          ｜
+          <Link to={'/login/register'} className={`${styles.navItem} ${styles.otherItem}`}>
             注册
           </Link>
         </nav>
       </div>
-    )
+    );
   }
 }
 
