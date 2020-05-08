@@ -26,6 +26,7 @@
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
     "@types/react-test-renderer": "^16.0.3",
+    "@umijs/fabric": "^2.0.8",
     "babel-eslint": "^9.0.0",
     "eslint": "^5.4.0",
     "eslint-config-umi": "^1.4.0",
@@ -39,11 +40,6 @@
     "umi": "^2.9.0",
     "umi-plugin-react": "^1.8.0",
     "umi-types": "^0.3.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run lint-staged"
-    }
   },
   "lint-staged": {
     "**/*.scss": "stylelint --syntax scss",
