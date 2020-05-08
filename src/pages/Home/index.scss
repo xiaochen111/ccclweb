@@ -19,18 +19,19 @@
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='space-around center'];
-  font-size: 24px;
-  font-weight: bold;
-  color: #333;
+
   height: 170px;
+  color: #333;
+  font-weight: bold;
+  font-size: 24px;
 }
 
-.clearfloat:after {
+.clearfloat::after {
   display: block;
   clear: both;
-  content: '';
-  visibility: hidden;
   height: 0;
+  visibility: hidden;
+  content: '';
 }
 
 .clearfloat {
@@ -38,40 +39,40 @@
 }
 
 .SpecialOfferItem {
+  float: left;
   width: 270px;
   height: 254px;
   margin-right: 40px;
   margin-bottom: 40px;
-  float: left;
   &:nth-child(4n) {
     margin-right: 0;
   }
 }
 
 .picPort {
+  position: relative;
   width: 270px;
   height: 180px;
   background: #ccc;
-  position: relative;
 }
 
 .ports {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
   height: 40px;
+  padding-left: 20px;
+  color: #fff;
+  background: rgba(0, 0, 0, 0.5);
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='start center'];
-  padding-left: 20px;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  color: #fff;
 }
 
 .bottomPart {
-  border: 1px solid #ccc;
   height: 70px;
   padding: 15px 20px;
+  border: 1px solid #ccc;
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='center center'];
@@ -80,8 +81,9 @@
       @extend [layout];
       @extend [layout='column'];
       @extend [layout-align='space-between'];
-      width: 68px;
+
       float: left;
+      width: 68px;
       p {
         &:first-child {
           color: #999;

@@ -6,7 +6,8 @@
     "test": "umi test",
     "lint:es": "eslint --ext .js src",
     "lint:ts": "tslint \"src/**/*.ts\" \"src/**/*.tsx\"",
-    "lint:style": "stylelint 'src/**/*.scss' --fix"
+    "lint-staged": "lint-staged",
+    "style-fix": "stylelint 'src/**/*.scss' --fix"
   },
   "dependencies": {
     "antd": "^3.19.5",
@@ -46,8 +47,8 @@
   },
   "lint-staged": {
     "**/*.scss": "stylelint --syntax scss",
-    "**/*.{js,jsx,ts,tsx}": "eslint --ext .js,.jsx,.ts,.tsx ",
-    "**/*.{js,jsx,tsx,ts,less,scss,md,json}": [
+    "**/*.{js,jsx,ts,tsx}": "npm run lint-staged:js",
+    "**/*.{js,jsx,tsx,ts,less,md,json}": [
       "prettier --write"
     ]
   },
