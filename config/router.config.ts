@@ -39,6 +39,10 @@ export default [
         path: '/door/door-index',
         component: './Door/DoorIndex',
       },
+      {
+        path: '/door/place-order',
+        component: './Door/PlaceOrder',
+      },
     ],
   },
 ];
