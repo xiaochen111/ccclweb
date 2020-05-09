@@ -25,19 +25,15 @@ export default [
       },
       {
         path: 'door',
-        redirect: '/door/search',
+        redirect: '/door/index',
       },
       {
-        path: '/door/search',
-        component: './Door/Search',
+        path: '/door/index',
+        component: './Door/DoorIndex',
       },
       {
         path: '/door/price-plan',
         component: './Door/PricePlan',
-      },
-      {
-        path: '/door/door-index',
-        component: './Door/DoorIndex',
       },
       {
         path: '/door/place-order',
