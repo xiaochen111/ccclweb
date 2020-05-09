@@ -19,8 +19,15 @@
     .ant-select-auto-complete.ant-select-lg .ant-input {
       text-indent: 60px;
     }
-    .ant-input:focus {
-      border-color: none;
+    .ant-select-auto-complete.ant-select .ant-input,
+    .ant-input,
+    .ant-select-auto-complete.ant-select .ant-input {
+      border: 1px solid #fff !important;
+    }
+    .ant-select-auto-complete.ant-select .ant-input:focus,
+    .ant-input:focus,
+    .ant-select-auto-complete.ant-select .ant-input:hover {
+      border: 1px solid #fff !important;
     }
   }
 }
