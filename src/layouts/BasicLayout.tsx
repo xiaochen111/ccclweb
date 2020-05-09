@@ -18,15 +18,13 @@ class BasicLayout extends Component<BasicLayoutProps, any> {
     const isLogin = location.pathname.includes('login');
 
     return (
-      <Layout>
+      <Layout style={{ minHeight: '100vh' }}>
         <Header className={styles.header}>
-          <GlobalHeader {...this.props} logo={logo} isLogin={isLogin}/>
+          <GlobalHeader {...this.props} logo={logo} isLogin={isLogin} />
         </Header>
-        <Content>
-          {children}
-        </Content>
+        <Content>{children}</Content>
       </Layout>
-    )
+    );
   }
 }
 

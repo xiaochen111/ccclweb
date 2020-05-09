@@ -19,38 +19,104 @@
 }
 
 .tableContainer {
+  width: 1200px;
   margin-top: 40px;
-  :global {
-    .ant-table-thead > tr > th {
-      background-color: #ebebeb;
+
+  .tableHeader,
+  .rowInfos {
+    width: 100%;
+    padding: 0 30px;
+    span {
+      display: inline-block;
+      text-align: left;
     }
-    .ant-table-tbody {
-      background-color: #fff;
+    span:nth-of-type(1) {
+      width: 35%;
     }
-    .ant-table-expanded-row {
-      background-color: #fff;
+    span:nth-of-type(2),
+    span:nth-of-type(3),
+    span:nth-of-type(4),
+    span:nth-of-type(5),
+    span:nth-of-type(6) {
+      width: 13%;
+    }
+    span:nth-of-type(6) {
+      text-align: right;
     }
   }
-  .line {
-    font-size: 24px;
+
+  .tableHeader {
+    height: 60px;
+    background-color: #ebebeb;
+    line-height: 60px;
+    font-size: 16px;
+    color: #333;
   }
-  .voyage {
-    color: #666;
-    font-size: 20px;
-  }
-  .price {
-    color: #ff7d14;
-    font-weight: bold;
-    font-size: 20px;
-  }
-  .total {
-    color: #ff0808;
-    font-weight: bold;
-    font-size: 20px;
+  .tableBody {
+    width: 100%;
+    background-color: #fff;
+    li {
+      width: 100%;
+      border-bottom: 1px solid #999;
+      .rowInfos {
+        height: 80px;
+        line-height: 80px;
+        .line {
+          font-size: 24px;
+        }
+        .voyage {
+          color: #666;
+          font-size: 20px;
+        }
+        .price {
+          color: #ff7d14;
+          font-weight: bold;
+          font-size: 20px;
+        }
+        .total {
+          color: #ff0808;
+          font-weight: bold;
+          font-size: 20px;
+        }
+        .btn {
+          width: 90px;
+          height: 30px;
+          line-height: 30px;
+          text-align: center;
+          background-color: #2556f2;
+          border-radius: 4px;
+          color: #fff;
+          cursor: pointer;
+        }
+      }
+      .expandeContent {
+        width: 1140px;
+        margin: 0 auto;
+        border-top: 1px dashed #ccc;
+        height: 58px;
+        line-height: 58px;
+        color: #999;
+        font-size: 14px;
+        .validityTime {
+          color: #666;
+        }
+      }
+    }
   }
 }
 
-.expandeContent {
-  color: #999;
-  font-size: 14px;
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 40px;
+  text-align: center;
+  .total {
+    margin-right: 20px;
+    strong {
+      color: #0d46ef;
+      font-weight: normal;
+    }
+  }
 }

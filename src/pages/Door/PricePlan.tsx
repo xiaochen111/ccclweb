@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Table, Button, Icon } from 'antd';
+import { Table, Pagination, Icon } from 'antd';
 import PageWrapper from '@/components/PageWrapper';
 import styles from './PricePlan.scss';
 
@@ -9,33 +9,32 @@ class PricePlanPage extends PureComponent {
       title: '线路',
       dataIndex: 'a',
       key: 'a',
-      render: (text: any) => <span className={styles.line}>{text}</span>,
+      width: '35%',
     },
     {
       title: '航程',
       dataIndex: 'b',
       key: 'b',
-      render: (text: any) => <span className={styles.voyage}>{text}</span>,
+      width: '13%',
     },
     {
       title: 'CBM',
       dataIndex: 'c',
       key: 'c',
-      render: (text: any) => <span className={styles.price}>{text}</span>,
+      width: '13%',
     },
     {
       title: 'KGS',
       dataIndex: 'd',
       key: 'd',
-      render: (text: any) => <span className={styles.price}>{text}</span>,
+      width: '13%',
     },
     {
       title: 'TOTAL',
       dataIndex: 'e',
       key: 'e',
-      render: (text: any) => <span className={styles.total}>{text}</span>,
+      width: '13%',
     },
-    { title: '', dataIndex: 'f', key: 'f', render: () => <Button type={'primary'}>下单</Button> },
   ];
 
   render() {
@@ -45,14 +44,7 @@ class PricePlanPage extends PureComponent {
       { a: '义务 --> WARSZAWA', b: '40天', c: '$402', d: '$600', e: '$10000' },
       { a: '义务 --> WARSZAWA', b: '40天', c: '$403', d: '$600', e: '$10000' },
     ];
-    const renderExpandeContent = () => (
-      <div className={styles.expandeContent}>
-        <span style={{ marginRight: 50 }}>有效船期 : 2020-04-01 至 2020-04-30</span>
-        <span>
-          <Icon type="exclamation-circle" theme="filled" /> 费用外部备注备注备注备注备注备注……
-        </span>
-      </div>
-    );
+
     return (
       <PageWrapper>
         <div className={styles.container}>
@@ -63,14 +55,42 @@ class PricePlanPage extends PureComponent {
             </div>
           </div>
           <div className={styles.tableContainer}>
-            <Table
-              rowKey={'c'}
-              dataSource={dataSource}
-              columns={this.columns}
-              expandedRowRender={renderExpandeContent}
-              defaultExpandAllRows
-              expandIcon={() => <i />}
-            />
+            <div className={styles.tableHeader}>
+              {this.columns.map(item => (
+                <span key={item.dataIndex}>{item.title}</span>
+              ))}
+            </div>
+            <ul className={styles.tableBody}>
+              {dataSource.map(item => (
+                <li key={item.c} className={styles.tableItem}>
+                  <div className={styles.rowInfos}>
+                    <span className={styles.line}>{item.a}</span>
+                    <span className={styles.voyage}>{item.b}</span>
+                    <span className={styles.price}>{item.c}</span>
+                    <span className={styles.price}>{item.d}</span>
+                    <span className={styles.total}>{item.e}</span>
+                    <span>
+                      <span className={styles.btn}>下单</span>
+                    </span>
+                  </div>
+                  <div className={styles.expandeContent}>
+                    <span style={{ marginRight: 50 }} className={styles.validityTime}>
+                      有效船期 : 2020-04-01 至 2020-04-30
+                    </span>
+                    <span>
+                      <Icon type="exclamation-circle" theme="filled" />{' '}
+                      费用外部备注备注备注备注备注备注……
+                    </span>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className={styles.paginationContainer}>
+            <span className={styles.total}>
+              共<strong>1000</strong>条
+            </span>
+            <Pagination showQuickJumper showSizeChanger total={500} />
           </div>
         </div>
       </PageWrapper>
