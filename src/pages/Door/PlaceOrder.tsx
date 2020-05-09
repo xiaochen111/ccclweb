@@ -22,12 +22,18 @@ class DoorPlaceOrderPage extends PureComponent<RegisterProps, any> {
     }
   }
 
+  componentWillUnmount() {
+    this.ref = null;
+    window.removeEventListener('scroll', this.handlePageScroll);
+  }
+
   handlePageScroll = () => {
     const sTop =
       document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+    const refTop = this.ref ? this.ref.offsetTop : 0;
 
     this.setState({
-      isSticky: sTop >= this.ref.offsetTop,
+      isSticky: sTop >= refTop,
     });
   };
 

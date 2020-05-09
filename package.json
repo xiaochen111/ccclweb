@@ -6,6 +6,7 @@
     "test": "umi test",
     "lint:es": "eslint --ext .js src",
     "lint:ts": "tslint \"src/**/*.ts\" \"src/**/*.tsx\"",
+    "lint:fixcss": "stylelint 'src/**/*.scss' --fix",
     "precommit": "lint-staged"
   },
   "dependencies": {
