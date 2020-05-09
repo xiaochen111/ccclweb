@@ -1,11 +1,13 @@
 import React, { PureComponent } from 'react';
 import PageWrapper from '@/components/PageWrapper';
 import SearchCondition from '@/components/SearchCondition';
+import router from 'umi/router';
 import styles from './DoorIndex.scss';
 
 export class doorIndex extends PureComponent {
   handleSubmit = () => {
-    console.log('111111111');
+    // console.log('111111111');
+    router.push('/door/price-plan');
   };
   render() {
     return (
