@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
-import { Table, Pagination, Icon } from 'antd';
+import { Pagination, Icon } from 'antd';
+import router from 'umi/router';
 import PageWrapper from '@/components/PageWrapper';
 import SearchCondition from '@/components/SearchCondition';
 import styles from './PricePlan.scss';
@@ -42,6 +43,10 @@ class PricePlanPage extends PureComponent {
     console.log('111111111');
   };
 
+  linkToOrder = () => {
+    router.push('/door/place-order');
+  };
+
   render() {
     const dataSource = [
       { a: '义务 --> WARSZAWA', b: '40天', c: '$400', d: '$600', e: '$10000' },
@@ -76,7 +81,9 @@ class PricePlanPage extends PureComponent {
                     <span className={styles.price}>{item.d}</span>
                     <span className={styles.total}>{item.e}</span>
                     <span>
-                      <span className={styles.btn}>下单</span>
+                      <span className={styles.btn} onClick={this.linkToOrder}>
+                        下单
+                      </span>
                     </span>
                   </div>
                   <div className={styles.expandeContent}>
