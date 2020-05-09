@@ -4,18 +4,10 @@ import { FormComponentProps } from 'antd/lib/form';
 import { Link } from 'umi';
 import styles from './index.scss';
 
+interface RegisterProps extends FormComponentProps {}
 
-interface RegisterProps extends FormComponentProps {
-
-}
-
-
-
-
-export class LoginPage extends Component<RegisterProps,any> {
-
-  
-  handleSubmit = (e:any) => {
+export class LoginPage extends Component<RegisterProps, any> {
+  handleSubmit = (e: any) => {
     e.persist();
     const { form } = this.props;
     form.validateFields((err, values) => {
@@ -28,7 +20,7 @@ export class LoginPage extends Component<RegisterProps,any> {
   loginRender = () => {
     const { getFieldDecorator } = this.props.form;
     return (
-      <Form  className="login-form">
+      <Form>
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username!' }],
@@ -52,7 +44,7 @@ export class LoginPage extends Component<RegisterProps,any> {
             />,
           )}
         </Form.Item>
-        <Form.Item >
+        <Form.Item>
           {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
@@ -64,13 +56,12 @@ export class LoginPage extends Component<RegisterProps,any> {
             登录
           </Button>
           <p className={styles.registerLink}>
-             如您还没有账户请先 <Link to="/login/register">注册账号</Link>
+            如您还没有账户请先 <Link to="/login/register">注册账号</Link>
           </p>
         </Form.Item>
-        
       </Form>
-    )
-  }
+    );
+  };
 
   render() {
     return (

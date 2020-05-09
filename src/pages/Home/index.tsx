@@ -49,7 +49,7 @@ class HomePage extends Component {
     return (
       <div className={styles.searchPanel}>
         <p>拼箱门到门</p>
-        <Row gutter={16}>
+        <Row gutter={10}>
           <Col span={9}>
             <div className="certain-category-search-wrapper">
               <AutoComplete
@@ -81,9 +81,11 @@ class HomePage extends Component {
             <Input placeholder="体积" size="large" suffix={<span>CBM</span>} />
           </Col>
           <Col span={5}>
-            <Button type="primary" size="large" block icon="search">
-              搜索
-            </Button>
+            <div className={styles.btnBox}>
+              <Button type="primary" size="large" block icon="search">
+                搜索
+              </Button>
+            </div>
           </Col>
         </Row>
       </div>
