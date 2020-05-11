@@ -27,6 +27,7 @@ const config: IConfig = {
       },
     ],
   ],
+  history: 'hash',
   theme: {
     'text-color': '#333',
     'text-color-secondary': '#999',
