@@ -4,9 +4,8 @@
   flex-direction: row;
   .formItemOne {
     padding-right: 20px;
-    width: 50%;
     flex-shrink: 0;
-    width: 30%;
+    width: (2/7) * 100%;
     position: relative;
     &::after {
       content: '';
@@ -21,7 +20,7 @@
   .formItemTwo {
     padding-right: 20px;
     flex-shrink: 0;
-    width: 30%;
+    width: (2/7) * 100%;
     :global {
       .ant-select-auto-complete.ant-select .ant-select-selection__placeholder {
         margin-left: 30px;
@@ -29,10 +28,26 @@
     }
   }
   .formItemThree {
+    flex-shrink: 0;
+    width: (1/7) * 100%;
     padding-right: 20px;
   }
   .formItemFour {
+    flex-shrink: 0;
+    width: (1/7) * 100%;
     padding-right: 20px;
+  }
+  .formItemBtn {
+    flex-shrink: 0;
+    width: (1/7) * 100%;
+    :global {
+      .ant-form-item-children {
+        width: 100%;
+      }
+    }
+    .submitBtn {
+      width: 100%;
+    }
   }
 }
 

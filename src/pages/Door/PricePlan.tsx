@@ -63,7 +63,9 @@ class PricePlanPage extends PureComponent {
               <span className={styles.text}>拼箱门到门</span>
               <span className={styles.desc}>注 : 费用按照1:400（KGS数值/</span>
             </div>
-            <SearchCondition submit={this.handleSubmit} isMultiRow />
+            <div className={styles.searchCondition}>
+              <SearchCondition submit={this.handleSubmit} isMultiRow />
+            </div>
           </div>
           <div className={styles.tableContainer}>
             <div className={styles.tableHeader}>
