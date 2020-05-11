@@ -13,11 +13,15 @@ interface SearchConditionProps extends FormComponentProps {
 
 const dataSource = ['12345', '23456', '34567'];
 
+// enum searchType {
+//   index=1,
+//   door
+// }
+
 export class SearchCondition extends Component<SearchConditionProps, any> {
   render() {
     const options = dataSource.map((item, index) => <Option key={index}>{item}</Option>);
     const { isMultiRow, form, submit } = this.props;
-    console.log(submit);
     const { getFieldDecorator } = form;
     const formStyle = isMultiRow ? 'searchMainStyle1' : 'searchMainStyle2';
 

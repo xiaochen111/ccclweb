@@ -1,10 +1,15 @@
 import { IConfig } from 'umi-types';
 import pageRoutes from './router.config';
+const path = require('path');
 
 // ref: https://umijs.org/config/
 const config: IConfig = {
   treeShaking: true,
   routes: pageRoutes,
+  publicPath: '/',
+  alias: {
+    resources: path.resolve('./public/'),
+  },
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     [
