@@ -12,7 +12,7 @@ const config: IConfig = {
       {
         antd: true,
         dva: true,
-        dynamicImport: false,
+        dynamicImport: { webpackChunkName: true },
         dll: false,
 
         routes: {
@@ -27,7 +27,9 @@ const config: IConfig = {
       },
     ],
   ],
+  ignoreMomentLocale: true,
   history: 'hash',
+  hash: true,
   theme: {
     'text-color': '#333',
     'text-color-secondary': '#999',
