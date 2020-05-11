@@ -30,10 +30,10 @@ class DoorPlaceOrderPage extends PureComponent<RegisterProps, any> {
   handlePageScroll = () => {
     const sTop =
       document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-    const refTop = this.ref ? this.ref.offsetTop : 0;
+    const { top } = this.ref.getBoundingClientRect();
 
     this.setState({
-      isSticky: sTop >= refTop,
+      isSticky: sTop >= top,
     });
   };
 
