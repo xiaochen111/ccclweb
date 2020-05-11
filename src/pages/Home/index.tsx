@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Row, Col, Carousel, Input, AutoComplete } from 'antd';
+import SearchCondition, { searchType } from '@/components/SearchCondition';
 import styles from './index.scss';
 import { Link } from 'umi';
 
@@ -44,50 +45,16 @@ const serviceList = [
   },
 ];
 class HomePage extends Component {
+  handleSubmit = () => {
+    console.log('111111111');
+  };
+
   searchPanel = (dataSource: Array<any>) => {
     const options = dataSource.map((item, index) => <Option key={index}>{item}</Option>);
     return (
       <div className={styles.searchPanel}>
         <p>拼箱门到门</p>
-        <Row gutter={10}>
-          <Col span={9}>
-            <div className="certain-category-search-wrapper">
-              <AutoComplete
-                className="certain-category-search"
-                dropdownClassName="certain-category-search-dropdown"
-                dropdownMatchSelectWidth={false}
-                dropdownStyle={{ width: 300 }}
-                size="large"
-                style={{ width: '100%' }}
-                dataSource={options}
-                defaultValue="sss"
-                optionLabelProp="value"
-              >
-                <Input
-                  prefix={
-                    <>
-                      <img src={startPartIcon} />{' '}
-                      <span style={{ fontSize: '14px' }}>&nbsp;义乌 —</span>
-                    </>
-                  }
-                />
-              </AutoComplete>
-            </div>
-          </Col>
-          <Col span={5}>
-            <Input placeholder="重量" size="large" suffix={<span>KGS</span>} />
-          </Col>
-          <Col span={5}>
-            <Input placeholder="体积" size="large" suffix={<span>CBM</span>} />
-          </Col>
-          <Col span={5}>
-            <div className={styles.btnBox}>
-              <Button type="primary" size="large" block icon="search">
-                搜索
-              </Button>
-            </div>
-          </Col>
-        </Row>
+        <SearchCondition submit={this.handleSubmit} isMultiRow={searchType.index} />
       </div>
     );
   };

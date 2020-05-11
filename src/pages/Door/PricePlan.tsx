@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Pagination, Icon } from 'antd';
 import router from 'umi/router';
 import PageWrapper from '@/components/PageWrapper';
-import SearchCondition from '@/components/SearchCondition';
+import SearchCondition, { searchType } from '@/components/SearchCondition';
 import styles from './PricePlan.scss';
 
 class PricePlanPage extends PureComponent {
@@ -64,7 +64,7 @@ class PricePlanPage extends PureComponent {
               <span className={styles.desc}>注 : 费用按照1:400（KGS数值/</span>
             </div>
             <div className={styles.searchCondition}>
-              <SearchCondition submit={this.handleSubmit} isMultiRow />
+              <SearchCondition submit={this.handleSubmit} isMultiRow={searchType.pricePlan} />
             </div>
           </div>
           <div className={styles.tableContainer}>

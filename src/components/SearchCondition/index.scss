@@ -1,3 +1,41 @@
+.searchMainStyle0 {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  .formItemOne {
+    padding-right: 10px;
+    flex-shrink: 0;
+    width: (2/5) * 100%;
+  }
+  .formItemTwo {
+    padding-right: 10px;
+    flex-shrink: 0;
+    width: (1/5) * 100%;
+  }
+  .formItemThree {
+    padding-right: 10px;
+    flex-shrink: 0;
+    width: (1/5) * 100%;
+  }
+  .formItemFour {
+    padding-right: 10px;
+    flex-shrink: 0;
+    width: (1/5) * 100%;
+  }
+  .formItemBtn {
+    flex-shrink: 0;
+    width: (1/5) * 100%;
+    :global {
+      .ant-form-item-children {
+        padding-left: 10px;
+      }
+    }
+    .submitBtn {
+      width: calc(100% - 10px);
+    }
+  }
+}
+
 .searchMainStyle1 {
   display: flex;
   align-items: center;
