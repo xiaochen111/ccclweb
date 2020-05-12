@@ -15,8 +15,8 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
     const navs = isLogin
       ? []
       : [
-          { name: '首页', link: '/index' },
-          { name: '门到门专区', link: '/door/index' },
+          { name: '首页', link: '/home' },
+          { name: '门到门专区', link: '/door' },
           { name: '关于我们', link: '/about' },
           { name: '控制中心', link: '/control-center' },
         ];
@@ -32,7 +32,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
               to={item.link}
               key={item.link}
               className={`${styles.navItem} ${
-                item.link === location.pathname ? styles.active : ''
+                location.pathname.includes(item.link) ? styles.active : ''
               }`}
             >
               {item.name}
@@ -40,8 +40,8 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
           ))}
           <Link to={'/login/index'} className={`${styles.navItem} ${styles.otherItem}`}>
             登录
-          </Link>{' '}
-          ｜
+          </Link>
+          &nbsp;&#x007C;&nbsp;
           <Link to={'/login/register'} className={`${styles.navItem} ${styles.otherItem}`}>
             注册
           </Link>
