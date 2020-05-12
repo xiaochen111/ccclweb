@@ -5,10 +5,10 @@ export default [
     routes: [
       {
         path: '/',
-        redirect: '/index',
+        redirect: '/home',
       },
       {
-        path: '/index',
+        path: '/home',
         component: './Home/index',
       },
       {

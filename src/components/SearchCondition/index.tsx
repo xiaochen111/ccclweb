@@ -28,7 +28,7 @@ export class SearchCondition extends Component<SearchConditionProps, any> {
 
     return (
       <Form>
-        <div className={styles[formStyle]}>
+        <div className={`${styles[formStyle]} ${styles.fromMain}`}>
           {searchType.index === isMultiRow ? (
             <div className={styles.formItemOne}>
               <Form.Item>
@@ -41,6 +41,7 @@ export class SearchCondition extends Component<SearchConditionProps, any> {
                   style={{ width: '100%' }}
                   dataSource={options}
                   optionLabelProp="value"
+                  placeholder="收货地"
                 >
                   <Input
                     prefix={
@@ -57,9 +58,9 @@ export class SearchCondition extends Component<SearchConditionProps, any> {
             <>
               <div className={styles.formItemOne}>
                 <Form.Item>
-                  {getFieldDecorator('a')(
-                    <Input size="large" prefix={<img src={startPartIcon} />} />,
-                  )}
+                  {getFieldDecorator('start', {
+                    initialValue: '义乌',
+                  })(<Input size="large" prefix={<img src={startPartIcon} />} />)}
                 </Form.Item>
               </div>
               <div className={styles.formItemTwo}>
@@ -103,7 +104,7 @@ export class SearchCondition extends Component<SearchConditionProps, any> {
               <Button
                 type="primary"
                 size="large"
-                icon="search"
+                icon={searchType.index === isMultiRow ? 'search' : ''}
                 className={styles.submitBtn}
                 onClick={submit}
               >
