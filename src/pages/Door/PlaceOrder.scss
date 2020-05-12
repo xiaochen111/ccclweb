@@ -5,6 +5,12 @@
   @extend [layout='row'];
   @extend [layout-align='start start'];
   padding: 60px 0;
+  :global {
+    .ant-card-head {
+      padding: 0;
+      margin: 0 24px;
+    }
+  }
 }
 
 .mainContent {
