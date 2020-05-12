@@ -41,6 +41,13 @@ const config: IConfig = {
   targets: {
     ie: 9,
   },
+  proxy: {
+    '/api': {
+      target: 'http://192.168.3.29:8081/website',
+      // target: 'http://192.168.20.114:8080',
+      changeOrigin: true,
+    },
+  },
 };
 
 export default config;

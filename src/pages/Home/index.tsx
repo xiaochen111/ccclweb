@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Dispatch, AnyAction } from 'redux';
+import { connect } from 'dva';
 import { Button, Row, Col, Carousel, Input, AutoComplete } from 'antd';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import styles from './index.scss';
@@ -10,7 +12,10 @@ const dataSource = ['12345', '23456', '34567'];
 
 const startPartIcon = require('../../assets/img/start_part.png');
 
-interface IProps {}
+interface IProps {
+  dispatch: Dispatch<AnyAction>;
+  pageLoading: boolean;
+}
 
 const serviceList = [
   {
@@ -44,9 +49,14 @@ const serviceList = [
     intro: '直营运价 全口岸全航线覆盖 多',
   },
 ];
-class HomePage extends Component {
+
+class HomePage extends Component<IProps, any> {
   handleSubmit = () => {
-    console.log('111111111');
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'home/getTest',
+    });
   };
 
   searchPanel = (dataSource: Array<any>) => {
@@ -173,4 +183,4 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage;
+export default connect(({}) => ({}))(HomePage);
