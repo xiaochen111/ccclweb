@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import { Button, Row, Col, Carousel, Input, AutoComplete } from 'antd';
-import SearchCondition, { searchType } from '@/components/SearchCondition';
+import { Button, Row, Col, Carousel } from 'antd';
+import SearchCondition, { searchType, ParamsType } from '@/components/SearchCondition';
 import styles from './index.scss';
-import { Link } from 'umi';
-
-const { Option } = AutoComplete;
-
-const dataSource = ['12345', '23456', '34567'];
-
-const startPartIcon = require('../../assets/img/start_part.png');
+import { Link, router } from 'umi';
 
 interface IProps {}
 
@@ -45,12 +39,13 @@ const serviceList = [
   },
 ];
 class HomePage extends Component {
-  handleSubmit = () => {
-    console.log('111111111');
+  handleSubmit = (params: ParamsType) => {
+    router.push({
+      pathname: '/door/index',
+    });
   };
 
-  searchPanel = (dataSource: Array<any>) => {
-    const options = dataSource.map((item, index) => <Option key={index}>{item}</Option>);
+  searchPanel = () => {
     return (
       <div className={styles.searchPanel}>
         <p>拼箱门到门</p>
@@ -158,7 +153,7 @@ class HomePage extends Component {
               <h3>2</h3>
             </div>
           </Carousel>
-          {this.searchPanel(dataSource)}
+          {this.searchPanel()}
         </div>
         <p className={styles.title}>专线特价区</p>
         <div className={`${styles.middleWrap} ${styles.clearfloat}`}>
