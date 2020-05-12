@@ -13,15 +13,45 @@ export enum searchType {
 }
 interface SearchConditionProps extends FormComponentProps {
   isMultiRow: searchType;
-  submit: () => void;
+  submit: (params: ParamsType) => void;
 }
 
-const dataSource = ['12345', '23456', '34567'];
+export interface ParamsType {
+  start?: string;
+  endPort?: string;
+  weight?: string;
+  size?: string;
+}
+
+const dataSource = [
+  {
+    title: '酱鹰',
+    count: 60100,
+  },
+  {
+    title: '毛子',
+    count: 60100,
+  },
+  {
+    title: '兔子',
+    count: 60100,
+  },
+];
 
 export class SearchCondition extends Component<SearchConditionProps, any> {
+  handleSubmit = () => {
+    const { form, submit } = this.props;
+    const values = form.getFieldsValue();
+    submit(values);
+  };
+
   render() {
-    const options = dataSource.map((item, index) => <Option key={index}>{item}</Option>);
-    const { isMultiRow, form, submit } = this.props;
+    const options = dataSource.map((item, index) => (
+      <Option key={index} value={item.title}>
+        {item.title}
+      </Option>
+    ));
+    const { isMultiRow, form } = this.props;
     const { getFieldDecorator } = form;
 
     const formStyle = `searchMainStyle${Number(isMultiRow)}`;
@@ -32,26 +62,28 @@ export class SearchCondition extends Component<SearchConditionProps, any> {
           {searchType.index === isMultiRow ? (
             <div className={styles.formItemOne}>
               <Form.Item>
-                <AutoComplete
-                  className="certain-category-search"
-                  dropdownClassName="certain-category-search-dropdown"
-                  dropdownMatchSelectWidth={false}
-                  dropdownStyle={{ width: 300 }}
-                  size="large"
-                  style={{ width: '100%' }}
-                  dataSource={options}
-                  optionLabelProp="value"
-                  placeholder="收货地"
-                >
-                  <Input
-                    prefix={
-                      <>
-                        <img src={startPartIcon} />{' '}
-                        <span style={{ fontSize: '14px' }}>&nbsp;义乌 —</span>
-                      </>
-                    }
-                  />
-                </AutoComplete>
+                {getFieldDecorator('endPort')(
+                  <AutoComplete
+                    className="certain-category-search"
+                    dropdownClassName="certain-category-search-dropdown"
+                    dropdownMatchSelectWidth={false}
+                    dropdownStyle={{ width: 300 }}
+                    size="large"
+                    style={{ width: '100%' }}
+                    dataSource={options}
+                    optionLabelProp="value"
+                    placeholder="收货地"
+                  >
+                    <Input
+                      prefix={
+                        <>
+                          <img src={startPartIcon} />{' '}
+                          <span style={{ fontSize: '14px' }}>&nbsp;义乌 —</span>
+                        </>
+                      }
+                    />
+                  </AutoComplete>,
+                )}
               </Form.Item>
             </div>
           ) : (
@@ -65,7 +97,7 @@ export class SearchCondition extends Component<SearchConditionProps, any> {
               </div>
               <div className={styles.formItemTwo}>
                 <Form.Item>
-                  {getFieldDecorator('b')(
+                  {getFieldDecorator('endPort')(
                     <AutoComplete
                       className="certain-category-search"
                       dropdownClassName="certain-category-search-dropdown"
@@ -87,14 +119,14 @@ export class SearchCondition extends Component<SearchConditionProps, any> {
 
           <div className={styles.formItemThree}>
             <Form.Item>
-              {getFieldDecorator('a')(
+              {getFieldDecorator('weight')(
                 <Input placeholder="重量" size="large" suffix={<span>KGS</span>} />,
               )}
             </Form.Item>
           </div>
           <div className={styles.formItemFour}>
             <Form.Item>
-              {getFieldDecorator('a')(
+              {getFieldDecorator('size')(
                 <Input placeholder="重量" size="large" suffix={<span>KGS</span>} />,
               )}
             </Form.Item>
@@ -106,7 +138,7 @@ export class SearchCondition extends Component<SearchConditionProps, any> {
                 size="large"
                 icon={searchType.index === isMultiRow ? 'search' : ''}
                 className={styles.submitBtn}
-                onClick={submit}
+                onClick={this.handleSubmit}
               >
                 搜索
               </Button>
