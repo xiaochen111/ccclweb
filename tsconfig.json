@@ -14,7 +14,8 @@
       "@/*": ["src/*"],
       "@tmp/*": ["src/pages/.umi/*"]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true
   },
   "exclude": ["node_modules"]
 }

@@ -7,7 +7,7 @@ import request from '@/utills/request';
  * @param {*} params
  * @returns
  */
-export async function query() {
+export async function queryCaptchImage() {
   return request('/api/web/veriy_code/get_img.do', {
     method: 'POST',
   });

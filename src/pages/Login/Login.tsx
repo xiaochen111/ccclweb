@@ -1,12 +1,20 @@
 import React, { Component } from 'react';
+import { Dispatch, AnyAction } from 'redux';
 import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { connect } from 'dva';
+import { StateType } from './model';
 import { FormComponentProps } from 'antd/lib/form';
 import { Link } from 'umi';
 import styles from './index.scss';
 
-interface RegisterProps extends FormComponentProps {}
+interface LoginProps extends FormComponentProps {
+  dispatch: Dispatch<AnyAction>;
+}
 
-export class LoginPage extends Component<RegisterProps, any> {
+@connect(({ login }) => ({
+  userLogin: login,
+}))
+export class LoginPage extends Component<LoginProps, any> {
   handleSubmit = (e: any) => {
     e.persist();
     const { form } = this.props;
