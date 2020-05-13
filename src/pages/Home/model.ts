@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { test } from '@/services/api';
+import { query } from '@/services/login';
 
 export interface StateType {
   employeeList: any[];
@@ -29,7 +29,7 @@ const Model: HomeModelType = {
   effects: {
     *getTest({ payload }, { call, put }) {
       console.log(1);
-      const response = yield call(test, payload);
+      const response = yield call(query, payload);
 
       // if (response && response.code === 200) {
       //   yield put({

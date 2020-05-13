@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
-import { Dispatch, AnyAction } from 'redux';
-import { connect } from 'dva';
-import { Button, Row, Col, Carousel, Input, AutoComplete } from 'antd';
-import SearchCondition, { searchType } from '@/components/SearchCondition';
+import { Button, Row, Col, Carousel } from 'antd';
+import SearchCondition, { searchType, ParamsType } from '@/components/SearchCondition';
 import styles from './index.scss';
 import { Link, router } from 'umi';
 
-interface IProps {
-  dispatch: Dispatch<AnyAction>;
-  pageLoading: boolean;
-}
+interface IProps {}
 
 const serviceList = [
   {
@@ -43,13 +38,10 @@ const serviceList = [
     intro: '直营运价 全口岸全航线覆盖 多',
   },
 ];
-
-class HomePage extends Component<IProps, any> {
-  handleSubmit = () => {
-    const { dispatch } = this.props;
-
-    dispatch({
-      type: 'home/getTest',
+class HomePage extends Component {
+  handleSubmit = (params: ParamsType) => {
+    router.push({
+      pathname: '/door/index',
     });
   };
 
@@ -176,4 +168,4 @@ class HomePage extends Component<IProps, any> {
   }
 }
 
-export default connect(({}) => ({}))(HomePage);
+export default HomePage;
