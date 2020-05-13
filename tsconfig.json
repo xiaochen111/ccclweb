@@ -8,14 +8,15 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "strict": true,
+    "strict": true, //启用所有严格类型检查选项
     "types": [],
     "paths": {
       "@/*": ["src/*"],
       "@tmp/*": ["src/pages/.umi/*"]
     },
     "allowSyntheticDefaultImports": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "noImplicitAny": false //对具有隐式 "any" 类型的表达式和声明引发错误
   },
   "exclude": ["node_modules"]
 }

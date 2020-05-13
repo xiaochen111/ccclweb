@@ -9,13 +9,12 @@ import styles from './index.scss';
 
 interface LoginProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
+  userLogin: StateType;
 }
 
-@connect(({ login }) => ({
-  userLogin: login,
-}))
+@connect(({ login }) => ({ login }))
 export class LoginPage extends Component<LoginProps, any> {
-  handleSubmit = (e: any) => {
+  handleSubmit = e => {
     e.persist();
     const { form } = this.props;
     form.validateFields((err, values) => {
