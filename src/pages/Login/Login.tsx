@@ -12,8 +12,18 @@ interface LoginProps extends FormComponentProps {
   userLogin: StateType;
 }
 
-@connect(({ login }) => ({ login }))
+@connect(({ login }) => ({
+  userLoading: login,
+}))
 export class LoginPage extends Component<LoginProps, any> {
+  componentDidMount() {
+    this.init();
+  }
+
+  init = () => {
+    const { dispatch } = this.props;
+  };
+
   handleSubmit = e => {
     e.persist();
     const { form } = this.props;

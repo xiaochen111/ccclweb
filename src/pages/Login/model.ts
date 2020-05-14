@@ -13,7 +13,7 @@ export interface LoginModelType {
   namespace: string;
   state: StateType;
   effects: {
-    login: Effect;
+    getCaptchImage: Effect;
   };
   reducers: {};
 }
@@ -27,19 +27,26 @@ const Model: LoginModelType = {
   },
 
   effects: {
-    *login({ payload }, { call, put }) {
-      const response = yield call(queryCaptchImage, payload);
+    *getCaptchImage(_, { call, put }) {
+      const response = yield call(queryCaptchImage, { a: 1 });
 
-      // if (response && response.code === 200) {
-      //   yield put({
-      //     type: 'saveList',
-      //     payload: response.data
-      //   })
-      // }
+      if (response && response.code === 1) {
+        yield put({
+          type: 'saveCaptchaImage',
+          payload: response.data,
+        });
+      }
     },
   },
 
-  reducers: {},
+  reducers: {
+    saveCaptchaImage(state, { payload }) {
+      return {
+        ...state,
+        captchaImage: payload,
+      };
+    },
+  },
 };
 
 export default Model;

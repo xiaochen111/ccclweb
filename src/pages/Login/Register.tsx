@@ -1,11 +1,18 @@
 import React, { Component, Fragment } from 'react';
 import { Row, Col, Form, Input, Checkbox, Button } from 'antd';
+import { Dispatch, AnyAction } from 'redux';
 import { FormComponentProps } from 'antd/lib/form';
+import { connect } from 'dva';
+import { StateType } from './model';
 // import { formItemLayout } from '@/utills/config';
 import REGEX from '@/utills/regex';
 import styles from './index.scss';
 
-interface RegisterProps extends FormComponentProps {}
+interface RegisterProps extends FormComponentProps {
+  dispatch: Dispatch<AnyAction>;
+  userLogin: StateType;
+  pageLoading: boolean;
+}
 
 interface RegisterState {
   readonly tabs: any[];
@@ -36,6 +43,10 @@ const tailFormItemLayout = {
   },
 };
 
+@connect(({ login, loading }) => ({
+  userLogin: login,
+  pageLoading: loading.models['login'],
+}))
 class RegisterPage extends Component<RegisterProps, RegisterState> {
   state = {
     tabs: [
@@ -43,6 +54,19 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       { label: '邮箱注册', value: 2 },
     ],
     selectedTab: 1,
+  };
+
+  componentDidMount() {
+    console.log(this.props);
+    this.init();
+  }
+
+  init = () => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'login/getCaptchImage',
+    });
   };
 
   handleChangeTab = (tab: any) => {
@@ -64,6 +88,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   renderPhone = () => {
     const {
       form: { getFieldDecorator },
+      userLogin: { captchaImage },
     } = this.props;
     return (
       <Form {...formItemLayout}>
@@ -85,9 +110,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
               })(<Input size="large" placeholder="请输入验证码" width={234} />)}
             </Col>
             <Col span={8}>
-              <Button size="large" block style={{ width: 136 }}>
-                Get captcha
-              </Button>
+              <img src={captchaImage} />
             </Col>
           </Row>
         </Form.Item>
@@ -200,6 +223,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { tabs, selectedTab } = this.state;
     const {
       form: { getFieldDecorator },
+      pageLoading,
     } = this.props;
 
     return (
@@ -233,7 +257,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
                 size="large"
                 type="primary"
                 htmlType="submit"
-                // loading={loading}
+                loading={pageLoading}
                 className={styles.submitBtn}
               >
                 登录
