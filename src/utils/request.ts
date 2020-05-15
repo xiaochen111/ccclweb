@@ -4,7 +4,7 @@
  */
 import request, { extend } from 'umi-request';
 import router from 'umi/router';
-import { notification } from 'antd';
+import { notification, message } from 'antd';
 import { IsEmptyObject, ObjectToUrl } from './utils';
 // import { GetGlobalToken, RemoveAllStorage } from './cache';
 
@@ -31,6 +31,7 @@ const codeMessage: any = {
  */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
+  console.log('error111', error);
 
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
@@ -87,24 +88,22 @@ request.interceptors.response.use(async response => {
 
   if (contentType && contentType.match(/application\/json/i)) {
     const content = await response.clone().json();
-    const { code, message } = content;
+    const { code, message: resMessage } = content;
 
     try {
-      if (Number(code) !== 200) {
+      if (Number(code) !== 1) {
         switch (Number(code)) {
-          case 103:
+          case 401:
             // RemoveAllStorage();
             router.push('/login');
 
-            throw message;
+            throw resMessage;
           default:
-            throw message;
+            throw resMessage;
         }
       }
     } catch (errMsg) {
-      notification.error({
-        message: errMsg,
-      });
+      message.error(errMsg);
     }
   }
 
