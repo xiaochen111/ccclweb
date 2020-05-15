@@ -45,7 +45,7 @@ const config: IConfig = {
     '/api': {
       // target: 'http://192.168.3.29:8081/website',
       // target: 'http://192.168.20.114:8080',
-      target: 'http://192.168.50.22:8081/website',
+      target: 'http://192.168.50.239:8090/website',
       changeOrigin: true,
     },
   },

@@ -7,6 +7,7 @@ import router from 'umi/router';
 import { notification, message } from 'antd';
 import { IsEmptyObject, ObjectToUrl } from './utils';
 // import { GetGlobalToken, RemoveAllStorage } from './cache';
+import { GetGlobalToken } from '@/utils/cache';
 
 const codeMessage: any = {
   200: '服务器成功返回请求的数据。',
@@ -31,7 +32,6 @@ const codeMessage: any = {
  */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
-  console.log('error111', error);
 
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
@@ -51,7 +51,7 @@ const errorHandler = (error: { response: Response }): Response => {
 };
 
 request.interceptors.request.use((url, options: any) => {
-  const token = null;
+  const token = GetGlobalToken() || '';
   const headers = Object.assign({}, token ? { token } : {});
 
   if (options.method.toUpperCase() === 'DELETE') {

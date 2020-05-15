@@ -34,12 +34,12 @@ export class LoginPage extends Component<LoginProps, any> {
       console.log(err);
       if (!err) {
         console.log('Received values of form: ', values);
+        const { userName, password } = values;
+        dispatch({
+          type: 'login/sendLoginInfo',
+          payload: { userName, password },
+        });
       }
-      const { userName, password } = values;
-      dispatch({
-        type: 'login/sendLoginInfo',
-        payload: { userName, password },
-      });
     });
   };
 
@@ -95,7 +95,7 @@ export class LoginPage extends Component<LoginProps, any> {
       <div className={styles.conatiner}>
         <div className={styles.middleLoginBox}>
           <span className={styles.logo}>logo</span>
-          <p className={styles.title}>账户登录{userLogin.captchaKey}</p>
+          <p className={styles.title}>账户登录</p>
           <div className={styles.loginMain} onSubmit={this.handleSubmit}>
             {this.loginRender()}
           </div>

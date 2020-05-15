@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'umi';
 import H from 'history';
 import styles from './index.scss';
+import { GetGlobalToken } from '@/utils/cache';
 
 interface GlonbalHeaderProps {
   logo: string;
@@ -38,13 +39,19 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
               {item.name}
             </Link>
           ))}
-          <Link to={'/login/index'} className={`${styles.navItem} ${styles.otherItem}`}>
-            登录
-          </Link>
-          &nbsp;&#x007C;&nbsp;
-          <Link to={'/login/register'} className={`${styles.navItem} ${styles.otherItem}`}>
-            注册
-          </Link>
+          {GetGlobalToken() ? (
+            <span>1111</span>
+          ) : (
+            <>
+              <Link to={'/login/index'} className={`${styles.navItem} ${styles.otherItem}`}>
+                登录
+              </Link>
+              &nbsp;&#x007C;&nbsp;
+              <Link to={'/login/register'} className={`${styles.navItem} ${styles.otherItem}`}>
+                注册
+              </Link>
+            </>
+          )}
         </nav>
       </div>
     );
