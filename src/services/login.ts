@@ -40,6 +40,7 @@ export async function sendRegistPhoneMsg(params) {
  * @param params
  */
 export async function registerPhone(params) {
+  console.log('registerPhone -> params', params);
   return request('/api/web/webuser/register.do', {
     method: 'POST',
     data: params,

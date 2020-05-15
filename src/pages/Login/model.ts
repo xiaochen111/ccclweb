@@ -1,5 +1,6 @@
 import { Reducer } from 'redux';
 import { Effect } from 'dva';
+import { delay } from 'dva/saga';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import { queryCaptchImage, doLogin, sendRegistPhoneMsg, registerPhone } from '@/services/login';
@@ -45,26 +46,33 @@ const Model: LoginModelType = {
     //登录
     *sendLoginInfo({ payload }, { call, put }) {
       const response = yield call(doLogin, payload);
-      console.log(response);
+
       if (response && response.code === '1') {
+        message.success('登录成功');
+
+        yield delay(1000);
+
         SetGlobalToken(response.resMap.user.token);
+
         yield put(routerRedux.push('/home'));
       }
     },
 
     // 获取短信验证码
-    *getPhoneRegiseMsg({ payload }, { call, put }) {
+    *getPhoneRegiseMsg({ payload }, { call }) {
       const response = yield call(sendRegistPhoneMsg, payload);
       if (response && response.code === '1') {
         return true;
       }
     },
 
-    // 手机注册
+    // 手机、邮箱注册
     *registerPhone({ payload }, { call, put }) {
       const response = yield call(registerPhone, payload);
       if (response && response.code === '1') {
-        return true;
+        message.success('注册成功');
+
+        yield put(routerRedux.push('/login'));
       }
     },
   },

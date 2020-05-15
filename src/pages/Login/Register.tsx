@@ -61,10 +61,11 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     clickFlag: true,
   };
 
-  timer;
+  timer: any;
 
   componentDidMount() {
     this.init();
+    this.stopCountdown();
   }
 
   init = () => {
@@ -94,9 +95,11 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     e.persist();
     const { selectedTab } = this.state;
     const { form, dispatch } = this.props;
-    form.validateFields(async (err, values) => {
+
+    form.validateFields((err, values) => {
       if (err) return;
       const { company, email, password, phone, veriyCode } = values;
+
       const params = {
         source: '1',
         userName: selectedTab === 1 ? phone : email,
@@ -106,15 +109,11 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
         phone,
         veriyCode,
       };
-      console.log(params);
-      // return;
-      let res = await dispatch({
+
+      dispatch({
         type: 'login/registerPhone',
         payload: params,
       });
-      if (res) {
-        router.push('/login/index');
-      }
     });
   };
 
@@ -180,14 +179,10 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   };
 
   setCountdown = () => {
-    let num = 20;
+    let num = 60;
     this.timer = setInterval(() => {
       if (num <= 0) {
-        clearInterval(this.timer);
-        this.setState({
-          btnTxt: `获取验证码`,
-          clickFlag: true,
-        });
+        this.stopCountdown();
         return;
       }
       this.setState({
@@ -195,6 +190,14 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
         clickFlag: false,
       });
     }, 1000);
+  };
+
+  stopCountdown = () => {
+    clearInterval(this.timer);
+    this.setState({
+      btnTxt: `获取验证码`,
+      clickFlag: true,
+    });
   };
 
   renderHtml = selectedTab => {

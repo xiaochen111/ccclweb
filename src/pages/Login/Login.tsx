@@ -10,31 +10,21 @@ import styles from './index.scss';
 interface LoginProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
   userLogin: StateType;
+  submitLoading: boolean;
 }
 
-@connect(({ login }) => ({
+@connect(({ login, loading }) => ({
   userLogin: login,
+  submitLoading: loading.effects['login/sendLoginInfo'],
 }))
 export class LoginPage extends Component<LoginProps, any> {
-  componentDidMount() {
-    this.init();
-  }
-
-  init = () => {
-    const { dispatch, userLogin } = this.props;
-    console.log(this);
-    console.log(this.props);
-    console.log(userLogin);
-  };
-
   handleSubmit = e => {
     e.persist();
     const { form, dispatch } = this.props;
     form.validateFields((err, values) => {
-      console.log(err);
       if (!err) {
-        console.log('Received values of form: ', values);
         const { userName, password } = values;
+
         dispatch({
           type: 'login/sendLoginInfo',
           payload: { userName, password },
@@ -44,7 +34,8 @@ export class LoginPage extends Component<LoginProps, any> {
   };
 
   loginRender = () => {
-    const { getFieldDecorator } = this.props.form;
+    const { submitLoading, form } = this.props;
+    const { getFieldDecorator } = form;
     return (
       <Form>
         <Form.Item>
@@ -78,7 +69,14 @@ export class LoginPage extends Component<LoginProps, any> {
           <a className={styles.loginFormForgot} href="">
             忘记密码
           </a>
-          <Button type="primary" htmlType="submit" block size="large" className={styles.submitBtn}>
+          <Button
+            type="primary"
+            htmlType="submit"
+            block
+            size="large"
+            className={styles.submitBtn}
+            loading={submitLoading}
+          >
             登录
           </Button>
           <p className={styles.registerLink}>
@@ -91,6 +89,7 @@ export class LoginPage extends Component<LoginProps, any> {
 
   render() {
     const { userLogin } = this.props;
+
     return (
       <div className={styles.conatiner}>
         <div className={styles.middleLoginBox}>
