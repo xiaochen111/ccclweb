@@ -41,7 +41,6 @@ const Model: LoginModelType = {
 
     *sendLoginInfo({ payload }, { call, put }) {
       const response = yield call(doLogin, payload);
-      console.log(response);
       if (response && response.code === 1) {
       }
     },
