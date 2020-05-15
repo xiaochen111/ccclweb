@@ -13,7 +13,7 @@ interface LoginProps extends FormComponentProps {
 }
 
 @connect(({ login }) => ({
-  userLoading: login,
+  userLogin: login,
 }))
 export class LoginPage extends Component<LoginProps, any> {
   componentDidMount() {
@@ -21,16 +21,24 @@ export class LoginPage extends Component<LoginProps, any> {
   }
 
   init = () => {
-    const { dispatch } = this.props;
+    const { dispatch, userLogin } = this.props;
+    console.log(this);
+    console.log(this.props);
+    console.log(userLogin);
   };
 
   handleSubmit = e => {
     e.persist();
-    const { form } = this.props;
+    const { form, dispatch } = this.props;
     form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values);
       }
+      const { userName, password } = values;
+      dispatch({
+        type: 'login/sendLoginInfo',
+        payload: { userName, password },
+      });
     });
   };
 
@@ -39,13 +47,13 @@ export class LoginPage extends Component<LoginProps, any> {
     return (
       <Form>
         <Form.Item>
-          {getFieldDecorator('username', {
+          {getFieldDecorator('userName', {
             rules: [{ required: true, message: 'Please input your username!' }],
           })(
             <Input
               size="large"
               prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
+              placeholder="请输入用户名"
             />,
           )}
         </Form.Item>
@@ -57,7 +65,7 @@ export class LoginPage extends Component<LoginProps, any> {
               size="large"
               prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
-              placeholder="Password"
+              placeholder="请输入密码"
             />,
           )}
         </Form.Item>
@@ -81,11 +89,12 @@ export class LoginPage extends Component<LoginProps, any> {
   };
 
   render() {
+    const { userLogin } = this.props;
     return (
       <div className={styles.conatiner}>
         <div className={styles.middleLoginBox}>
           <span className={styles.logo}>logo</span>
-          <p className={styles.title}>账户登录</p>
+          <p className={styles.title}>账户登录{userLogin.captchaKey}</p>
           <div className={styles.loginMain} onSubmit={this.handleSubmit}>
             {this.loginRender()}
           </div>

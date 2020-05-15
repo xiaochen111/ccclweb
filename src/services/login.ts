@@ -12,3 +12,14 @@ export async function queryCaptchImage() {
     method: 'POST',
   });
 }
+
+/**
+ * 用户登录
+ * @param params
+ */
+export async function doLogin(params) {
+  return request('/api/web/webuser/login.do', {
+    method: 'POST',
+    data: params,
+  });
+}

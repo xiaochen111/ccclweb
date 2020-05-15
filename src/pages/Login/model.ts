@@ -2,7 +2,7 @@ import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { queryCaptchImage } from '@/services/login';
+import { queryCaptchImage, doLogin } from '@/services/login';
 
 export interface StateType {
   captchaKey: string;
@@ -14,6 +14,7 @@ export interface LoginModelType {
   state: StateType;
   effects: {
     getCaptchImage: Effect;
+    sendLoginInfo: Effect;
   };
   reducers: {};
 }
@@ -35,6 +36,13 @@ const Model: LoginModelType = {
           type: 'saveCaptchaImage',
           payload: response.data,
         });
+      }
+    },
+
+    *sendLoginInfo({ payload }, { call, put }) {
+      const response = yield call(doLogin, payload);
+      console.log(response);
+      if (response && response.code === 1) {
       }
     },
   },
