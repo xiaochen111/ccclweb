@@ -1,4 +1,4 @@
-import request from '@/utills/request';
+import request from '@/utils/request';
 
 /**
  * 获取验证码图片

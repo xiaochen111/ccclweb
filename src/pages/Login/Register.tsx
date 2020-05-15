@@ -5,7 +5,7 @@ import { FormComponentProps } from 'antd/lib/form';
 import { connect } from 'dva';
 import { StateType } from './model';
 // import { formItemLayout } from '@/utills/config';
-import REGEX from '@/utills/regex';
+import REGEX from '@/utils/regex';
 import styles from './index.scss';
 
 interface RegisterProps extends FormComponentProps {
