@@ -85,91 +85,36 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     });
   };
 
-  renderPhone = () => {
-    const {
-      form: { getFieldDecorator },
-      userLogin: { captchaImage },
-    } = this.props;
-    return (
-      <Form {...formItemLayout}>
-        <Form.Item label="手机号">
-          {getFieldDecorator('phoneNum', {
-            getValueFromEvent: event => event.target.value.trim(),
-            initialValue: '22',
-            rules: [
-              { required: true, message: '请输入手机号' },
-              { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
-            ],
-          })(<Input size="large" placeholder="请输入手机号" style={{ width: 370 }} />)}
-        </Form.Item>
-        <Form.Item label="图形验证码">
-          <Row gutter={10}>
-            <Col span={16}>
-              {getFieldDecorator('captcha', {
-                rules: [{ required: true, message: '请输入图形验证码' }],
-              })(<Input size="large" placeholder="请输入验证码" width={234} />)}
-            </Col>
-            <Col span={8}>
-              <img src={captchaImage} />
-            </Col>
-          </Row>
-        </Form.Item>
-        <Form.Item label="手机验证码">
-          <Row gutter={10}>
-            <Col span={16}>
-              {getFieldDecorator('captcha', {
-                rules: [{ required: true, message: '请输入验证码' }],
-              })(<Input size="large" placeholder="请输入验证码" width={234} />)}
-            </Col>
-            <Col span={8}>
-              <Button size="large" block style={{ width: 136 }}>
-                获取验证码
-              </Button>
-            </Col>
-          </Row>
-        </Form.Item>
-        <Form.Item label="密码">
-          {getFieldDecorator('phoneNum', {
-            getValueFromEvent: event => event.target.value.trim(),
-            rules: [{ required: true, message: '请输入密码' }],
-          })(<Input size="large" placeholder="请输入密码" style={{ width: 370 }} />)}
-        </Form.Item>
-        <Form.Item label="再次输入密码">
-          {getFieldDecorator('phoneNum', {
-            getValueFromEvent: event => event.target.value.trim(),
-            rules: [{ required: true, message: '请再次输入密码' }],
-          })(<Input size="large" placeholder="请再次输入密码" style={{ width: 370 }} />)}
-        </Form.Item>
-        <Form.Item label="邮箱地址">
-          {getFieldDecorator('phoneNum')(
-            <Input size="large" placeholder="请输入邮箱" style={{ width: 370 }} />,
-          )}
-        </Form.Item>
-        <Form.Item label="公司名称">
-          {getFieldDecorator('phoneNum')(
-            <Input size="large" placeholder="请输入公司名称" style={{ width: 370 }} />,
-          )}
-        </Form.Item>
-      </Form>
-    );
-  };
-
-  renderEmail = () => {
+  renderHtml = selectedTab => {
     const {
       form: { getFieldDecorator },
     } = this.props;
 
     return (
       <Form {...formItemLayout}>
-        <Form.Item label="邮箱">
-          {getFieldDecorator('phoneNum', {
-            getValueFromEvent: event => event.target.value.trim(),
-            rules: [
-              { required: true, message: '请输入邮箱' },
-              { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
-            ],
-          })(<Input size="large" placeholder="请输入手机号" style={{ width: 370 }} />)}
-        </Form.Item>
+        {selectedTab === 1 ? (
+          <Form.Item label="手机号">
+            {getFieldDecorator('phoneNum', {
+              getValueFromEvent: event => event.target.value.trim(),
+              initialValue: '',
+              rules: [
+                { required: true, message: '请输入手机号' },
+                { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
+              ],
+            })(<Input size="large" placeholder="请输入手机号" style={{ width: 370 }} />)}
+          </Form.Item>
+        ) : (
+          <Form.Item label="邮箱">
+            {getFieldDecorator('phoneNum', {
+              getValueFromEvent: event => event.target.value.trim(),
+              rules: [
+                { required: true, message: '请输入邮箱' },
+                { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
+              ],
+            })(<Input size="large" placeholder="请输入手机号" style={{ width: 370 }} />)}
+          </Form.Item>
+        )}
+
         <Form.Item label="图形验证码">
           <Row gutter={10}>
             <Col span={16}>
@@ -184,20 +129,39 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             </Col>
           </Row>
         </Form.Item>
-        <Form.Item label="邮箱验证码">
-          <Row gutter={10}>
-            <Col span={16}>
-              {getFieldDecorator('captcha', {
-                rules: [{ required: true, message: '请输入验证码' }],
-              })(<Input size="large" placeholder="请输入验证码" width={234} />)}
-            </Col>
-            <Col span={8}>
-              <Button size="large" block style={{ width: 136 }}>
-                获取验证码
-              </Button>
-            </Col>
-          </Row>
-        </Form.Item>
+
+        {selectedTab === 1 ? (
+          <Form.Item label="手机验证码">
+            <Row gutter={10}>
+              <Col span={16}>
+                {getFieldDecorator('captcha', {
+                  rules: [{ required: true, message: '请输入验证码' }],
+                })(<Input size="large" placeholder="请输入验证码" width={234} />)}
+              </Col>
+              <Col span={8}>
+                <Button size="large" block style={{ width: 136 }}>
+                  获取验证码
+                </Button>
+              </Col>
+            </Row>
+          </Form.Item>
+        ) : (
+          <Form.Item label="邮箱验证码">
+            <Row gutter={10}>
+              <Col span={16}>
+                {getFieldDecorator('captcha', {
+                  rules: [{ required: true, message: '请输入验证码' }],
+                })(<Input size="large" placeholder="请输入验证码" width={234} />)}
+              </Col>
+              <Col span={8}>
+                <Button size="large" block style={{ width: 136 }}>
+                  获取验证码
+                </Button>
+              </Col>
+            </Row>
+          </Form.Item>
+        )}
+
         <Form.Item label="密码">
           {getFieldDecorator('phoneNum', {
             getValueFromEvent: event => event.target.value.trim(),
@@ -240,8 +204,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
               </li>
             ))}
           </ul>
-
-          {selectedTab === 1 ? this.renderPhone() : this.renderEmail()}
+          {this.renderHtml(selectedTab)}
           <Form>
             <Form.Item {...tailFormItemLayout}>
               {getFieldDecorator('phoneNum', {

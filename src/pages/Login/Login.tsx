@@ -31,9 +31,9 @@ export class LoginPage extends Component<LoginProps, any> {
     e.persist();
     const { form, dispatch } = this.props;
     form.validateFields((err, values) => {
+      console.log(err);
       if (!err) {
         console.log('Received values of form: ', values);
-        return;
       }
       const { userName, password } = values;
       dispatch({
