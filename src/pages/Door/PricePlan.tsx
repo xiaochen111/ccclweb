@@ -1,11 +1,24 @@
 import React, { PureComponent } from 'react';
 import { Pagination, Icon } from 'antd';
+import { connect } from 'dva';
 import router from 'umi/router';
+import H from 'history';
+import { Dispatch, AnyAction } from 'redux';
 import PageWrapper from '@/components/PageWrapper';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import styles from './PricePlan.scss';
+import { StateType } from './model';
 
-class PricePlanPage extends PureComponent {
+interface PricePlanPageProps {
+  dispatch: Dispatch<AnyAction>;
+  PricePlanPageState: StateType;
+  location: H.Location;
+}
+
+@connect(({ door }) => ({
+  PricePlanPageState: door,
+}))
+class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
   columns = [
     {
       title: '线路',
@@ -39,8 +52,25 @@ class PricePlanPage extends PureComponent {
     },
   ];
 
-  handleSubmit = () => {
-    console.log('111111111');
+  componentDidMount() {
+    this.getLclList();
+    const { location } = this.props;
+    const { search } = location;
+    console.log(search);
+  }
+
+  getLclList = async (params = {}) => {
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'door/getLclList',
+      payload: params,
+    });
+  };
+
+  handleSubmit = params => {
+    console.log(params);
+    const { endTruck, kgs, cbm } = params;
+    this.getLclList({ endTruck, kgs, cbm });
   };
 
   linkToOrder = () => {
@@ -48,13 +78,13 @@ class PricePlanPage extends PureComponent {
   };
 
   render() {
-    const dataSource = [
-      { a: '义务 --> WARSZAWA', b: '40天', c: '$400', d: '$600', e: '$10000' },
-      { a: '义务 --> WARSZAWA', b: '40天', c: '$401', d: '$600', e: '$10000' },
-      { a: '义务 --> WARSZAWA', b: '40天', c: '$402', d: '$600', e: '$10000' },
-      { a: '义务 --> WARSZAWA', b: '40天', c: '$403', d: '$600', e: '$10000' },
-    ];
-
+    const { lclPage } = this.props.PricePlanPageState;
+    console.log(lclPage);
+    const { result } = lclPage;
+    console.log(result);
+    let defaultValue = {
+      endPort: '美国1',
+    };
     return (
       <PageWrapper>
         <div className={styles.container}>
@@ -64,7 +94,11 @@ class PricePlanPage extends PureComponent {
               <span className={styles.desc}>注 : 费用按照1:400（KGS数值/</span>
             </div>
             <div className={styles.searchCondition}>
-              <SearchCondition submit={this.handleSubmit} isMultiRow={searchType.pricePlan} />
+              <SearchCondition
+                submit={this.handleSubmit}
+                isMultiRow={searchType.pricePlan}
+                defaultValue={defaultValue}
+              />
             </div>
           </div>
           <div className={styles.tableContainer}>
@@ -74,14 +108,14 @@ class PricePlanPage extends PureComponent {
               ))}
             </div>
             <ul className={styles.tableBody}>
-              {dataSource.map(item => (
-                <li key={item.c} className={styles.tableItem}>
+              {result.map((item, index) => (
+                <li key={index} className={styles.tableItem}>
                   <div className={styles.rowInfos}>
                     <span className={styles.line}>{item.a}</span>
-                    <span className={styles.voyage}>{item.b}</span>
-                    <span className={styles.price}>{item.c}</span>
-                    <span className={styles.price}>{item.d}</span>
-                    <span className={styles.total}>{item.e}</span>
+                    <span className={styles.voyage}>{item.days}天</span>
+                    <span className={styles.price}>${item.cbm}</span>
+                    <span className={styles.price}>${item.kgs}</span>
+                    <span className={styles.total}>10000</span>
                     <span>
                       <span className={styles.btn} onClick={this.linkToOrder}>
                         下单
@@ -90,11 +124,10 @@ class PricePlanPage extends PureComponent {
                   </div>
                   <div className={styles.expandeContent}>
                     <span style={{ marginRight: 50 }} className={styles.validityTime}>
-                      有效船期 : 2020-04-01 至 2020-04-30
+                      有效船期 : {item.startTime} 至 {item.endTime}
                     </span>
                     <span>
-                      <Icon type="exclamation-circle" theme="filled" />{' '}
-                      费用外部备注备注备注备注备注备注……
+                      <Icon type="exclamation-circle" theme="filled" /> {item.remarkOut}
                     </span>
                   </div>
                 </li>
@@ -103,9 +136,9 @@ class PricePlanPage extends PureComponent {
           </div>
           <div className={styles.paginationContainer}>
             <span className={styles.total}>
-              共<strong>1000</strong>条
+              共<strong>{lclPage.totalCount}</strong>条
             </span>
-            <Pagination showQuickJumper showSizeChanger total={500} />
+            <Pagination showQuickJumper showSizeChanger total={lclPage.totalCount} />
           </div>
         </div>
       </PageWrapper>

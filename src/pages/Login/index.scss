@@ -83,7 +83,7 @@
       position: absolute;
       bottom: -10px;
       left: 0;
-      width: 100px;
+      width: 100%;
       height: 4px;
       background-color: #2556f2;
       content: '';
@@ -121,4 +121,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  span {
+    color: #2556f2;
+    cursor: pointer;
+  }
 }

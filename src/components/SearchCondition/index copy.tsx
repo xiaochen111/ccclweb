@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Button, Form, Input, AutoComplete } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import { connect } from 'dva';
 import styles from './index.scss';
-
+import { StateType } from './model';
 import { countryDrop } from '@/services/drop';
 
 const { Option } = AutoComplete;
@@ -14,61 +15,72 @@ export enum searchType {
   doorIndex,
 }
 interface SearchConditionProps extends FormComponentProps {
+  // a: StateType;
   isMultiRow: searchType;
-  submit: (params) => void;
-  defaultValue?: any;
+  submit: (params: ParamsType) => void;
 }
 
-// export interface ParamsType {
-//   start?: string;
-//   endPort?: string;
-//   weight?: string;
-//   size?: string;
-// }
+export interface ParamsType {
+  start?: string;
+  endPort?: string;
+  weight?: string;
+  size?: string;
+}
+
+const dataSource = [
+  {
+    title: '酱鹰',
+    count: 60100,
+  },
+  {
+    title: '毛子',
+    count: 60100,
+  },
+  {
+    title: '兔子',
+    count: 60100,
+  },
+];
+
+interface dropObj {
+  id: string;
+  value: string;
+}
 
 interface searchState {
-  dropCountry: Array<any>;
-}
-
-interface item {
-  value: string;
-  id: string;
+  dataSource: Array<dropObj>;
 }
 
 export class SearchCondition extends Component<SearchConditionProps, searchState> {
   state = {
-    dropCountry: [] as [],
+    dataSource: [],
   };
 
   componentDidMount() {
-    this.init();
+    countryDrop().then(res => {
+      if (res.code === '1') {
+        this.setState({
+          dataSource: res.resMap.countryList,
+        });
+      }
+    });
   }
-
-  init = async () => {
-    const res = await countryDrop();
-    if (res && res.code === '1') {
-      this.setState({
-        dropCountry: res.resMap.countryList,
-      });
-    }
-  };
 
   handleSubmit = () => {
     const { form, submit } = this.props;
+    console.log(this.props);
     const values = form.getFieldsValue();
     submit(values);
   };
 
   render() {
-    const { dropCountry } = this.state;
-    console.log(this.props);
-
-    const options = dropCountry.map((item: item, index) => (
-      <Option key={index} value={`${item.id}1`}>
-        {`${item.value}2`}
+    // let { dataSource } = this.state;
+    const options = dataSource.map((item, index) => (
+      <Option key={index} value={item.title}>
+        {item.title}
       </Option>
     ));
-    const { isMultiRow, form, defaultValue } = this.props;
+    const { isMultiRow, form } = this.props;
     const { getFieldDecorator } = form;
 
     const formStyle = `searchMainStyle${Number(isMultiRow)}`;
@@ -79,9 +91,7 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
           {searchType.index === isMultiRow ? (
             <div className={styles.formItemOne}>
               <Form.Item>
-                {getFieldDecorator('endPort', {
-                  initialValue: defaultValue.endPort,
-                })(
+                {getFieldDecorator('endPort')(
                   <AutoComplete
                     className="certain-category-search"
                     dropdownClassName="certain-category-search-dropdown"
@@ -92,7 +102,6 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
                     dataSource={options}
                     optionLabelProp="value"
                     placeholder="国家"
-                    defaultActiveFirstOption={false}
                   >
                     <Input
                       prefix={
@@ -117,9 +126,7 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
               </div>
               <div className={styles.formItemTwo}>
                 <Form.Item>
-                  {getFieldDecorator('endTruck', {
-                    initialValue: defaultValue.endPort,
-                  })(
+                  {getFieldDecorator('endPort')(
                     <AutoComplete
                       className="certain-category-search"
                       dropdownClassName="certain-category-search-dropdown"
@@ -130,7 +137,6 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
                       style={{ width: '100%' }}
                       dataSource={options}
                       optionLabelProp="value"
-                      defaultActiveFirstOption={false}
                     >
                       <Input prefix={<img src={startPartIcon} />} />
                     </AutoComplete>,
@@ -142,15 +148,15 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
 
           <div className={styles.formItemThree}>
             <Form.Item>
-              {getFieldDecorator('kgs')(
+              {getFieldDecorator('weight')(
                 <Input placeholder="重量" size="large" suffix={<span>KGS</span>} />,
               )}
             </Form.Item>
           </div>
           <div className={styles.formItemFour}>
             <Form.Item>
-              {getFieldDecorator('cbm')(
-                <Input placeholder="体积" size="large" suffix={<span>CBM</span>} />,
+              {getFieldDecorator('size')(
+                <Input placeholder="重量" size="large" suffix={<span>KGS</span>} />,
               )}
             </Form.Item>
           </div>

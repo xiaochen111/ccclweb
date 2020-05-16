@@ -1,24 +1,20 @@
 import React, { PureComponent } from 'react';
-import H from 'history';
+
 import PageWrapper from '@/components/PageWrapper';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import router from 'umi/router';
 import styles from './DoorIndex.scss';
 
-interface doorIndexProps {
-  location: H.Location;
-}
-
-export class doorIndex extends PureComponent<doorIndexProps, any> {
+export class doorIndex extends PureComponent {
   handleSubmit = () => {
     // console.log('111111111');
     router.push('/door/price-plan');
   };
   render() {
-    console.log(this.props);
-    const { location } = this.props;
-    const { search } = location;
-    console.log(search);
+    // console.log(this.props);
+    // const { location } = this.props;
+    // const { search } = location;
+    // console.log(search);
     return (
       <PageWrapper>
         <div className={styles.container}>

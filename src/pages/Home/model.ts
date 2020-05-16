@@ -2,13 +2,16 @@ import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
+import { countryDrop } from '@/services/drop';
 
 export interface StateType {}
 
 export interface HomeModelType {
   namespace: string;
   state: StateType;
-  effects: {};
+  effects: {
+    getCountryDrop: Effect;
+  };
   reducers: {};
 }
 
@@ -17,9 +20,18 @@ const Model: HomeModelType = {
 
   state: {},
 
-  effects: {},
+  effects: {
+    *getCountryDrop({ payload }, { call, put }) {},
+  },
 
-  reducers: {},
+  reducers: {
+    // setDropCountry(state, { payload }) {
+    //   return {
+    //     ...state,
+    //     dropCountry: payload,
+    //   };
+    // },
+  },
 };
 
 export default Model;

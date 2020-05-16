@@ -66,9 +66,9 @@ export class LoginPage extends Component<LoginProps, any> {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>记住密码</Checkbox>)}
-          <a className={styles.loginFormForgot} href="">
+          <Link className={styles.loginFormForgot} to="/login/retrievePassword">
             忘记密码
-          </a>
+          </Link>
           <Button
             type="primary"
             htmlType="submit"
@@ -88,8 +88,6 @@ export class LoginPage extends Component<LoginProps, any> {
   };
 
   render() {
-    const { userLogin } = this.props;
-
     return (
       <div className={styles.conatiner}>
         <div className={styles.middleLoginBox}>

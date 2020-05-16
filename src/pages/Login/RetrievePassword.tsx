@@ -53,8 +53,8 @@ const tailFormItemLayout = {
 class RegisterPage extends Component<RegisterProps, RegisterState> {
   state = {
     tabs: [
-      { label: '手机注册', value: 1 },
-      { label: '邮箱注册', value: 2 },
+      { label: '手机找回密码', value: 1 },
+      { label: '邮箱找回密码', value: 2 },
     ],
     selectedTab: 1,
     btnTxt: '获取验证码',
@@ -73,6 +73,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     dispatch({
       type: 'login/getCaptchImage',
     });
+    // this.setCountdown();
   };
 
   // 换图片验证码
@@ -101,19 +102,16 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
     form.validateFields((err, values) => {
       if (err) return;
-      const { company, email, password, phone, veriyCode } = values;
+      const { email, password, phone, veriyCode } = values;
+
       const params = {
-        source: '1',
         userName: selectedTab === 1 ? phone : email,
-        company,
-        email,
         password,
-        phone,
         veriyCode,
       };
 
       dispatch({
-        type: 'login/register',
+        type: 'login/resetPassword',
         payload: params,
       });
     });
@@ -154,8 +152,8 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       return;
     }
     values.imgKey = captchaKey;
-    let res = await dispatch({
-      type: 'login/getPhoneRegiseMsg',
+    const res = await dispatch({
+      type: 'login/getPhoneRepasswordMsg',
       payload: values,
     });
     if (res) {
@@ -199,7 +197,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     }
     values.imgKey = captchaKey;
     let res = await dispatch({
-      type: 'login/getEmailRegiseMsg',
+      type: 'login/getEmailRepasswordMsg',
       payload: values,
     });
     if (res) {
@@ -211,14 +209,6 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { form } = this.props;
     if (value && value !== form.getFieldValue('password')) {
       callback('两次输入的密码不一样');
-    } else {
-      callback();
-    }
-  };
-
-  readXy = (rule, value, callback) => {
-    if (!value) {
-      callback('请阅读协议');
     } else {
       callback();
     }
@@ -253,7 +243,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       pageLoading,
     } = this.props;
 
-    const { captchaImage, setCountdown } = userLogin;
+    const { captchaImage } = userLogin;
     const { btnTxt } = this.state;
 
     return (
@@ -275,7 +265,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
               getValueFromEvent: event => event.target.value.trim(),
               rules: [
                 { required: true, message: '请输入邮箱' },
-                { pattern: REGEX.EMAIL, message: '邮箱号格式不正确' },
+                { pattern: REGEX.EMAIL, message: '邮箱格式不正确' },
               ],
             })(<Input size="large" placeholder="请输入邮箱" style={{ width: 370 }} />)}
           </Form.Item>
@@ -345,27 +335,6 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             />,
           )}
         </Form.Item>
-        {selectedTab === 1 ? (
-          <Form.Item label="邮箱">
-            {getFieldDecorator('email', {
-              getValueFromEvent: event => event.target.value.trim(),
-              rules: [{ pattern: REGEX.EMAIL, message: '邮箱号格式不正确' }],
-            })(<Input size="large" placeholder="请输入邮箱" style={{ width: 370 }} />)}
-          </Form.Item>
-        ) : (
-          <Form.Item label="手机号">
-            {getFieldDecorator('phone', {
-              getValueFromEvent: event => event.target.value.trim(),
-              rules: [{ pattern: REGEX.MOBILE, message: '手机号格式不正确' }],
-            })(<Input size="large" placeholder="请输入手机号" style={{ width: 370 }} />)}
-          </Form.Item>
-        )}
-        <Form.Item label="公司名称">
-          {getFieldDecorator('company', {
-            getValueFromEvent: event => event.target.value.trim(),
-            rules: [{ required: true, message: '公司名称' }],
-          })(<Input size="large" placeholder="请输入公司名称" style={{ width: 370 }} />)}
-        </Form.Item>
       </Form>
     );
   };
@@ -394,21 +363,6 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
           {this.renderHtml(selectedTab)}
           <Form>
             <Form.Item {...tailFormItemLayout}>
-              {getFieldDecorator('aa', {
-                valuePropName: 'checked',
-                initialValue: true,
-                rules: [
-                  {
-                    validator: this.readXy,
-                  },
-                ],
-              })(<Checkbox>请同意会员协议</Checkbox>)}
-
-              <span className={styles.desc}>
-                <strong>《环球义达用户协议》</strong>
-              </span>
-            </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
               <Button
                 size="large"
                 type="primary"
@@ -416,7 +370,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
                 loading={pageLoading}
                 className={styles.submitBtn}
               >
-                注册
+                确定
               </Button>
             </Form.Item>
           </Form>

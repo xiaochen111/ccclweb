@@ -1,10 +1,17 @@
 import React, { Component } from 'react';
 import { Button, Row, Col, Carousel } from 'antd';
-import SearchCondition, { searchType, ParamsType } from '@/components/SearchCondition';
-import styles from './index.scss';
+import { Dispatch, AnyAction } from 'redux';
+import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { Link, router } from 'umi';
+import { connect } from 'dva';
+import Broadside from '@/components/Broadside';
+import styles from './index.scss';
+import { StateType } from './model';
 
-interface IProps {}
+interface IProps {
+  dispatch: Dispatch<AnyAction>;
+  homeModelState: StateType;
+}
 
 const serviceList = [
   {
@@ -38,10 +45,16 @@ const serviceList = [
     intro: '直营运价 全口岸全航线覆盖 多',
   },
 ];
-class HomePage extends Component {
-  handleSubmit = (params: ParamsType) => {
+
+@connect(({ home, loading }) => ({
+  homeModelState: home,
+}))
+class HomePage extends Component<IProps, any> {
+  handleSubmit = params => {
+    console.log(params);
     router.push({
-      pathname: '/door/index',
+      pathname: '/door/price-plan',
+      query: params,
     });
   };
 
@@ -144,6 +157,7 @@ class HomePage extends Component {
     const arrList = [1, 1, 1, 1, 1, 1, 1, 1];
     return (
       <main className={styles.conatiner}>
+        <Broadside />
         <div className={styles.banner}>
           <Carousel>
             <div>

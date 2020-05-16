@@ -24,6 +24,10 @@ export default [
         component: './Login/Register',
       },
       {
+        path: '/login/retrievePassword',
+        component: './Login/RetrievePassword',
+      },
+      {
         path: 'door',
         redirect: '/door/index',
       },

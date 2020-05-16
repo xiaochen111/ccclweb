@@ -1,0 +1,52 @@
+.broadSide {
+  width: 50px;
+  height: 120px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px 0px 0px 10px;
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 9;
+  color: #fff;
+  padding: 5px 10px;
+  text-align: center;
+  :global {
+    .iconfont {
+      font-size: 20px;
+    }
+  }
+  li {
+    position: relative;
+    cursor: pointer;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    span {
+      line-height: 1;
+    }
+  }
+  .point {
+    width: 6px;
+    height: 6px;
+    background: rgba(255, 8, 8, 1);
+    border-radius: 50%;
+    position: absolute;
+    right: 5px;
+    top: 10px;
+  }
+}
+
+.h3 {
+  font-size: 24px;
+  text-align: center;
+  margin-bottom: 40px;
+  line-height: 1;
+}
+.contentPtxt {
+  line-height: 1.5;
+  color: #333;
+  font-size: 16px;
+  text-indent: 2em;
+}

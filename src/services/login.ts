@@ -36,12 +36,56 @@ export async function sendRegistPhoneMsg(params) {
 }
 
 /**
- * 手机注册
+ * 发送邮箱验证码
  * @param params
  */
-export async function registerPhone(params) {
-  console.log('registerPhone -> params', params);
+export async function sendRegistEmailMsg(params) {
+  return request('/api/web/veriy_code/send_regist_email.do', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 注册
+ * @param params
+ */
+export async function doRegister(params) {
   return request('/api/web/webuser/register.do', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 找回密码
+ * @param params
+ */
+export async function doResetPassword(params) {
+  return request('/api/web/webuser/reset_password.do', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
+ * 忘记密码发送短信验证码
+ * @param params
+ */
+export async function doPhoneSendRepasswordMsg(params) {
+  return request('/api/web/veriy_code/send_repassword_msg.do', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+//
+/**
+ * 忘记密码发送短信验证码
+ * @param params
+ */
+export async function doSendRepasswordEmail(params) {
+  return request('/api/web/veriy_code/send_repassword_email.do', {
     method: 'POST',
     data: params,
   });
