@@ -95,6 +95,8 @@ class PricePlanMainPage extends PureComponent<any, PricePlanPageState> {
   };
 
   changeSort = key => {
+    const { submitLoading } = this.props;
+    if (submitLoading) return;
     const sortColums = ['sort', 'asc', 'desc'];
     const { sortInstance } = this.state;
     this.index = sortInstance !== key ? 1 : this.index >= 2 ? 0 : ++this.index;

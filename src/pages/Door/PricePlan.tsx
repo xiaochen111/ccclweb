@@ -10,19 +10,27 @@ import PricePlanMainPage from './PricePlanMain';
 interface PricePlanPageProps extends StateType {
   dispatch: Dispatch<AnyAction>;
   location: H.Location;
+  submitLoading: boolean;
 }
 
-@connect(({ door }) => ({
+@connect(({ door, loading }) => ({
   result: door.result,
   totalCount: door.totalCount,
+  submitLoading: loading.effects['door/getLclList'],
 }))
 export class PricePlan extends Component<PricePlanPageProps, any> {
   render() {
-    const { dispatch, result, totalCount } = this.props;
+    const { dispatch, result, totalCount, submitLoading } = this.props;
+    const paramProps = {
+      dispatch,
+      result,
+      totalCount,
+      submitLoading,
+    };
     return (
       <PageWrapper>
         <div className={styles.container}>
-          <PricePlanMainPage dispatch={dispatch} result={result} totalCount={totalCount} />
+          <PricePlanMainPage {...paramProps} />
         </div>
       </PageWrapper>
     );
