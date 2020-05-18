@@ -9,14 +9,14 @@ import SearchCondition, { searchType } from '@/components/SearchCondition';
 import styles from './PricePlan.scss';
 import { StateType } from './model';
 
-interface PricePlanPageProps {
+interface PricePlanPageProps extends StateType {
   dispatch: Dispatch<AnyAction>;
-  PricePlanPageState: StateType;
   location: H.Location;
 }
 
 @connect(({ door }) => ({
-  PricePlanPageState: door,
+  result: door.result,
+  totalCount: door.totalCount,
 }))
 class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
   columns = [
@@ -78,10 +78,8 @@ class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
   };
 
   render() {
-    const { lclPage } = this.props.PricePlanPageState;
-    console.log(lclPage);
-    const { result } = lclPage;
-    console.log(result);
+    const { totalCount, result } = this.props;
+
     let defaultValue = {
       endPort: '美国1',
     };
@@ -108,37 +106,38 @@ class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
               ))}
             </div>
             <ul className={styles.tableBody}>
-              {result.map((item, index) => (
-                <li key={index} className={styles.tableItem}>
-                  <div className={styles.rowInfos}>
-                    <span className={styles.line}>{item.a}</span>
-                    <span className={styles.voyage}>{item.days}天</span>
-                    <span className={styles.price}>${item.cbm}</span>
-                    <span className={styles.price}>${item.kgs}</span>
-                    <span className={styles.total}>10000</span>
-                    <span>
-                      <span className={styles.btn} onClick={this.linkToOrder}>
-                        下单
+              {result &&
+                result.map((item, index) => (
+                  <li key={index} className={styles.tableItem}>
+                    <div className={styles.rowInfos}>
+                      <span className={styles.line}>111</span>
+                      <span className={styles.voyage}>{item.days}天</span>
+                      <span className={styles.price}>${item.cbm}</span>
+                      <span className={styles.price}>${item.kgs}</span>
+                      <span className={styles.total}>10000</span>
+                      <span>
+                        <span className={styles.btn} onClick={this.linkToOrder}>
+                          下单
+                        </span>
                       </span>
-                    </span>
-                  </div>
-                  <div className={styles.expandeContent}>
-                    <span style={{ marginRight: 50 }} className={styles.validityTime}>
-                      有效船期 : {item.startTime} 至 {item.endTime}
-                    </span>
-                    <span>
-                      <Icon type="exclamation-circle" theme="filled" /> {item.remarkOut}
-                    </span>
-                  </div>
-                </li>
-              ))}
+                    </div>
+                    <div className={styles.expandeContent}>
+                      <span style={{ marginRight: 50 }} className={styles.validityTime}>
+                        有效船期 : {item.startTime} 至 {item.endTime}
+                      </span>
+                      <span>
+                        <Icon type="exclamation-circle" theme="filled" /> {item.remarkOut}
+                      </span>
+                    </div>
+                  </li>
+                ))}
             </ul>
           </div>
           <div className={styles.paginationContainer}>
             <span className={styles.total}>
-              共<strong>{lclPage.totalCount}</strong>条
+              共<strong>{totalCount}</strong>条
             </span>
-            <Pagination showQuickJumper showSizeChanger total={lclPage.totalCount} />
+            <Pagination showQuickJumper showSizeChanger total={totalCount} />
           </div>
         </div>
       </PageWrapper>

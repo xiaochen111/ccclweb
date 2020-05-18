@@ -1,13 +1,9 @@
 import { Effect } from 'dva';
 import { lclList } from '@/services/lcl';
 
-interface pageInstance {
-  result: any[];
-  [propName: string]: any;
-}
-
 export interface StateType {
-  lclPage: pageInstance;
+  result: any[];
+  totalCount: number;
 }
 
 export interface DoorModelType {
@@ -22,9 +18,8 @@ export interface DoorModelType {
 const model: DoorModelType = {
   namespace: 'door',
   state: {
-    lclPage: {
-      result: [] as [],
-    },
+    result: [],
+    totalCount: 0,
   },
   effects: {
     *getLclList({ payload }, { call, put }) {
@@ -41,7 +36,8 @@ const model: DoorModelType = {
     setLclList(state, { payload }) {
       return {
         ...state,
-        lclPage: payload,
+        result: payload.result,
+        totalCount: payload.totalCount,
       };
     },
   },
