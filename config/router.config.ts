@@ -1,5 +1,24 @@
 export default [
   {
+    path: '/control',
+    // Routes: ['src/pages/Authorized'],
+    component: '../layouts/ControlLayout',
+    routes: [
+      {
+        path: '/control/order',
+        icon: 'area-chart',
+        name: '订单中心',
+        routes: [
+          {
+            path: '/control/order/my',
+            name: '我的订单',
+            component: './Order/index',
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: '/',
     component: '../layouts/BasicLayout',
     routes: [
