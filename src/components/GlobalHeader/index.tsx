@@ -3,6 +3,7 @@ import { Link } from 'umi';
 import H from 'history';
 import styles from './index.scss';
 import { GetGlobalToken } from '@/utils/cache';
+import { GetLocalStorage } from '@/utils/storage/local';
 
 interface GlonbalHeaderProps {
   logo: string;
@@ -40,7 +41,22 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
             </Link>
           ))}
           {GetGlobalToken() ? (
-            <span>1111</span>
+            <div className={styles.loginer}>
+              <span>{GetLocalStorage('username')}</span>
+              <div className={styles.controlNav}>
+                <ul>
+                  <li>
+                    <Link to={'/control/order/my'}>工作台</Link>
+                  </li>
+                  <li>
+                    <Link to={'/control/order/my'}>修改密码</Link>
+                  </li>
+                  <li>
+                    <Link to={'/control/order/my'}>退出登录</Link>
+                  </li>
+                </ul>
+              </div>
+            </div>
           ) : (
             <>
               <Link to={'/login/index'} className={`${styles.navItem} ${styles.otherItem}`}>

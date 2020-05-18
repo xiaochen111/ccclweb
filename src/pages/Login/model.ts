@@ -13,6 +13,7 @@ import {
   doSendRepasswordEmail,
 } from '@/services/login';
 import { SetGlobalToken } from '@/utils/cache';
+import { SetLocalStorage } from '@/utils/storage/local';
 
 export interface StateType {
   captchaImage: any;
@@ -63,7 +64,7 @@ const Model: LoginModelType = {
         message.success('登录成功');
 
         yield delay(1000);
-
+        SetLocalStorage('username', response.resMap.user.userName);
         SetGlobalToken(response.resMap.user.token);
         yield put(routerRedux.push('/home'));
       }
