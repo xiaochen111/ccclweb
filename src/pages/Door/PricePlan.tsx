@@ -8,7 +8,7 @@ import PageWrapper from '@/components/PageWrapper';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import styles from './PricePlan.scss';
 import { StateType } from './model';
-import qs from 'qs';
+import { GetPageQuery } from '@/utils/utils';
 
 interface PricePlanPageProps extends StateType {
   dispatch: Dispatch<AnyAction>;
@@ -17,57 +17,74 @@ interface PricePlanPageProps extends StateType {
 
 const arrow = require('../../assets/img/arrow.png');
 
+interface PricePlanPageState {
+  orderByClause: string;
+  endTruck: string;
+  kgs: string;
+  cbm: string;
+
+  sortInstance: string;
+  orderBy: string;
+}
+
 @connect(({ door }) => ({
   result: door.result,
   totalCount: door.totalCount,
 }))
-class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
+class PricePlanPage extends PureComponent<PricePlanPageProps, PricePlanPageState> {
   state = {
-    params: {},
+    endTruck: '',
+    kgs: '',
+    cbm: '',
+    orderByClause: '',
+
+    sortInstance: '',
+    orderBy: '',
   };
+
+  private index = 1;
 
   columns = [
     {
       title: '线路',
-      dataIndex: 'a',
       key: 'a',
       width: '35%',
     },
     {
       title: '航程',
-      dataIndex: 'b',
-      key: 'b',
+      key: 'days',
       width: '13%',
     },
     {
       title: 'CBM',
-      dataIndex: 'c',
-      key: 'c',
+      key: 'TOSS_PRICE_STANDRD',
       width: '13%',
     },
     {
       title: 'KGS',
-      dataIndex: 'd',
-      key: 'd',
+      key: 'HEAVY_PRICE_STANDRDd',
       width: '13%',
     },
     {
       title: 'TOTAL',
-      dataIndex: 'e',
-      key: 'e',
+      key: 'TOTAL',
       width: '13%',
     },
   ];
 
   componentDidMount() {
-    const {
-      location: { search },
-    } = this.props;
-    let getParams = qs.parse(search.substr(1));
-    this.setState({
-      params: getParams,
-    });
-    this.getLclList(getParams);
+    const params = GetPageQuery();
+    this.setState(
+      {
+        endTruck: params.endTruck || '',
+        kgs: params.kgs || '',
+        cbm: params.cbm || '',
+      },
+      () => {
+        const { endTruck, kgs, cbm, orderByClause } = params;
+        this.getLclList({ endTruck, kgs, cbm, orderByClause });
+      },
+    );
   }
 
   getLclList = async (params = {}) => {
@@ -80,17 +97,36 @@ class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
 
   handleSubmit = params => {
     const { endTruck, kgs, cbm } = params;
-    this.getLclList({ endTruck, kgs, cbm });
+    const { orderByClause } = this.state;
+    this.getLclList({ endTruck, kgs, cbm, orderByClause });
   };
 
   linkToOrder = () => {
     router.push('/door/place-order');
   };
 
+  changeSort = key => {
+    const sortColums = ['sort', 'asc', 'desc'];
+    const { sortInstance } = this.state;
+    this.index = sortInstance !== key ? 1 : this.index >= 2 ? 0 : ++this.index;
+    let orderType = sortInstance !== key ? sortColums[1] : sortColums[this.index];
+    this.setState(
+      {
+        sortInstance: key,
+        orderBy: orderType,
+        orderByClause: orderType === 'sort' ? '' : `${key} ${orderType}`,
+      },
+      () => {
+        const { endTruck, kgs, cbm, orderByClause } = this.state;
+        this.getLclList({ endTruck, kgs, cbm, orderByClause });
+      },
+    );
+  };
+
   render() {
     const { totalCount, result } = this.props;
-    const { params } = this.state;
-    let defaultValue = params;
+    const { sortInstance, orderBy, endTruck, kgs, cbm } = this.state;
+    let defaultValue = { endTruck, kgs, cbm };
     return (
       <PageWrapper>
         <div className={styles.container}>
@@ -109,8 +145,24 @@ class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
           </div>
           <div className={styles.tableContainer}>
             <div className={styles.tableHeader}>
-              {this.columns.map(item => (
-                <span key={item.dataIndex}>{item.title}</span>
+              {this.columns.map((item, index) => (
+                <span key={item.key}>
+                  {item.title}&nbsp;
+                  {index > 0 ? (
+                    <span style={{ cursor: 'pointer' }} onClick={() => this.changeSort(item.key)}>
+                      <img
+                        src={
+                          item.key === sortInstance
+                            ? require(`../../assets/img/${orderBy}.png`)
+                            : require('../../assets/img/sort.png')
+                        }
+                        alt=""
+                      />
+                    </span>
+                  ) : (
+                    ''
+                  )}
+                </span>
               ))}
             </div>
             <ul className={styles.tableBody}>

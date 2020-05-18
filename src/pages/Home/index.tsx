@@ -4,6 +4,7 @@ import { Dispatch, AnyAction } from 'redux';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { Link, router } from 'umi';
 import { connect } from 'dva';
+import { stringify } from 'qs';
 import Broadside from '@/components/Broadside';
 import styles from './index.scss';
 import { StateType } from './model';
@@ -54,7 +55,7 @@ class HomePage extends Component<IProps, any> {
     console.log(params);
     router.push({
       pathname: '/door/price-plan',
-      query: params,
+      search: stringify(params),
     });
   };
 

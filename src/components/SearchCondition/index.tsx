@@ -55,11 +55,9 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
 
   render() {
     const { dropCountry } = this.state;
-    console.log(this.props);
-
     const options = dropCountry.map((item: item, index) => (
-      <Option key={index} value={`${item.id}1`}>
-        {`${item.value}2`}
+      <Option key={index} value={`${item.id}`}>
+        {`${item.value}`}
       </Option>
     ));
     const { isMultiRow, form, defaultValue = {} } = this.props;
@@ -73,8 +71,8 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
           {searchType.index === isMultiRow ? (
             <div className={styles.formItemOne}>
               <Form.Item>
-                {getFieldDecorator('endPort', {
-                  initialValue: defaultValue.endPort,
+                {getFieldDecorator('endTruck', {
+                  initialValue: defaultValue.endTruck,
                 })(
                   <AutoComplete
                     className="certain-category-search"
@@ -112,7 +110,7 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
               <div className={styles.formItemTwo}>
                 <Form.Item>
                   {getFieldDecorator('endTruck', {
-                    initialValue: defaultValue.endPort,
+                    initialValue: defaultValue.endTruck,
                   })(
                     <AutoComplete
                       className="certain-category-search"
