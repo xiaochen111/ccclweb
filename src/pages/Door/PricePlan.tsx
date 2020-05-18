@@ -8,17 +8,24 @@ import PageWrapper from '@/components/PageWrapper';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import styles from './PricePlan.scss';
 import { StateType } from './model';
+import qs from 'qs';
 
 interface PricePlanPageProps extends StateType {
   dispatch: Dispatch<AnyAction>;
   location: H.Location;
 }
 
+const arrow = require('../../assets/img/arrow.png');
+
 @connect(({ door }) => ({
   result: door.result,
   totalCount: door.totalCount,
 }))
 class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
+  state = {
+    params: {},
+  };
+
   columns = [
     {
       title: '线路',
@@ -53,10 +60,14 @@ class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
   ];
 
   componentDidMount() {
-    this.getLclList();
-    const { location } = this.props;
-    const { search } = location;
-    console.log(search);
+    const {
+      location: { search },
+    } = this.props;
+    let getParams = qs.parse(search.substr(1));
+    this.setState({
+      params: getParams,
+    });
+    this.getLclList(getParams);
   }
 
   getLclList = async (params = {}) => {
@@ -68,7 +79,6 @@ class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
   };
 
   handleSubmit = params => {
-    console.log(params);
     const { endTruck, kgs, cbm } = params;
     this.getLclList({ endTruck, kgs, cbm });
   };
@@ -79,10 +89,8 @@ class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
 
   render() {
     const { totalCount, result } = this.props;
-
-    let defaultValue = {
-      endPort: '美国1',
-    };
+    const { params } = this.state;
+    let defaultValue = params;
     return (
       <PageWrapper>
         <div className={styles.container}>
@@ -110,7 +118,15 @@ class PricePlanPage extends PureComponent<PricePlanPageProps, any> {
                 result.map((item, index) => (
                   <li key={index} className={styles.tableItem}>
                     <div className={styles.rowInfos}>
-                      <span className={styles.line}>111</span>
+                      <span className={styles.line}>
+                        <div className={styles.lineMain}>
+                          {item.startTruck}
+                          &nbsp;
+                          <img src={arrow} alt="" />
+                          &nbsp;
+                          {item.endTruck}
+                        </div>
+                      </span>
                       <span className={styles.voyage}>{item.days}天</span>
                       <span className={styles.price}>${item.cbm}</span>
                       <span className={styles.price}>${item.kgs}</span>

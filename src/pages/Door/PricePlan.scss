@@ -36,6 +36,10 @@
     span:nth-of-type(1) {
       width: 35%;
     }
+    .lineMain {
+      display: flex;
+      align-items: center;
+    }
     span:nth-of-type(2),
     span:nth-of-type(3),
     span:nth-of-type(4),

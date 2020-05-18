@@ -15,6 +15,9 @@
     flex-shrink: 0;
     width: (2/5) * 100%;
     :global {
+      .ant-input-affix-wrapper .ant-input-prefix {
+        left: 6px;
+      }
       .ant-select-auto-complete.ant-select .ant-select-selection__placeholder {
         margin-left: 85px;
       }
@@ -73,6 +76,9 @@
     flex-shrink: 0;
     width: (2/7) * 100%;
     :global {
+      .ant-input-affix-wrapper .ant-input-prefix {
+        left: 6px;
+      }
       .ant-select-auto-complete.ant-select .ant-select-selection__placeholder {
         margin-left: 30px;
       }
@@ -129,6 +135,9 @@
     width: 50%;
     padding-bottom: 20px;
     :global {
+      .ant-input-affix-wrapper .ant-input-prefix {
+        left: 6px;
+      }
       .ant-select-auto-complete.ant-select .ant-select-selection__placeholder {
         margin-left: 30px;
       }

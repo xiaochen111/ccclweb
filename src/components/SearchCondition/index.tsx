@@ -7,6 +7,7 @@ import { countryDrop } from '@/services/drop';
 
 const { Option } = AutoComplete;
 const startPartIcon = require('../../assets/img/start_part.png');
+const endPartIcon = require('../../assets/img/end_part.png');
 
 export enum searchType {
   index,
@@ -18,13 +19,6 @@ interface SearchConditionProps extends FormComponentProps {
   submit: (params) => void;
   defaultValue?: any;
 }
-
-// export interface ParamsType {
-//   start?: string;
-//   endPort?: string;
-//   weight?: string;
-//   size?: string;
-// }
 
 interface searchState {
   dropCountry: Array<any>;
@@ -132,7 +126,7 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
                       optionLabelProp="value"
                       defaultActiveFirstOption={false}
                     >
-                      <Input prefix={<img src={startPartIcon} />} />
+                      <Input prefix={<img src={endPartIcon} />} />
                     </AutoComplete>,
                   )}
                 </Form.Item>
@@ -142,16 +136,16 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
 
           <div className={styles.formItemThree}>
             <Form.Item>
-              {getFieldDecorator('kgs')(
-                <Input placeholder="重量" size="large" suffix={<span>KGS</span>} />,
-              )}
+              {getFieldDecorator('kgs', {
+                initialValue: defaultValue.kgs,
+              })(<Input placeholder="重量" size="large" suffix={<span>KGS</span>} />)}
             </Form.Item>
           </div>
           <div className={styles.formItemFour}>
             <Form.Item>
-              {getFieldDecorator('cbm')(
-                <Input placeholder="体积" size="large" suffix={<span>CBM</span>} />,
-              )}
+              {getFieldDecorator('cbm', {
+                initialValue: defaultValue.cbm,
+              })(<Input placeholder="体积" size="large" suffix={<span>CBM</span>} />)}
             </Form.Item>
           </div>
           <div className={styles.formItemBtn}>
