@@ -5,6 +5,16 @@ export default [
     component: '../layouts/ControlLayout',
     routes: [
       {
+        path: '/control',
+        redirect: '/control/mdoor',
+      },
+      {
+        path: '/control/mdoor',
+        icon: 'area-chart',
+        name: '门到门专区',
+        component: './Mdoor/index',
+      },
+      {
         path: '/control/order',
         icon: 'area-chart',
         name: '订单中心',

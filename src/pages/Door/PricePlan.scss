@@ -22,7 +22,7 @@
 }
 
 .tableContainer {
-  width: 1200px;
+  // width: 1200px;
   margin-top: 40px;
 
   .tableHeader,
@@ -97,8 +97,7 @@
         }
       }
       .expandeContent {
-        width: 1140px;
-        margin: 0 auto;
+        margin: 0 30px;
         border-top: 1px dashed #ccc;
         height: 58px;
         line-height: 58px;

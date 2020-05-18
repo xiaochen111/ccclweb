@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import styles from './PricePlan.scss';
 import { connect } from 'dva';
 import H from 'history';
 import { Dispatch, AnyAction } from 'redux';
 import { StateType } from '@/models/door';
-import PageWrapper from '@/components/PageWrapper';
-import PricePlanMainPage from './PricePlanMain';
+import PricePlanMainPage from '@/pages/Door/PricePlanMain';
+
+import styles from './index.scss';
 
 interface PricePlanPageProps extends StateType {
   dispatch: Dispatch<AnyAction>;
@@ -16,17 +16,15 @@ interface PricePlanPageProps extends StateType {
   result: door.result,
   totalCount: door.totalCount,
 }))
-export class PricePlan extends Component<PricePlanPageProps, any> {
+export class Mdoor extends Component<PricePlanPageProps, any> {
   render() {
     const { dispatch, result, totalCount } = this.props;
     return (
-      <PageWrapper>
-        <div className={styles.container}>
-          <PricePlanMainPage dispatch={dispatch} result={result} totalCount={totalCount} />
-        </div>
-      </PageWrapper>
+      <div className={styles.doorIndex}>
+        <PricePlanMainPage dispatch={dispatch} result={result} totalCount={totalCount} />
+      </div>
     );
   }
 }
 
-export default PricePlan;
+export default Mdoor;
