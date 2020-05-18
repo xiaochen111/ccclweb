@@ -68,7 +68,7 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
         {`${item.value}2`}
       </Option>
     ));
-    const { isMultiRow, form, defaultValue } = this.props;
+    const { isMultiRow, form, defaultValue = {} } = this.props;
     const { getFieldDecorator } = form;
 
     const formStyle = `searchMainStyle${Number(isMultiRow)}`;
