@@ -58,9 +58,12 @@ const Model: LoginModelType = {
     //登录
     *sendLoginInfo({ payload }, { call, put }) {
       const response = yield call(doLogin, payload);
+
       if (response && response.code === '1') {
         message.success('登录成功');
+
         yield delay(1000);
+
         SetGlobalToken(response.resMap.user.token);
         yield put(routerRedux.push('/home'));
       }
@@ -69,6 +72,7 @@ const Model: LoginModelType = {
     // 获取短信验证码
     *getPhoneRegiseMsg({ payload }, { call }) {
       const response = yield call(sendRegistPhoneMsg, payload);
+
       if (response && response.code === '1') {
         return true;
       }
@@ -76,6 +80,7 @@ const Model: LoginModelType = {
     // 获取忘记密码短信验证码
     *getPhoneRepasswordMsg({ payload }, { call }) {
       const response = yield call(doPhoneSendRepasswordMsg, payload);
+
       if (response && response.code === '1') {
         return true;
       }
@@ -84,6 +89,7 @@ const Model: LoginModelType = {
     // 获取邮箱验证码
     *getEmailRegiseMsg({ payload }, { call }) {
       const response = yield call(sendRegistEmailMsg, payload);
+
       if (response && response.code === '1') {
         return true;
       }
@@ -92,6 +98,7 @@ const Model: LoginModelType = {
     // 获取忘记密码邮箱验证码
     *getEmailRepasswordMsg({ payload }, { call }) {
       const response = yield call(doSendRepasswordEmail, payload);
+
       if (response && response.code === '1') {
         return true;
       }
@@ -100,6 +107,7 @@ const Model: LoginModelType = {
     // 手机、邮箱注册
     *register({ payload }, { call, put }) {
       const response = yield call(doRegister, payload);
+
       if (response && response.code === '1') {
         message.success('注册成功');
         yield put(routerRedux.push('/login'));
@@ -109,6 +117,7 @@ const Model: LoginModelType = {
     // 找回密码
     *resetPassword({ payload }, { call, put }) {
       const response = yield call(doResetPassword, payload);
+
       if (response && response.code === '1') {
         message.success('密码找回成功');
         yield put(routerRedux.push('/login'));

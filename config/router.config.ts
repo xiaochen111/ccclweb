@@ -1,5 +1,41 @@
 export default [
   {
+    path: '/control',
+    Routes: ['src/pages/Authorized'],
+    component: '../layouts/ControlLayout',
+    routes: [
+      {
+        path: '/control/order',
+        icon: 'area-chart',
+        name: '订单中心',
+        routes: [
+          {
+            path: '/control/order/my',
+            name: '我的订单',
+            component: './Order/index',
+          },
+        ],
+      },
+      {
+        path: '/control/system',
+        icon: 'setting',
+        name: '系统中心',
+        routes: [
+          {
+            path: '/control/system/menber',
+            name: '会员信息',
+            component: './System/Member',
+          },
+          {
+            path: '/control/system/security-setting',
+            name: '安全设置',
+            component: './System/SecuritySetting',
+          },
+        ],
+      },
+    ],
+  },
+  {
     path: '/',
     component: '../layouts/BasicLayout',
     routes: [
