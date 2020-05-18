@@ -19,7 +19,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
           { name: '首页', link: '/home' },
           { name: '门到门专区', link: '/door' },
           { name: '关于我们', link: '/about' },
-          { name: '控制中心', link: '/control-center' },
+          { name: '控制中心', link: '/control' },
         ];
 
     return (

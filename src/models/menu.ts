@@ -5,7 +5,6 @@ import { isEqual } from 'lodash';
 
 export interface StateType {
   menuData: any[];
-  breadcrumbNameMap: any;
   globalPageSubMenu: any;
 }
 
@@ -22,18 +21,15 @@ const Model = {
 
   state: {
     menuData: [],
-    breadcrumbNameMap: {},
   },
   reducers: {
     getMenuData(state, { payload }) {
       const { routes } = payload;
       const menuData = filterMenuData(memoizeOneFormatter(routes));
-      const breadcrumbNameMap = memoizeOneGetBreadcrumbNameMap(menuData);
 
       return {
         ...state,
         menuData,
-        breadcrumbNameMap,
       };
     },
   },
@@ -63,23 +59,6 @@ const formatter = data => {
     .filter(item => item);
 };
 
-const getBreadcrumbNameMap = menuData => {
-  const routerMap = {};
-
-  const flattenMenuData = data => {
-    data.forEach(menuItem => {
-      if (menuItem.children) {
-        flattenMenuData(menuItem.children);
-      }
-
-      routerMap[menuItem.path] = menuItem;
-    });
-  };
-
-  flattenMenuData(menuData);
-  return routerMap;
-};
-
 const filterMenuData = menuData => {
   if (!menuData) return [];
 
@@ -102,4 +81,3 @@ const getSubMenu = item => {
 };
 
 const memoizeOneFormatter = memoizeOne(formatter, isEqual);
-const memoizeOneGetBreadcrumbNameMap = memoizeOne(getBreadcrumbNameMap, isEqual);

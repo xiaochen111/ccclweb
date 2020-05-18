@@ -29,7 +29,6 @@ export interface ControlLayoutProps extends StateType {
 
 @connect(({ menu, global }) => ({
   menuData: menu.menuData,
-  breadcrumbNameMap: menu.breadcrumbNameMap,
   collapsed: global.collapsed,
 }))
 class ControlLayout extends Component<ControlLayoutProps, any> {
@@ -59,11 +58,10 @@ class ControlLayout extends Component<ControlLayoutProps, any> {
   };
 
   getContext() {
-    const { location, breadcrumbNameMap } = this.props;
+    const { location } = this.props;
 
     return {
       location,
-      breadcrumbNameMap,
     };
   }
 
