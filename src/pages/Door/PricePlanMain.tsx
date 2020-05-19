@@ -5,8 +5,6 @@ import router from 'umi/router';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import styles from './PricePlan.scss';
 
-console.log(styles.paginationContainer);
-
 import { GetPageQuery } from '@/utils/utils';
 
 const arrow = require('../../assets/img/arrow.png');
