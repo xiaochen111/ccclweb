@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import H from 'history';
 import { connect } from 'dva';
 import { Dispatch, AnyAction } from 'redux';
+import router from 'umi/router';
 import { StateType } from '@/models/door';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { GetPageQuery } from '@/utils/utils';
@@ -13,6 +14,7 @@ interface IProps extends StateType {
   dispatch: Dispatch<AnyAction>;
   location: H.Location;
   countryDropList: any[];
+  lclList: any[];
 }
 
 interface IState {
@@ -79,6 +81,10 @@ export class PricePlan extends Component<IProps, IState> {
     });
   };
 
+  handleLinkToOrder = () => {
+    router.push('/door/place-order');
+  };
+
   handleSearchSubmit = params => {
     const { endTruck, kgs, cbm } = params;
 
@@ -124,6 +130,7 @@ export class PricePlan extends Component<IProps, IState> {
           dataSource={lclList}
           total={totalCount}
           onSort={this.handleListSort}
+          onClickOrder={this.handleLinkToOrder}
         />
       </PageWrapper>
     );
