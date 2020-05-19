@@ -74,7 +74,7 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
           <div className={styles.tableContainer}>
             <div className={styles.tableHeader}>
               {this.columns.map((item, index) => (
-                <span key={item.key}>
+                <div className={styles.ColumsWidth} key={item.key}>
                   {item.title}&nbsp;
                   {index > 0 ? (
                     <span style={{ cursor: 'pointer' }} onClick={() => this.changeSort(item.key)}>
@@ -90,7 +90,7 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
                   ) : (
                     ''
                   )}
-                </span>
+                </div>
               ))}
             </div>
             <ul className={styles.tableBody}>
@@ -98,30 +98,36 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
                 dataSource.map((item, index) => (
                   <li key={index} className={styles.tableItem}>
                     <div className={styles.rowInfos}>
-                      <span className={styles.line}>
+                      <div className={`${styles.line} ${styles.ColumsWidth}`}>
                         <div className={styles.lineMain}>
                           {/* {item.startTruck} */}
-                          <p className={styles.startTruck}>
+                          <div className={styles.startTruck}>
                             义乌&nbsp;
                             <img src={arrow} alt="" />
                             &nbsp;
-                          </p>
+                          </div>
                           <p className={styles.endTruck}>
                             <Tooltip placement="top" title={item.endTruck}>
-                              <p>{item.endTruck}</p>
+                              <span>{item.endTruck}</span>
                             </Tooltip>
                           </p>
                         </div>
-                      </span>
-                      <span className={styles.voyage}>{item.days}天</span>
-                      <span className={styles.price}>${item.cbm}</span>
-                      <span className={styles.price}>${item.kgs}</span>
-                      <span className={styles.total}>10000</span>
-                      <span>
+                      </div>
+                      <div className={`${styles.voyage} ${styles.ColumsWidth}`}>{item.days}天</div>
+                      <div className={`${styles.price} ${styles.ColumsWidth}`}>
+                        ${item.tossStandsPrice}
+                      </div>
+                      <div className={`${styles.price} ${styles.ColumsWidth}`}>
+                        ${item.heavyStandsPrice}
+                      </div>
+                      <div className={`${styles.total} ${styles.ColumsWidth}`}>
+                        ${item.totalPrice}
+                      </div>
+                      <div className={`${styles.ColumsWidth}`}>
                         <span className={styles.btn} onClick={onClickOrder}>
                           下单
                         </span>
-                      </span>
+                      </div>
                     </div>
                     <div className={styles.expandeContent}>
                       <span style={{ marginRight: 50 }} className={styles.validityTime}>
