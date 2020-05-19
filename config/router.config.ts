@@ -15,6 +15,11 @@ export default [
         component: './Mdoor/index',
       },
       {
+        path: '/control/mdoor-order',
+        hideInMenu: true,
+        component: './Mdoor/Order',
+      },
+      {
         path: '/control/order',
         icon: 'area-chart',
         name: '订单中心',

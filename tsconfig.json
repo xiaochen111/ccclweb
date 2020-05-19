@@ -8,7 +8,7 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "strict": true, //启用所有严格类型检查选项
+    "strict": false, //启用所有严格类型检查选项
     "types": [],
     "paths": {
       "@/*": ["src/*"],

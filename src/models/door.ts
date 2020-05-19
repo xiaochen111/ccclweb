@@ -1,8 +1,9 @@
 import { Effect } from 'dva';
+import { Reducer } from 'redux';
 import { lclList } from '@/services/lcl';
 
 export interface StateType {
-  result: any[];
+  lclList: any[];
   totalCount: number;
 }
 
@@ -12,13 +13,15 @@ export interface DoorModelType {
   effects: {
     getLclList: Effect;
   };
-  reducers: {};
+  reducers: {
+    setLclList: Reducer<StateType>;
+  };
 }
 
 const model: DoorModelType = {
   namespace: 'door',
   state: {
-    result: [],
+    lclList: [],
     totalCount: 0,
   },
   effects: {
@@ -36,7 +39,7 @@ const model: DoorModelType = {
     setLclList(state, { payload }) {
       return {
         ...state,
-        result: payload.result,
+        lclList: payload.result,
         totalCount: payload.totalCount,
       };
     },

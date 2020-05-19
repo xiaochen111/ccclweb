@@ -1,36 +1,18 @@
 import React, { PureComponent } from 'react';
 import { Pagination, Icon } from 'antd';
 import router from 'umi/router';
-
-import SearchCondition, { searchType } from '@/components/SearchCondition';
-import styles from './PricePlan.scss';
-
-console.log(styles.paginationContainer);
-
-import { GetPageQuery } from '@/utils/utils';
-
+import styles from './List.scss';
 const arrow = require('../../assets/img/arrow.png');
 
-interface PricePlanPageState {
-  orderByClause: string;
-  endTruck: string;
-  kgs: string;
-  cbm: string;
+export interface DoorPriceListProps {
+  dataSource: any[];
+  total: number;
   sortInstance: string;
   orderBy: string;
+  onSort: (params: any) => void;
 }
 
-class PricePlanMainPage extends PureComponent<any, PricePlanPageState> {
-  state = {
-    endTruck: '',
-    kgs: '',
-    cbm: '',
-    orderByClause: '',
-
-    sortInstance: '',
-    orderBy: '',
-  };
-
+class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
   private index = 1;
 
   columns = [
@@ -61,33 +43,8 @@ class PricePlanMainPage extends PureComponent<any, PricePlanPageState> {
     },
   ];
 
-  componentDidMount() {
-    const params = GetPageQuery();
-    this.setState(
-      {
-        endTruck: params.endTruck || '',
-        kgs: params.kgs || '',
-        cbm: params.cbm || '',
-      },
-      () => {
-        const { endTruck, kgs, cbm, orderByClause } = params;
-        this.getLclList({ endTruck, kgs, cbm, orderByClause });
-      },
-    );
-  }
-
-  getLclList = async (params = {}) => {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'door/getLclList',
-      payload: params,
-    });
-  };
-
   handleSubmit = params => {
-    const { endTruck, kgs, cbm } = params;
-    const { orderByClause } = this.state;
-    this.getLclList({ endTruck, kgs, cbm, orderByClause });
+    // this.props.onSearchSubmit(params);
   };
 
   linkToOrder = () => {
@@ -95,44 +52,23 @@ class PricePlanMainPage extends PureComponent<any, PricePlanPageState> {
   };
 
   changeSort = key => {
-    const { submitLoading } = this.props;
-    if (submitLoading) return;
     const sortColums = ['sort', 'asc', 'desc'];
-    const { sortInstance } = this.state;
+    const { sortInstance } = this.props;
     this.index = sortInstance !== key ? 1 : this.index >= 2 ? 0 : ++this.index;
     let orderType = sortInstance !== key ? sortColums[1] : sortColums[this.index];
-    this.setState(
-      {
-        sortInstance: key,
-        orderBy: orderType,
-        orderByClause: orderType === 'sort' ? '' : `${key} ${orderType}`,
-      },
-      () => {
-        const { endTruck, kgs, cbm, orderByClause } = this.state;
-        this.getLclList({ endTruck, kgs, cbm, orderByClause });
-      },
-    );
+
+    this.props.onSort({
+      sortInstance: key,
+      orderBy: orderType,
+      orderByClause: orderType === 'sort' ? '' : `${key} ${orderType}`,
+    });
   };
 
   render() {
-    const { totalCount, result } = this.props;
-    const { sortInstance, orderBy, endTruck, kgs, cbm } = this.state;
-    let defaultValue = { endTruck, kgs, cbm };
+    const { dataSource, total, sortInstance, orderBy } = this.props;
+
     return (
-      <>
-        <div className={styles.header}>
-          <div className={styles.title}>
-            <span className={styles.text}>拼箱门到门</span>
-            <span className={styles.desc}>注 : 费用按照1:400（KGS数值/</span>
-          </div>
-          <div className={styles.searchCondition}>
-            <SearchCondition
-              submit={this.handleSubmit}
-              isMultiRow={searchType.pricePlan}
-              defaultValue={defaultValue}
-            />
-          </div>
-        </div>
+      <div className={styles.container}>
         <div className={styles.tableContainer}>
           <div className={styles.tableHeader}>
             {this.columns.map((item, index) => (
@@ -156,8 +92,8 @@ class PricePlanMainPage extends PureComponent<any, PricePlanPageState> {
             ))}
           </div>
           <ul className={styles.tableBody}>
-            {result &&
-              result.map((item, index) => (
+            {dataSource &&
+              dataSource.map((item, index) => (
                 <li key={index} className={styles.tableItem}>
                   <div className={styles.rowInfos}>
                     <span className={styles.line}>
@@ -193,13 +129,13 @@ class PricePlanMainPage extends PureComponent<any, PricePlanPageState> {
         </div>
         <div className={styles.paginationContainer}>
           <span className={styles.total}>
-            共<strong>{totalCount}</strong>条
+            共<strong>{total}</strong>条
           </span>
-          <Pagination showQuickJumper showSizeChanger total={totalCount} />
+          <Pagination showQuickJumper showSizeChanger total={total} />
         </div>
-      </>
+      </div>
     );
   }
 }
 
-export default PricePlanMainPage;
+export default DoorPriceListPage;

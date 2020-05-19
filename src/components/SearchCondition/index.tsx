@@ -3,8 +3,6 @@ import { Button, Form, Input, AutoComplete } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import styles from './index.scss';
 
-import { countryDrop } from '@/services/drop';
-
 const { Option } = AutoComplete;
 const startPartIcon = require('../../assets/img/start_part.png');
 const endPartIcon = require('../../assets/img/end_part.png');
@@ -14,14 +12,12 @@ export enum searchType {
   pricePlan,
   doorIndex,
 }
-interface SearchConditionProps extends FormComponentProps {
+interface IProps extends FormComponentProps {
   isMultiRow: searchType;
   submit: (params) => void;
   defaultValue?: any;
-}
-
-interface searchState {
-  dropCountry: Array<any>;
+  countryDropList: any[];
+  hideTitle?: boolean;
 }
 
 interface item {
@@ -29,33 +25,18 @@ interface item {
   id: string;
 }
 
-export class SearchCondition extends Component<SearchConditionProps, searchState> {
-  state = {
-    dropCountry: [] as [],
-  };
-
-  componentDidMount() {
-    this.init();
-  }
-
-  init = async () => {
-    const res = await countryDrop();
-    if (res && res.code === '1') {
-      this.setState({
-        dropCountry: res.resMap.countryList,
-      });
-    }
-  };
-
+export class SearchCondition extends Component<IProps, any> {
   handleSubmit = () => {
     const { form, submit } = this.props;
     const values = form.getFieldsValue();
+
     submit(values);
   };
 
   render() {
-    const { dropCountry } = this.state;
-    const options = dropCountry.map((item: item, index) => (
+    const { countryDropList, hideTitle = false } = this.props;
+
+    const options = countryDropList.map((item: item, index) => (
       <Option key={index} value={`${item.id}`}>
         {`${item.value}`}
       </Option>
@@ -66,7 +47,11 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
     const formStyle = `searchMainStyle${Number(isMultiRow)}`;
 
     return (
-      <Form>
+      <Form className={styles.container}>
+        <div className={styles.title} style={{ display: hideTitle ? 'none' : 'block' }}>
+          <span className={styles.text}>拼箱门到门</span>
+          <span className={styles.desc}>注 : 费用按照1:400（KGS数值/</span>
+        </div>
         <div className={`${styles[formStyle]} ${styles.fromMain}`}>
           {searchType.index === isMultiRow ? (
             <div className={styles.formItemOne}>
@@ -165,4 +150,4 @@ export class SearchCondition extends Component<SearchConditionProps, searchState
   }
 }
 
-export default Form.create<SearchConditionProps>()(SearchCondition);
+export default Form.create<IProps>()(SearchCondition);

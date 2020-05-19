@@ -1,22 +1,41 @@
+import { Effect } from 'dva';
 import { Reducer } from 'redux';
+import { queryCountryDropList } from '@/services/global';
 
 export interface StateType {
   collapsed: boolean;
+  countryDropList: any[];
 }
 
 export interface GlobalModelType {
   namespace: string;
   state: StateType;
+  effects: {
+    getCountryDropList: Effect;
+  };
   reducers: {
-    changeLayoutCollapsed: Reducer<StateType>; // 侧边栏展开关闭
+    changeLayoutCollapsed: Reducer<StateType>;
+    saveCountryDropList: Reducer<StateType>;
   };
 }
 
-const Model: GlobalModelType = {
+const model: GlobalModelType = {
   namespace: 'global',
-
   state: {
     collapsed: false,
+    countryDropList: [],
+  },
+
+  effects: {
+    *getCountryDropList({ payload }, { call, put }) {
+      const response = yield call(queryCountryDropList, payload);
+      if (response && response.code === '1') {
+        yield put({
+          type: 'saveCountryDropList',
+          payload: response.resMap.countryList,
+        });
+      }
+    },
   },
 
   reducers: {
@@ -26,7 +45,17 @@ const Model: GlobalModelType = {
         collapsed: payload,
       };
     },
+    saveCountryDropList(state, { payload }) {
+      return {
+        ...state,
+        countryDropList: convertList(payload),
+      };
+    },
   },
 };
 
-export default Model;
+export default model;
+
+const convertList = list => {
+  return list.filter(o => o);
+};

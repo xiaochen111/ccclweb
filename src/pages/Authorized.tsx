@@ -6,7 +6,7 @@ import { GetGlobalToken } from '@/utils/cache';
 export default ({ children }) => {
   let token = GetGlobalToken();
 
-  if (token) {
+  if (!token) {
     return children;
   } else {
     // message.info('请先登录');

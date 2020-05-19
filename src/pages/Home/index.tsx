@@ -12,6 +12,7 @@ import { StateType } from './model';
 interface IProps {
   dispatch: Dispatch<AnyAction>;
   homeModelState: StateType;
+  countryDropList: any[];
 }
 
 const serviceList = [
@@ -47,12 +48,20 @@ const serviceList = [
   },
 ];
 
-@connect(({ home, loading }) => ({
+@connect(({ home, loading, global }) => ({
   homeModelState: home,
+  countryDropList: global.countryDropList,
 }))
 class HomePage extends Component<IProps, any> {
+  componentDidMount() {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'global/getCountryDropList',
+    });
+  }
+
   handleSubmit = params => {
-    console.log(params);
     router.push({
       pathname: '/door/price-plan',
       search: stringify(params),
@@ -60,10 +69,17 @@ class HomePage extends Component<IProps, any> {
   };
 
   searchPanel = () => {
+    const { countryDropList } = this.props;
+
     return (
       <div className={styles.searchPanel}>
         <p>拼箱门到门</p>
-        <SearchCondition submit={this.handleSubmit} isMultiRow={searchType.index} />
+        <SearchCondition
+          hideTitle
+          submit={this.handleSubmit}
+          isMultiRow={searchType.index}
+          countryDropList={countryDropList}
+        />
       </div>
     );
   };
