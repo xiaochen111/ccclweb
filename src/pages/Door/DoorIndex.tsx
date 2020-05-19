@@ -1,26 +1,38 @@
 import React, { PureComponent } from 'react';
-
+import { connect } from 'dva';
+import { Dispatch, AnyAction } from 'redux';
 import PageWrapper from '@/components/PageWrapper';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import router from 'umi/router';
+import { StateType } from '@/models/door';
 import styles from './DoorIndex.scss';
 
-export class doorIndex extends PureComponent {
+interface IProps extends StateType {
+  dispatch: Dispatch<AnyAction>;
+  countryDropList: any[];
+}
+
+@connect(({ door, global }) => ({
+  lclList: door.lclList,
+  totalCount: door.totalCount,
+  countryDropList: global.countryDropList,
+}))
+export class doorIndex extends PureComponent<IProps, any> {
   handleSubmit = () => {
-    // console.log('111111111');
     router.push('/door/price-plan');
   };
   render() {
-    // console.log(this.props);
-    // const { location } = this.props;
-    // const { search } = location;
-    // console.log(search);
+    const { countryDropList } = this.props;
     return (
       <PageWrapper>
         <div className={styles.container}>
           <div className={styles.mainContainer}>
             <p className={styles.title}>拼箱门到门</p>
-            <SearchCondition submit={this.handleSubmit} isMultiRow={searchType.doorIndex} />
+            <SearchCondition
+              submit={this.handleSubmit}
+              isMultiRow={searchType.doorIndex}
+              countryDropList={countryDropList}
+            />
           </div>
         </div>
       </PageWrapper>
