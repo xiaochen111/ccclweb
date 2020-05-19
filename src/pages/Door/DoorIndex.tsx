@@ -30,6 +30,7 @@ export class doorIndex extends PureComponent<IProps, any> {
             <p className={styles.title}>拼箱门到门</p>
             <SearchCondition
               submit={this.handleSubmit}
+              hideTitle
               isMultiRow={searchType.doorIndex}
               countryDropList={countryDropList}
             />
