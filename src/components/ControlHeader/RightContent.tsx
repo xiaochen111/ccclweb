@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Menu, Dropdown, Icon, Avatar } from 'antd';
 import styles from './index.scss';
+import { GetAccountInfo } from '@/utils/cache';
 
 export interface GlobalHeaderRightProps {}
 
@@ -27,7 +28,7 @@ class GlobalHeaderRight extends PureComponent<GlobalHeaderRightProps, any> {
           <span className={`${styles.action} ${styles.account}`}>
             {/* <span className={styles.name}>{currentOrganizeName}</span> */}
             <Avatar icon="user" size="small" />
-            <span className={styles.name}>{11}</span>
+            <span className={styles.name}>{GetAccountInfo().userName}</span>
           </span>
         </Dropdown>
       </div>

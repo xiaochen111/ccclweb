@@ -69,9 +69,9 @@ class SiderMenu extends PureComponent<SilderMenuProps, any> {
       <Sider className={styles.slider} collapsed={collapsed}>
         <div className={styles.logo} id="logo">
           <Link to="/">
-            <img src={logo} alt="logo" />
+            <img src={logo} alt="logo" style={{ width: '80%', height: '32px' }} />
           </Link>
-          {collapsed ? null : <span>环球义达</span>}
+          {/* {collapsed ? null : <span>环球义达</span>} */}
         </div>
         <Menu mode={'inline'} theme="dark" selectedKeys={[location.pathname]}>
           {this.getNavMenuItems(menuData)}

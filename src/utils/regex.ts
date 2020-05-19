@@ -11,4 +11,5 @@ export default {
   POSITIVE_INGETER: /^([1-9]\d*|[0]{1,1})$/,
   IDENTITY_CARD: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
   NAME: /^[\u4e00-\u9fa5]{2,4}$/,
+  NUMBER: /^\d+$/,
 };

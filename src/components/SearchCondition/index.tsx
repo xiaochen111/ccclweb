@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, AutoComplete } from 'antd';
+import { Button, Form, Input, AutoComplete, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
+import REGEX from '@/utils/regex';
 import styles from './index.scss';
 
 const { Option } = AutoComplete;
@@ -28,9 +29,15 @@ interface item {
 export class SearchCondition extends Component<IProps, any> {
   handleSubmit = () => {
     const { form, submit } = this.props;
-    const values = form.getFieldsValue();
-
-    submit(values);
+    form.validateFields((err, values) => {
+      if (err) return;
+      const { kgs, cbm } = values;
+      if (!kgs && !cbm) {
+        message.warn('体积和重量比填一个');
+        return;
+      }
+      submit(values);
+    });
   };
 
   render() {
@@ -121,6 +128,7 @@ export class SearchCondition extends Component<IProps, any> {
             <Form.Item>
               {getFieldDecorator('kgs', {
                 initialValue: defaultValue.kgs,
+                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }],
               })(<Input placeholder="重量" size="large" suffix={<span>KGS</span>} />)}
             </Form.Item>
           </div>
@@ -128,6 +136,7 @@ export class SearchCondition extends Component<IProps, any> {
             <Form.Item>
               {getFieldDecorator('cbm', {
                 initialValue: defaultValue.cbm,
+                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }],
               })(<Input placeholder="体积" size="large" suffix={<span>CBM</span>} />)}
             </Form.Item>
           </div>
