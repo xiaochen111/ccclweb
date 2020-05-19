@@ -9,10 +9,10 @@
     .ColumsWidth {
       display: inline-block;
       text-align: left;
-      width: 13%;
+      width: 12%;
     }
     .ColumsWidth:nth-child(1) {
-      width: 35%;
+      width: 40%;
     }
     .lineMain {
       display: flex;
@@ -93,6 +93,8 @@
         height: 58px;
         line-height: 58px;
         color: #999;
+        display: flex;
+        align-items: center;
         font-size: 14px;
         .validityTime {
           color: #666;

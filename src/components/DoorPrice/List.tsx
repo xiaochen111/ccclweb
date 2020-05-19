@@ -130,9 +130,11 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
                       </div>
                     </div>
                     <div className={styles.expandeContent}>
-                      <span style={{ marginRight: 50 }} className={styles.validityTime}>
-                        有效船期 : {item.startTime} 至 {item.endTime}
-                      </span>
+                      <div style={{ width: '40%' }}>
+                        <span style={{ marginRight: 50 }} className={styles.validityTime}>
+                          有效船期 : {item.startTime} 至 {item.endTime}
+                        </span>
+                      </div>
                       <span>
                         <Icon type="exclamation-circle" theme="filled" /> {item.remarkOut}
                       </span>
