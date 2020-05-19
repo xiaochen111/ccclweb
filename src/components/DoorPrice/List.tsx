@@ -10,7 +10,7 @@ export interface DoorPriceListProps {
   sortInstance: string;
   orderBy: string;
   onSort: (params: any) => void;
-  onClickOrder: () => void;
+  onClickOrder: (params: any) => void;
   tableLoading?: boolean;
 }
 
@@ -112,7 +112,7 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
                       <span className={styles.price}>${item.kgs}</span>
                       <span className={styles.total}>10000</span>
                       <span>
-                        <span className={styles.btn} onClick={onClickOrder}>
+                        <span className={styles.btn} onClick={() => onClickOrder(item)}>
                           下单
                         </span>
                       </span>

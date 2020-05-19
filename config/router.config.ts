@@ -15,7 +15,7 @@ export default [
         component: './Mdoor/index',
       },
       {
-        path: '/control/mdoor-order',
+        path: '/control/mdoor-order/:id',
         hideInMenu: true,
         component: './Mdoor/Order',
       },
@@ -91,7 +91,7 @@ export default [
         component: './Door/PricePlan',
       },
       {
-        path: '/door/place-order',
+        path: '/door/place-order/:id',
         component: './Door/PlaceOrder',
       },
     ],
