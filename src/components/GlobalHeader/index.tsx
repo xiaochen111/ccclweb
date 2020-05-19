@@ -2,8 +2,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'umi';
 import H from 'history';
 import styles from './index.scss';
-import { GetGlobalToken } from '@/utils/cache';
-import { GetLocalStorage } from '@/utils/storage/local';
+import { GetGlobalToken, GetAccountInfo } from '@/utils/cache';
 
 interface GlonbalHeaderProps {
   logo: string;
@@ -19,8 +18,8 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
       : [
           { name: '首页', link: '/home' },
           { name: '门到门专区', link: '/door' },
+          { name: '新闻中心', link: '/news' },
           { name: '关于我们', link: '/about' },
-          { name: '控制中心', link: '/control' },
         ];
 
     return (
@@ -42,17 +41,17 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
           ))}
           {GetGlobalToken() ? (
             <div className={styles.loginer}>
-              <span>{GetLocalStorage('username')}</span>
+              <span>{GetAccountInfo().userName}</span>
               <div className={styles.controlNav}>
                 <ul>
                   <li>
-                    <Link to={'/control/order/my'}>工作台</Link>
+                    <Link to={'/control'}>工作台</Link>
                   </li>
                   <li>
-                    <Link to={'/control/order/my'}>修改密码</Link>
+                    <Link to={'/control'}>修改密码</Link>
                   </li>
                   <li>
-                    <Link to={'/control/order/my'}>退出登录</Link>
+                    <Link to={'/control'}>退出登录</Link>
                   </li>
                 </ul>
               </div>

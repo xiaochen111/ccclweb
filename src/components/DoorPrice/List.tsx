@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Pagination, Icon } from 'antd';
+import { Pagination, Icon, Tooltip } from 'antd';
 import router from 'umi/router';
 import styles from './List.scss';
 const arrow = require('../../assets/img/arrow.png');
@@ -98,11 +98,17 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
                   <div className={styles.rowInfos}>
                     <span className={styles.line}>
                       <div className={styles.lineMain}>
-                        {item.startTruck}
-                        &nbsp;
-                        <img src={arrow} alt="" />
-                        &nbsp;
-                        {item.endTruck}
+                        {/* {item.startTruck} */}
+                        <p className={styles.startTruck}>
+                          义乌&nbsp;
+                          <img src={arrow} alt="" />
+                          &nbsp;
+                        </p>
+                        <p className={styles.endTruck}>
+                          <Tooltip placement="top" title={item.endTruck}>
+                            <p>{item.endTruck}</p>
+                          </Tooltip>
+                        </p>
                       </div>
                     </span>
                     <span className={styles.voyage}>{item.days}天</span>

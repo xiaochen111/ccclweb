@@ -14,7 +14,7 @@ import {
 // 用户token
 export const SetGlobalToken = (token: string) => SetLocalStorage('globalToken', token);
 export const GetGlobalToken = () => GetLocalStorage('globalToken');
-export const RemoveGlobalToken = () => RemoveSessionStorage('globalToken');
+export const RemoveGlobalToken = () => RemoveLocalStorage('globalToken');
 
 // 用户登录信息
 export const SetAccountInfo = (info: any) => SetSessionStorage('accountInfo', info);
