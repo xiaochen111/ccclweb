@@ -168,23 +168,23 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
                 {getFieldDecorator('name')(<TextArea placeholder="请输入备注" rows={4} />)}
               </Form.Item>
             </Card>
-            <Form.Item className={styles.agreement}>
+            {/* <Form.Item className={styles.agreement}>
               {getFieldDecorator('phoneNum', {
                 rules: [{ required: true, message: '请同意会员协议' }],
               })(<Checkbox checked={true} />)}
               <span className={styles.desc}>环球义达委托协议</span>
-            </Form.Item>
-            <Form.Item>
+            </Form.Item> */}
+            {/* <Form.Item>
               <Button type="primary" className={styles.submitBtn}>
                 提交委托
               </Button>
-            </Form.Item>
+            </Form.Item> */}
           </Form>
         </div>
         <div
           className={`${styles.instructions} ${isSticky ? styles.sticky : ''}`}
           ref={node => (this.ref = node)}
-          style={{ right: isSticky ? 10 : 10 }}
+          // style={{ right: isSticky ? 40 : 40 }}
         >
           <Card title="费用说明" bordered={false}>
             <p>
@@ -202,6 +202,17 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
               </span>
             </div>
           </Card>
+          <Form>
+            <Form.Item className={styles.agreement}>
+              {getFieldDecorator('phoneNum', {
+                rules: [{ required: true, message: '请同意会员协议' }],
+              })(<Checkbox checked={true} />)}
+              <span className={styles.desc}>环球义达委托协议</span>
+            </Form.Item>
+          </Form>
+          <Button type="primary" className={styles.submitBtn}>
+            提交委托
+          </Button>
         </div>
       </div>
     );

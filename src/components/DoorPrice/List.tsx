@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Pagination, Icon } from 'antd';
+import { Pagination, Icon, Empty, Spin } from 'antd';
 import router from 'umi/router';
 import styles from './List.scss';
 const arrow = require('../../assets/img/arrow.png');
@@ -10,6 +10,8 @@ export interface DoorPriceListProps {
   sortInstance: string;
   orderBy: string;
   onSort: (params: any) => void;
+  onClickOrder: () => void;
+  tableLoading?: boolean;
 }
 
 class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
@@ -43,14 +45,6 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
     },
   ];
 
-  handleSubmit = params => {
-    // this.props.onSearchSubmit(params);
-  };
-
-  linkToOrder = () => {
-    router.push('/door/place-order');
-  };
-
   changeSort = key => {
     const sortColums = ['sort', 'asc', 'desc'];
     const { sortInstance } = this.props;
@@ -65,75 +59,87 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
   };
 
   render() {
-    const { dataSource, total, sortInstance, orderBy } = this.props;
+    const {
+      dataSource,
+      total,
+      sortInstance,
+      orderBy,
+      tableLoading = false,
+      onClickOrder,
+    } = this.props;
 
     return (
-      <div className={styles.container}>
-        <div className={styles.tableContainer}>
-          <div className={styles.tableHeader}>
-            {this.columns.map((item, index) => (
-              <span key={item.key}>
-                {item.title}&nbsp;
-                {index > 0 ? (
-                  <span style={{ cursor: 'pointer' }} onClick={() => this.changeSort(item.key)}>
-                    <img
-                      src={
-                        item.key === sortInstance
-                          ? require(`../../assets/img/${orderBy}.png`)
-                          : require('../../assets/img/sort.png')
-                      }
-                      alt=""
-                    />
-                  </span>
-                ) : (
-                  ''
-                )}
-              </span>
-            ))}
-          </div>
-          <ul className={styles.tableBody}>
-            {dataSource &&
-              dataSource.map((item, index) => (
-                <li key={index} className={styles.tableItem}>
-                  <div className={styles.rowInfos}>
-                    <span className={styles.line}>
-                      <div className={styles.lineMain}>
-                        {item.startTruck}
-                        &nbsp;
-                        <img src={arrow} alt="" />
-                        &nbsp;
-                        {item.endTruck}
-                      </div>
+      <Spin spinning={tableLoading}>
+        <div className={styles.container}>
+          <div className={styles.tableContainer}>
+            <div className={styles.tableHeader}>
+              {this.columns.map((item, index) => (
+                <span key={item.key}>
+                  {item.title}&nbsp;
+                  {index > 0 ? (
+                    <span style={{ cursor: 'pointer' }} onClick={() => this.changeSort(item.key)}>
+                      <img
+                        src={
+                          item.key === sortInstance
+                            ? require(`../../assets/img/${orderBy}.png`)
+                            : require('../../assets/img/sort.png')
+                        }
+                        alt=""
+                      />
                     </span>
-                    <span className={styles.voyage}>{item.days}天</span>
-                    <span className={styles.price}>${item.cbm}</span>
-                    <span className={styles.price}>${item.kgs}</span>
-                    <span className={styles.total}>10000</span>
-                    <span>
-                      <span className={styles.btn} onClick={this.linkToOrder}>
-                        下单
-                      </span>
-                    </span>
-                  </div>
-                  <div className={styles.expandeContent}>
-                    <span style={{ marginRight: 50 }} className={styles.validityTime}>
-                      有效船期 : {item.startTime} 至 {item.endTime}
-                    </span>
-                    <span>
-                      <Icon type="exclamation-circle" theme="filled" /> {item.remarkOut}
-                    </span>
-                  </div>
-                </li>
+                  ) : (
+                    ''
+                  )}
+                </span>
               ))}
-          </ul>
+            </div>
+            <ul className={styles.tableBody}>
+              {dataSource && dataSource.length ? (
+                dataSource.map((item, index) => (
+                  <li key={index} className={styles.tableItem}>
+                    <div className={styles.rowInfos}>
+                      <span className={styles.line}>
+                        <div className={styles.lineMain}>
+                          {item.startTruck}
+                          &nbsp;
+                          <img src={arrow} alt="" />
+                          &nbsp;
+                          {item.endTruck}
+                        </div>
+                      </span>
+                      <span className={styles.voyage}>{item.days}天</span>
+                      <span className={styles.price}>${item.cbm}</span>
+                      <span className={styles.price}>${item.kgs}</span>
+                      <span className={styles.total}>10000</span>
+                      <span>
+                        <span className={styles.btn} onClick={onClickOrder}>
+                          下单
+                        </span>
+                      </span>
+                    </div>
+                    <div className={styles.expandeContent}>
+                      <span style={{ marginRight: 50 }} className={styles.validityTime}>
+                        有效船期 : {item.startTime} 至 {item.endTime}
+                      </span>
+                      <span>
+                        <Icon type="exclamation-circle" theme="filled" /> {item.remarkOut}
+                      </span>
+                    </div>
+                  </li>
+                ))
+              ) : (
+                <Empty style={{ padding: 40 }} description="暂无数据" />
+              )}
+            </ul>
+          </div>
+          <div className={styles.paginationContainer}>
+            <span className={styles.total}>
+              共<strong>{total}</strong>条
+            </span>
+            <Pagination showQuickJumper showSizeChanger total={total} />
+          </div>
         </div>
-        <div className={styles.paginationContainer}>
-          <span className={styles.total}>
-            共<strong>{total}</strong>条
-          </span>
-          <Pagination showQuickJumper showSizeChanger total={total} />
-        </div>
-      </div>
+      </Spin>
     );
   }
 }
