@@ -1,12 +1,66 @@
 import React, { PureComponent } from 'react';
+import { Dispatch, AnyAction } from 'redux';
+import { connect } from 'dva';
 import PageWrapper from '@/components/PageWrapper';
-import DoorPlaceOrder from '@/components/DoorPrice/Order';
+import DoorPlaceOrder, { RegisterProps } from '@/components/DoorPrice/Order';
 
-class DoorPlaceOrderPage extends PureComponent<any, any> {
+interface IProps extends RegisterProps {
+  dispatch: Dispatch<AnyAction>;
+  match?: any;
+  lclOrderInfo: any;
+}
+interface IState {
+  id: string;
+}
+
+@connect(({ loading, door }) => ({
+  lclOrderInfo: door.lclOrderInfo,
+  pageLoading: loading.global,
+}))
+class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
+  state = {
+    id: this.props.match.params && this.props.match.params.id,
+  };
+
+  componentDidMount() {
+    const { id } = this.state;
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'door/getLclDetail',
+      payload: {
+        freightLclId: id,
+        kgs: 1,
+      },
+    });
+
+    dispatch({
+      type: 'global/getGlobalPackageTypeList',
+    });
+  }
+
+  handleSubmit = params => {
+    const { id } = this.state;
+    const { dispatch } = this.props;
+    dispatch({
+      type: 'door/orderSubmit',
+      payload: {
+        ...params,
+        freightLclId: id,
+      },
+    });
+  };
+
   render() {
+    const { pageLoading, lclOrderInfo } = this.props;
+
     return (
       <PageWrapper>
-        <DoorPlaceOrder />
+        <DoorPlaceOrder
+          pageLoading={pageLoading}
+          defaultInfo={lclOrderInfo}
+          onSubmit={this.handleSubmit}
+        />
       </PageWrapper>
     );
   }

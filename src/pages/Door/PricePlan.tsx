@@ -81,8 +81,8 @@ export class PricePlan extends Component<IProps, IState> {
     });
   };
 
-  handleLinkToOrder = () => {
-    router.push('/door/place-order');
+  handleLinkToOrder = info => {
+    router.push(`/door/place-order/${info.id}`);
   };
 
   handleSearchSubmit = params => {

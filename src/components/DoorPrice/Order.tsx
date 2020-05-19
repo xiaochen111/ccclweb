@@ -1,11 +1,51 @@
 import React, { PureComponent } from 'react';
-import { Form, Card, Upload, Icon, Row, Col, Input, Select, Badge, Checkbox, Button } from 'antd';
+import {
+  Form,
+  Card,
+  Upload,
+  Icon,
+  Row,
+  Col,
+  Input,
+  Select,
+  Badge,
+  Checkbox,
+  Button,
+  DatePicker,
+} from 'antd';
+import PageLoading from '@/components/PageLoading';
 import { FormComponentProps } from 'antd/lib/form';
+import REGEX from '@/utils/regex';
 import styles from './Order.scss';
 
 const { TextArea } = Input;
 
-interface RegisterProps extends FormComponentProps {}
+export interface RegisterProps extends FormComponentProps {
+  pageLoading?: boolean;
+  defaultInfo: any;
+  onSubmit: (params: any) => void;
+}
+
+interface ParamsState {
+  startTruck: string; //收货地点(国内门点)
+  endTruck: string; //海外城市(交货地)
+  totalPrice: number; //参考价
+  goodsType?: string; //品名
+  totalPiece?: number; //货物总件数
+  totalKgs?: number; //货物总重量
+  totalCbm?: number; //货物总体积
+  deliveryDate?: string; //预计送货日期
+  file: string; //附件ID
+  packageType?: string; //包装类型
+  // contactCompanyName?: string; //委托人信息-公司名称
+  contact?: string; //委托人信息-联系人
+  contactTel: string; //委托人信息-联系人电话
+  contactEmail?: string; //委托人信息-联系人邮箱
+  portEndAddress?: string; //目的港送货地址
+  supplierName?: string; //供应商
+  remark?: string; //备注
+  // createId?: string;
+}
 
 class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
   ref: any;
@@ -36,10 +76,94 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
     });
   };
 
+  handleSubmit = () => {
+    const {
+      defaultInfo,
+      form: { validateFields },
+      onSubmit,
+    } = this.props;
+
+    validateFields((err, values) => {
+      if (!err) {
+        const { startTruck, endTruck, totalPrice } = defaultInfo;
+
+        const {
+          fileList,
+          goodsType,
+          packageType,
+          deliveryDate,
+          totalKgs,
+          totalCbm,
+          contact,
+          contactTel,
+          contactEmail,
+          portEndAddress,
+          remark,
+        } = values;
+
+        let file = fileList
+          .filter(o => o.response && o.response.code === '1')
+          .map(item => item.response.resMap.fileId)
+          .join(',');
+
+        const params: ParamsState = {
+          startTruck,
+          endTruck,
+          totalPrice,
+          file,
+          contactTel,
+        };
+
+        if (goodsType) {
+          params['goodsType'] = goodsType;
+        }
+        if (packageType) {
+          params['packageType'] = packageType;
+        }
+        if (deliveryDate) {
+          params['deliveryDate'] = deliveryDate;
+        }
+        if (totalKgs) {
+          params['totalKgs'] = totalKgs;
+        }
+        if (totalCbm) {
+          params['totalCbm'] = totalCbm;
+        }
+        if (contact) {
+          params['contact'] = contact;
+        }
+        if (totalCbm) {
+          params['totalCbm'] = totalCbm;
+        }
+        if (contactEmail) {
+          params['contactEmail'] = contactEmail;
+        }
+        if (portEndAddress) {
+          params['portEndAddress'] = portEndAddress;
+        }
+        if (remark) {
+          params['remark'] = remark;
+        }
+        console.log(params, '1');
+        onSubmit(params);
+      }
+    });
+  };
+
+  normFile = e => {
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
   render() {
     const {
       form: { getFieldDecorator },
+      pageLoading,
+      defaultInfo = {},
     } = this.props;
+    if (!defaultInfo) return <PageLoading />;
     const { isSticky, fixedRight } = this.state;
 
     return (
@@ -58,22 +182,25 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
                 </span>
                 <div className={styles.right}>
                   <span className={styles.addressTitle}>收货地</span>
-                  <span className={styles.addressText}>WARSZAWA</span>
+                  <span className={styles.addressText}>{defaultInfo.endTruck}</span>
                 </div>
               </div>
               <div className={styles.subContent}>
-                <Badge status="processing" text="有效船期 : 2020-02-10 至2020-02-20" />
-                <Badge status="processing" text="有效信息 : 有效备注有效备注备注备注备注……" />
+                <Badge
+                  status="processing"
+                  text={`有效船期 : ${defaultInfo.startTime} 至${defaultInfo.endTime}`}
+                />
+                <Badge status="processing" text={`有效信息 :${defaultInfo.remarkOut}`} />
               </div>
               <div className={styles.priceInfo}>
                 <h5>单价:</h5>
                 <div className={styles.priceContent}>
                   <div className={styles.info}>
                     <span>
-                      CBM <strong>$20.00</strong>
+                      CBM <strong>{defaultInfo.cbm}</strong>
                     </span>
                     <span>
-                      TON <strong>$400.00</strong>
+                      KGS <strong>{defaultInfo.kgs}</strong>
                     </span>
                   </div>
                   <p>注：费用按照1:40（KGS数值/400和体积取最大值计费）</p>
@@ -84,11 +211,12 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
           <Form layout="vertical">
             <Card title="附件上传" bordered={false} style={{ marginTop: 30 }}>
               <Form.Item>
-                {getFieldDecorator('dragger', {
+                {getFieldDecorator('fileList', {
                   rules: [{ required: true, message: '请上传文件' }],
                   valuePropName: 'fileList',
+                  getValueFromEvent: this.normFile,
                 })(
-                  <Upload.Dragger name="files" action="/upload.do">
+                  <Upload.Dragger action="/api/web/lcl/upload.do">
                     <p className="ant-upload-drag-icon">
                       <Icon type="cloud-download" />
                     </p>
@@ -101,36 +229,40 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
               <Row>
                 <Col span={24}>
                   <Form.Item label="货物品名（可填写多条）">
-                    {getFieldDecorator('name')(<TextArea placeholder="请输入货物品名" rows={4} />)}
+                    {getFieldDecorator('goodsType')(
+                      <TextArea placeholder="请输入货物品名" rows={4} />,
+                    )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={22}>
                 <Col span={8}>
                   <Form.Item label="包装类型">
-                    {getFieldDecorator('name')(<Select placeholder="请输入包装类型" />)}
+                    {getFieldDecorator('packageType')(<Select placeholder="请输入包装类型" />)}
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item label="货物总件数">
-                    {getFieldDecorator('name')(<Input placeholder="请输入货物总件数" />)}
+                    {getFieldDecorator('totalPiece')(<Input placeholder="请输入货物总件数" />)}
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item label="预计送货日">
-                    {getFieldDecorator('name')(<Input placeholder="请输入预计送货日" />)}
+                    {getFieldDecorator('deliveryDate')(
+                      <DatePicker placeholder="请输入预计送货日" />,
+                    )}
                   </Form.Item>
                 </Col>
               </Row>
               <Row gutter={22}>
                 <Col span={8}>
                   <Form.Item label="货物总量（KGS）">
-                    {getFieldDecorator('name')(<Select placeholder="请输入货物总量" />)}
+                    {getFieldDecorator('totalKgs')(<Input placeholder="请输入货物总量" />)}
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item label="货物总体积（CBM）">
-                    {getFieldDecorator('name')(<Input placeholder="请输入货物总体积" />)}
+                    {getFieldDecorator('totalCbm')(<Input placeholder="请输入货物总体积" />)}
                   </Form.Item>
                 </Col>
               </Row>
@@ -139,24 +271,29 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
               <Row gutter={22}>
                 <Col span={8}>
                   <Form.Item label="联系人">
-                    {getFieldDecorator('name')(<Input placeholder="请输入联系人姓名" />)}
+                    {getFieldDecorator('contact')(<Input placeholder="请输入联系人姓名" />)}
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item label="手机">
-                    {getFieldDecorator('name')(<Input placeholder="请输入手机号" />)}
+                    {getFieldDecorator('contactTel', {
+                      rules: [
+                        { required: true, message: '请输入手机号' },
+                        { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
+                      ],
+                    })(<Input placeholder="请输入手机号" />)}
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item label="邮箱">
-                    {getFieldDecorator('name')(<Input placeholder="请输入邮箱" />)}
+                    {getFieldDecorator('contactEmail')(<Input placeholder="请输入邮箱" />)}
                   </Form.Item>
                 </Col>
               </Row>
               <Row>
                 <Col span={24}>
                   <Form.Item label="发货人地址">
-                    {getFieldDecorator('name')(
+                    {getFieldDecorator('portEndAddress')(
                       <TextArea placeholder="请输入发货人地址" rows={4} />,
                     )}
                   </Form.Item>
@@ -165,20 +302,9 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
             </Card>
             <Card title="备注" bordered={false} style={{ marginTop: 30 }}>
               <Form.Item>
-                {getFieldDecorator('name')(<TextArea placeholder="请输入备注" rows={4} />)}
+                {getFieldDecorator('remark')(<TextArea placeholder="请输入备注" rows={4} />)}
               </Form.Item>
             </Card>
-            {/* <Form.Item className={styles.agreement}>
-              {getFieldDecorator('phoneNum', {
-                rules: [{ required: true, message: '请同意会员协议' }],
-              })(<Checkbox checked={true} />)}
-              <span className={styles.desc}>环球义达委托协议</span>
-            </Form.Item> */}
-            {/* <Form.Item>
-              <Button type="primary" className={styles.submitBtn}>
-                提交委托
-              </Button>
-            </Form.Item> */}
           </Form>
         </div>
         <div
@@ -197,20 +323,21 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
             <div className={styles.price}>
               <span className={styles.text}>总价</span>
               <span className={styles.num}>
-                <span>1260.00</span>
-                <span className={styles.symbol}>USD</span>
+                <span>{defaultInfo.totalPrice}</span>
+                <span className={styles.symbol}>{defaultInfo.currency}</span>
               </span>
             </div>
           </Card>
           <Form>
             <Form.Item className={styles.agreement}>
               {getFieldDecorator('phoneNum', {
+                valuePropName: 'checked',
                 rules: [{ required: true, message: '请同意会员协议' }],
-              })(<Checkbox checked={true} />)}
+              })(<Checkbox />)}
               <span className={styles.desc}>环球义达委托协议</span>
             </Form.Item>
           </Form>
-          <Button type="primary" className={styles.submitBtn}>
+          <Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
             提交委托
           </Button>
         </div>
@@ -219,4 +346,4 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
   }
 }
 
-export default Form.create()(DoorPlaceOrder);
+export default Form.create<RegisterProps>()(DoorPlaceOrder);

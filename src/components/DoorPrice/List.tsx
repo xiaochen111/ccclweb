@@ -10,7 +10,7 @@ export interface DoorPriceListProps {
   sortInstance: string;
   orderBy: string;
   onSort: (params: any) => void;
-  onClickOrder: () => void;
+  onClickOrder: (params: any) => void;
   tableLoading?: boolean;
 }
 
