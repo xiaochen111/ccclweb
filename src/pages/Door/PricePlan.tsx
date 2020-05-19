@@ -82,7 +82,10 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleLinkToOrder = info => {
-    router.push(`/door/place-order/${info.id}`);
+    console.log('PricePlan -> info', info);
+    if (info && info.id) {
+      router.push(`/door/place-order/${info.id}`);
+    }
   };
 
   handleSearchSubmit = params => {

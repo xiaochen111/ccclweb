@@ -124,7 +124,7 @@ class DoorPriceListPage extends PureComponent<DoorPriceListProps, any> {
                         ${item.totalPrice}
                       </div>
                       <div className={`${styles.ColumsWidth}`}>
-                        <span className={styles.btn} onClick={onClickOrder}>
+                        <span className={styles.btn} onClick={() => onClickOrder(item)}>
                           下单
                         </span>
                       </div>
