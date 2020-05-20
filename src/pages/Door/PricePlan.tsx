@@ -10,6 +10,8 @@ import { stringify } from 'qs';
 
 import PageWrapper from '@/components/PageWrapper';
 import DoorPriceList from '@/components/DoorPrice/List';
+import { GetGlobalToken } from '../../utils/cache';
+import { message } from 'antd';
 
 interface IProps extends StateType {
   dispatch: Dispatch<AnyAction>;
@@ -83,6 +85,11 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleLinkToOrder = info => {
+    if (!GetGlobalToken()) {
+      message.warn('下单需要登录，请先登录');
+      router.replace('/login');
+      return;
+    }
     if (info && info.id) {
       router.push({
         pathname: `/door/place-order/${info.id}`,

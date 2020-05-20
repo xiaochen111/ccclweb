@@ -2,14 +2,17 @@ import { Reducer } from 'redux';
 import { Effect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
+import { bargainPrice } from '@/services/global';
 
-export interface StateType {}
+export interface StateType {
+  priceList: Array<any>;
+}
 
 export interface HomeModelType {
   namespace: string;
   state: StateType;
   effects: {
-    getCountryDrop: Effect;
+    getBargainPrice: Effect;
   };
   reducers: {};
 }
@@ -17,19 +20,29 @@ export interface HomeModelType {
 const Model: HomeModelType = {
   namespace: 'home',
 
-  state: {},
+  state: {
+    priceList: [],
+  },
 
   effects: {
-    *getCountryDrop({ payload }, { call, put }) {},
+    *getBargainPrice({ payload }, { call, put }) {
+      const response = yield call(bargainPrice);
+      if (response && response.code === '1') {
+        yield put({
+          type: 'setPriceList',
+          payload: response.resMap.list,
+        });
+      }
+    },
   },
 
   reducers: {
-    // setDropCountry(state, { payload }) {
-    //   return {
-    //     ...state,
-    //     dropCountry: payload,
-    //   };
-    // },
+    setPriceList(state, { payload }) {
+      return {
+        ...state,
+        priceList: payload,
+      };
+    },
   },
 };
 
