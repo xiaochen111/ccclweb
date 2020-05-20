@@ -6,7 +6,7 @@ const path = require('path');
 const config: IConfig = {
   treeShaking: true,
   routes: pageRoutes,
-  publicPath: '/',
+  publicPath: process.env.NODE_ENV === 'development' ? '/' : '/cccl/',
   plugins: [
     // ref: https://umijs.org/plugin/umi-plugin-react.html
     [
