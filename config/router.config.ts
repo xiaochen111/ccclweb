@@ -32,6 +32,18 @@ export default [
         ],
       },
       {
+        path: '/control/general',
+        icon: 'area-chart',
+        name: '常用信息',
+        routes: [
+          {
+            path: '/control/general/adress',
+            name: '我的订单',
+            component: './GeneralInfo/Address/index',
+          },
+        ],
+      },
+      {
         path: '/control/system',
         icon: 'setting',
         name: '系统中心',
