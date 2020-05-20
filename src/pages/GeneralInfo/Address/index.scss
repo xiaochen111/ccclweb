@@ -4,6 +4,9 @@
     font-size: 20px;
     line-height: 90px;
     color: #333;
+    a {
+      color: #333;
+    }
   }
 }
 
@@ -39,4 +42,23 @@
       background-color: linear-gradient(46deg, #0d46ef 0%, #16a5ff 100%);
     }
   }
+}
+
+.editMain {
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 0px 2px 10px 4px rgba(193, 193, 193, 0.15);
+  border-radius: 4px;
+  padding: 40px 0;
+}
+
+.default {
+  width: 24px;
+  height: 14px;
+  font-size: 12px;
+  color: rgba(37, 86, 242, 1);
+  line-height: 14px;
+  padding: 2px 5px;
+  border-radius: 3px;
+  margin-right: 10px;
+  border: 1px solid rgba(37, 86, 242, 1);
 }

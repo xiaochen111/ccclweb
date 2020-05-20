@@ -172,17 +172,20 @@ class HomePage extends Component<IProps, any> {
 
   render() {
     const arrList = [1, 1, 1, 1, 1, 1, 1, 1];
+    const bannerList = [1, 2, 3];
+    const bannerListPic = bannerList.map(item => require(`../../assets/img/banner${item}.png`));
     return (
       <main className={styles.conatiner}>
         <Broadside />
         <div className={styles.banner}>
           <Carousel>
-            <div>
-              <h3>1</h3>
-            </div>
-            <div>
-              <h3>2</h3>
-            </div>
+            {bannerListPic.map((item, index) => (
+              <div key={index}>
+                <div style={{ background: `url(${item}) center` }}>
+                  <h3>&nbsp;</h3>
+                </div>
+              </div>
+            ))}
           </Carousel>
           {this.searchPanel()}
         </div>
