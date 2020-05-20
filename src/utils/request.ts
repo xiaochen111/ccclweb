@@ -32,7 +32,7 @@ const codeMessage: any = {
  */
 const errorHandler = (error: { response: Response }): Response => {
   const { response } = error;
-
+  console.log(response, 'response');
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
