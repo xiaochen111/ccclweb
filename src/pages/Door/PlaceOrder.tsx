@@ -8,7 +8,6 @@ import {
   Card,
   Upload,
   Icon,
-  Table,
   Input,
   AutoComplete,
   Badge,
@@ -19,6 +18,7 @@ import {
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import PageLoading from '@/components/PageLoading';
+import StandardTable from '@/components/StandardTable';
 import { GetPageQuery } from '@/utils/utils';
 import { GetAccountInfo } from '@/utils/cache';
 import REGEX from '@/utils/regex';
@@ -43,6 +43,8 @@ interface IState {
   visible: boolean;
   addressPageNo: number;
   addressPageSize: number;
+  selectedRowKeys: any[];
+  selectedRows: any[];
 }
 
 interface ParamsState {
@@ -81,6 +83,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     visible: false,
     addressPageNo: 1,
     addressPageSize: 10,
+    selectedRowKeys: [],
+    selectedRows: [],
   };
 
   private ref: any;
@@ -138,15 +142,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
     dispatch({
       type: 'address/getContactAddress',
-      payload: params,
+      // payload: params,
     });
-
-    // if (res) {
-    //   this.setState({
-    //     selectedRowKeys: [],
-    //     selectedRows: [],
-    //   });
-    // }
   };
 
   handlePageScroll = () => {
@@ -167,6 +164,23 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       payload: { name: value },
     });
   }, 500);
+
+  handleTabelChange = pagination => {
+    this.setState(
+      {
+        addressPageNo: pagination.current,
+      },
+      this.getAddressList,
+    );
+  };
+
+  handleRowSelectionChange = (selectedRowKeys, selectedRows) => {
+    // console.log(selectedRowKeys, selectedRows);
+    this.setState({
+      selectedRowKeys,
+      selectedRows,
+    });
+  };
 
   handleSubmit = () => {
     const { id } = this.state;
@@ -259,15 +273,37 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   };
 
   render() {
-    const { isSticky, routeType, fixedRight, visible } = this.state;
+    const {
+      isSticky,
+      routeType,
+      fixedRight,
+      visible,
+      addressPageNo,
+      addressPageSize,
+      selectedRowKeys,
+    } = this.state;
 
     const {
       lclOrderInfo,
       globalPackageTypeList,
       form: { getFieldDecorator },
+      addressList,
+      addressTotal,
     } = this.props;
 
     if (!lclOrderInfo) return <PageLoading />;
+
+    const pagination = {
+      total: addressTotal,
+      current: addressPageNo,
+      pageSize: addressPageSize,
+    };
+
+    const rowSelection = {
+      type: 'radio',
+      selectedRowKeys,
+      onChange: this.handleRowSelectionChange,
+    };
 
     return (
       <div
@@ -499,7 +535,17 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             </Row>
           </div>
 
-          <Table size={'middle'} columns={this.columns} dataSource={[]} scroll={{ y: 490 }} />
+          <StandardTable
+            rowKey={'createTime'}
+            size={'middle'}
+            columns={this.columns}
+            dataSource={addressList}
+            // loading={tableLoading}
+            pagination={pagination}
+            rowSelection={rowSelection}
+            onChange={this.handleTabelChange}
+            scroll={{ y: 450 }}
+          />
         </Modal>
       </div>
     );
