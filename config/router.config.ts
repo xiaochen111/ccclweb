@@ -40,8 +40,14 @@ export default [
         routes: [
           {
             path: '/control/general/adress',
-            name: '我的订单',
+            name: '目的港送货地址',
             component: './GeneralInfo/Address/index',
+          },
+          {
+            path: '/control/general/action:id?',
+            hideInMenu: true,
+            name: '目的港送货地址',
+            component: './GeneralInfo/Address/action',
           },
         ],
       },
