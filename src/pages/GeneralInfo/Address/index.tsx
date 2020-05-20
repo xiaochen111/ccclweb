@@ -30,8 +30,8 @@ interface IProps extends FormComponentProps, StateType {
 }))
 export class index extends Component<IProps, IState> {
   state = {
-    pageNo: 0,
-    pageSize: 0,
+    pageNo: 1,
+    pageSize: 10,
     selectedRowKeys: [],
     selectedRows: [],
   };
