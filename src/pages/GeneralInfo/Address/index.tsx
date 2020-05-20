@@ -135,14 +135,15 @@ export class index extends Component<Iprps, IState> {
   getAddressList = async () => {
     const { dispatch, form } = this.props;
     const { pageNo, pageSize } = this.state;
+    const values = form.getFieldsValue();
     const params = {
+      ...values,
       pageNo,
       pageSize,
     };
-    const values = form.getFieldsValue();
     const res = await dispatch({
       type: 'address/getContactAddress',
-      payload: values,
+      payload: params,
     });
     if (res) {
       this.setState({
