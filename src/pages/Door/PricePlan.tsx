@@ -3,19 +3,24 @@ import H from 'history';
 import { connect } from 'dva';
 import { Dispatch, AnyAction } from 'redux';
 import router from 'umi/router';
+import { Pagination, Icon, Empty, Spin, Tooltip } from 'antd';
 import { StateType } from '@/models/door';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { GetPageQuery } from '@/utils/utils';
 import { stringify } from 'qs';
 
 import PageWrapper from '@/components/PageWrapper';
-import DoorPriceList from '@/components/DoorPrice/List';
 
+const arrow = require('../../assets/img/arrow.png');
+
+import styles from './PricePlan.scss';
 interface IProps extends StateType {
   dispatch: Dispatch<AnyAction>;
   location: H.Location;
   countryDropList: any[];
   lclList: any[];
+  tableLoading?: boolean;
+  route: any;
 }
 
 interface IState {
@@ -27,9 +32,10 @@ interface IState {
   orderBy: string; // 排序方式
 }
 
-@connect(({ door, global }) => ({
+@connect(({ door, global, loading }) => ({
   lclList: door.lclList,
   totalCount: door.totalCount,
+  tableLoading: loading.global,
   countryDropList: global.countryDropList,
 }))
 export class PricePlan extends Component<IProps, IState> {
@@ -41,7 +47,38 @@ export class PricePlan extends Component<IProps, IState> {
 
     sortInstance: '',
     orderBy: '',
+    routeType: this.props.route.type ? this.props.route.type : '',
   };
+
+  private index = 1;
+
+  private columns = [
+    {
+      title: '线路',
+      key: 'a',
+      width: '35%',
+    },
+    {
+      title: '航程',
+      key: 'days',
+      width: '13%',
+    },
+    {
+      title: 'CBM',
+      key: 'TOSS_PRICE_STANDRD',
+      width: '13%',
+    },
+    {
+      title: 'KGS',
+      key: 'HEAVY_PRICE_STANDRDd',
+      width: '13%',
+    },
+    {
+      title: 'TOTAL',
+      key: 'TOTAL',
+      width: '13%',
+    },
+  ];
 
   componentDidMount() {
     const params = GetPageQuery();
@@ -83,9 +120,11 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleLinkToOrder = info => {
+    const { routeType } = this.state;
+
     if (info && info.id) {
       router.push({
-        pathname: `/door/place-order/${info.id}`,
+        pathname: routeType ? `/control/mdoor-order/${info.id}` : `/door/place-order/${info.id}`,
         search: stringify({
           cbm: info.cbm,
           kgs: info.kgs,
@@ -107,41 +146,132 @@ export class PricePlan extends Component<IProps, IState> {
     );
   };
 
-  handleListSort = values => {
-    const { sortInstance, orderBy, orderByClause } = values;
+  handleListSort = key => {
+    const sortColums = ['sort', 'asc', 'desc'];
+    const { sortInstance } = this.state;
+    this.index = sortInstance !== key ? 1 : this.index >= 2 ? 0 : ++this.index;
+    let orderType = sortInstance !== key ? sortColums[1] : sortColums[this.index];
 
     this.setState(
       {
-        sortInstance,
-        orderBy,
-        orderByClause,
+        sortInstance: key,
+        orderBy: orderType,
+        orderByClause: orderType === 'sort' ? '' : `${key} ${orderType}`,
       },
       this.handleGetLclList,
     );
   };
 
   render() {
-    const { lclList, totalCount, countryDropList } = this.props;
-    const { sortInstance, orderBy, endTruck, kgs, cbm } = this.state;
+    const { lclList, totalCount, countryDropList, tableLoading } = this.props;
+    const { sortInstance, orderBy, endTruck, kgs, cbm, routeType } = this.state;
     const searchDefaultValue = { endTruck, kgs, cbm };
 
     return (
-      <PageWrapper>
+      <div
+        style={
+          routeType
+            ? { width: '100%', padding: '0 20px' }
+            : { width: 1200, margin: '0 auto', padding: 20 }
+        }
+      >
         <SearchCondition
           countryDropList={countryDropList}
           submit={this.handleSearchSubmit}
           isMultiRow={searchType.pricePlan}
           defaultValue={searchDefaultValue}
         />
-        <DoorPriceList
-          sortInstance={sortInstance}
-          orderBy={orderBy}
-          dataSource={lclList}
-          total={totalCount}
-          onSort={this.handleListSort}
-          onClickOrder={this.handleLinkToOrder}
-        />
-      </PageWrapper>
+        <Spin spinning={tableLoading}>
+          <div className={styles.container}>
+            <div className={styles.tableContainer}>
+              <div className={styles.tableHeader}>
+                {this.columns.map((item, index) => (
+                  <div className={styles.ColumsWidth} key={item.key}>
+                    {item.title}&nbsp;
+                    {index > 0 ? (
+                      <span
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => this.handleListSort(item.key)}
+                      >
+                        <img
+                          src={
+                            item.key === sortInstance
+                              ? require(`../../assets/img/${orderBy}.png`)
+                              : require('../../assets/img/sort.png')
+                          }
+                          alt=""
+                        />
+                      </span>
+                    ) : (
+                      ''
+                    )}
+                  </div>
+                ))}
+              </div>
+              <ul className={styles.tableBody}>
+                {lclList && lclList.length ? (
+                  lclList.map((item, index) => (
+                    <li key={index} className={styles.tableItem}>
+                      <div className={styles.rowInfos}>
+                        <div className={`${styles.line} ${styles.ColumsWidth}`}>
+                          <div className={styles.lineMain}>
+                            {/* {item.startTruck} */}
+                            <div className={styles.startTruck}>
+                              义乌&nbsp;
+                              <img src={arrow} alt="" />
+                              &nbsp;
+                            </div>
+                            <p className={styles.endTruck}>
+                              <Tooltip placement="top" title={item.endTruck}>
+                                <span>{item.endTruck}</span>
+                              </Tooltip>
+                            </p>
+                          </div>
+                        </div>
+                        <div className={`${styles.voyage} ${styles.ColumsWidth}`}>
+                          {item.days}天
+                        </div>
+                        <div className={`${styles.price} ${styles.ColumsWidth}`}>
+                          ${item.tossStandsPrice}
+                        </div>
+                        <div className={`${styles.price} ${styles.ColumsWidth}`}>
+                          ${item.heavyStandsPrice}
+                        </div>
+                        <div className={`${styles.total} ${styles.ColumsWidth}`}>
+                          ${item.totalPrice}
+                        </div>
+                        <div className={`${styles.ColumsWidth}`}>
+                          <span className={styles.btn} onClick={() => this.handleLinkToOrder(item)}>
+                            下单
+                          </span>
+                        </div>
+                      </div>
+                      <div className={styles.expandeContent}>
+                        <div style={{ width: '40%' }}>
+                          <span style={{ marginRight: 50 }} className={styles.validityTime}>
+                            有效船期 : {item.startTime} 至 {item.endTime}
+                          </span>
+                        </div>
+                        <span>
+                          <Icon type="exclamation-circle" theme="filled" /> {item.remarkOut}
+                        </span>
+                      </div>
+                    </li>
+                  ))
+                ) : (
+                  <Empty style={{ padding: 40 }} description="暂无数据" />
+                )}
+              </ul>
+            </div>
+            <div className={styles.paginationContainer}>
+              <span className={styles.total}>
+                共<strong>{totalCount}</strong>条
+              </span>
+              <Pagination showQuickJumper showSizeChanger total={totalCount} />
+            </div>
+          </div>
+        </Spin>
+      </div>
     );
   }
 }
