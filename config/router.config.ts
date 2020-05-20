@@ -12,7 +12,7 @@ export default [
         path: '/control/mdoor',
         icon: 'area-chart',
         name: '门到门专区',
-        component: './Mdoor/index',
+        component: './Door/PricePlan',
         type: 'backend',
       },
       {

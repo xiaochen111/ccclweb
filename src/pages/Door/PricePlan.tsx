@@ -9,7 +9,8 @@ import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { GetPageQuery } from '@/utils/utils';
 import { stringify } from 'qs';
 
-import PageWrapper from '@/components/PageWrapper';
+import { GetGlobalToken } from '@/utils/cache';
+import { message } from 'antd';
 
 const arrow = require('../../assets/img/arrow.png');
 
@@ -30,6 +31,7 @@ interface IState {
   orderByClause: string;
   sortInstance: string;
   orderBy: string; // 排序方式
+  routeType: string;
 }
 
 @connect(({ door, global, loading }) => ({
@@ -120,9 +122,13 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleLinkToOrder = info => {
-    const { routeType } = this.state;
-
+    if (!GetGlobalToken()) {
+      message.warn('下单需要登录，请先登录');
+      router.replace('/login');
+      return;
+    }
     if (info && info.id) {
+      const { routeType } = this.state;
       router.push({
         pathname: routeType ? `/control/mdoor-order/${info.id}` : `/door/place-order/${info.id}`,
         search: stringify({

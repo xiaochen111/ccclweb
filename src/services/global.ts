@@ -33,3 +33,14 @@ export async function queryGlobalPackageTypeList(data = {}) {
     data,
   });
 }
+
+/**
+ * 获取特价
+ * @param data
+ */
+export async function bargainPrice(data = {}) {
+  return request('/api/web/lcl/special_list.do', {
+    method: 'POST',
+    data,
+  });
+}

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Row, Col, Carousel } from 'antd';
+import { Button, Row, Col, Carousel, message } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { Link, router } from 'umi';
@@ -8,6 +8,7 @@ import { stringify } from 'qs';
 import Broadside from '@/components/Broadside';
 import styles from './index.scss';
 import { StateType } from './model';
+import { GetGlobalToken } from '../../utils/cache';
 
 interface IProps {
   dispatch: Dispatch<AnyAction>;
@@ -59,6 +60,10 @@ class HomePage extends Component<IProps, any> {
     dispatch({
       type: 'global/getCountryDropList',
     });
+
+    dispatch({
+      type: 'home/getBargainPrice',
+    });
   }
 
   handleSubmit = params => {
@@ -70,7 +75,6 @@ class HomePage extends Component<IProps, any> {
 
   searchPanel = () => {
     const { countryDropList } = this.props;
-
     return (
       <div className={styles.searchPanel}>
         <p>拼箱门到门</p>
@@ -84,24 +88,43 @@ class HomePage extends Component<IProps, any> {
     );
   };
 
-  specialOfferItem = (index: number) => {
+  handleLinkToOrder = info => {
+    if (!GetGlobalToken()) {
+      message.warn('下单需要登录，请先登录');
+      router.replace('/login');
+      return;
+    }
+    if (info && info.id) {
+      router.push({
+        pathname: `/door/place-order/${info.id}`,
+        search: stringify({
+          cbm: info.cbm,
+          kgs: info.kgs,
+        }),
+      });
+    }
+  };
+
+  specialOfferItem = item => {
     return (
-      <div className={styles.SpecialOfferItem} key={index}>
+      <div className={styles.SpecialOfferItem} key={item.id}>
         <div className={styles.picPort}>
-          <p className={styles.ports}>义乌 — 俄罗斯</p>
+          <p className={styles.ports}>义乌 — {item.endTruck}</p>
         </div>
         <div className={styles.bottomPart}>
           <ul>
             <li>
               <p>CBM</p>
-              <p>$400</p>
+              <p>{item.cbm}</p>
             </li>
             <li>
               <p>CBM</p>
-              <p>$400</p>
+              <p>{item.kgs}</p>
             </li>
           </ul>
-          <Button type="primary">立即抢购</Button>
+          <Button type="primary" onClick={() => this.handleLinkToOrder(item)}>
+            立即抢购
+          </Button>
         </div>
       </div>
     );
@@ -171,9 +194,11 @@ class HomePage extends Component<IProps, any> {
   };
 
   render() {
-    const arrList = [1, 1, 1, 1, 1, 1, 1, 1];
+    const {
+      homeModelState: { priceList },
+    } = this.props;
     const bannerList = [1, 2, 3];
-    const bannerListPic = bannerList.map(item => require(`../../assets/img/banner${item}.png`));
+    const bannerListPic = bannerList.map(item => require(`../../assets/img/banner${item}.jpg`));
     return (
       <main className={styles.conatiner}>
         <Broadside />
@@ -191,7 +216,7 @@ class HomePage extends Component<IProps, any> {
         </div>
         <p className={styles.title}>专线特价区</p>
         <div className={`${styles.middleWrap} ${styles.clearfloat}`}>
-          {arrList.map((item, index) => this.specialOfferItem(index))}
+          {priceList.map((item, index) => this.specialOfferItem(item))}
         </div>
         {/* 服务优势 */}
         {this.serviceAdvantages()}

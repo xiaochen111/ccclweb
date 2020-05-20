@@ -10,6 +10,7 @@ class Broadside extends PureComponent {
     this.setState({ modal1Visible });
   }
   render() {
+    const mask = require('../../assets/img/mask.png');
     return (
       <div className={styles.broadSideMain}>
         <ul className={styles.broadSide}>
@@ -24,8 +25,15 @@ class Broadside extends PureComponent {
           </li>
         </ul>
         <Modal
+          wrapClassName={styles.wrapClassName}
           visible={this.state.modal1Visible}
-          bodyStyle={{ paddingTop: '100px', paddingBottom: '50px' }}
+          bodyStyle={{
+            paddingTop: '130px',
+            paddingBottom: '50px',
+            borderRadius: '11px',
+            overflow: 'hidden',
+            background: `url(${mask}) top no-repeat`,
+          }}
           width={890}
           onCancel={() => this.setModal1Visible(false)}
           footer={null}
