@@ -7,11 +7,12 @@ import {
   Row,
   Col,
   Input,
-  Select,
+  AutoComplete,
   Badge,
   Checkbox,
   Button,
   DatePicker,
+  Spin,
 } from 'antd';
 import PageLoading from '@/components/PageLoading';
 import { FormComponentProps } from 'antd/lib/form';
@@ -19,11 +20,13 @@ import REGEX from '@/utils/regex';
 import styles from './Order.scss';
 
 const { TextArea } = Input;
+const Option = AutoComplete.Option;
 
 export interface RegisterProps extends FormComponentProps {
-  pageLoading?: boolean;
   defaultInfo: any;
   onSubmit: (params: any) => void;
+  packageTypeData: any[];
+  packageTypeSearch: (value: any) => void;
 }
 
 interface ParamsState {
@@ -37,7 +40,7 @@ interface ParamsState {
   deliveryDate?: string; //预计送货日期
   file: string; //附件ID
   packageType?: string; //包装类型
-  // contactCompanyName?: string; //委托人信息-公司名称
+  contactCompanyName: string; //委托人信息-公司名称
   contact?: string; //委托人信息-联系人
   contactTel: string; //委托人信息-联系人电话
   contactEmail?: string; //委托人信息-联系人邮箱
@@ -94,6 +97,7 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
           deliveryDate,
           totalKgs,
           totalCbm,
+          contactCompanyName,
           contact,
           contactTel,
           contactEmail,
@@ -111,6 +115,7 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
           endTruck,
           totalPrice,
           file,
+          contactCompanyName,
           contactTel,
         };
 
@@ -160,8 +165,9 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
   render() {
     const {
       form: { getFieldDecorator },
-      pageLoading,
       defaultInfo = {},
+      packageTypeData,
+      packageTypeSearch,
     } = this.props;
     if (!defaultInfo) return <PageLoading />;
     const { isSticky, fixedRight } = this.state;
@@ -238,7 +244,15 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
               <Row gutter={22}>
                 <Col span={8}>
                   <Form.Item label="包装类型">
-                    {getFieldDecorator('packageType')(<Select placeholder="请输入包装类型" />)}
+                    {getFieldDecorator('packageType')(
+                      <AutoComplete placeholder="请选择包装类型" onSearch={packageTypeSearch}>
+                        {packageTypeData.map(d => (
+                          <Option key={d.id} value={d.nameCn}>
+                            {d.nameCn}
+                          </Option>
+                        ))}
+                      </AutoComplete>,
+                    )}
                   </Form.Item>
                 </Col>
                 <Col span={8}>
@@ -270,13 +284,24 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
             <Card title="委托人信息" bordered={false} style={{ marginTop: 30 }}>
               <Row gutter={22}>
                 <Col span={8}>
+                  <Form.Item label="公司名称">
+                    {getFieldDecorator('contactCompanyName', {
+                      initialValue: defaultInfo.companyName,
+                      rules: [{ required: true, message: '请输入公司名称' }],
+                    })(<Input placeholder="请输入公司名称" />)}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
                   <Form.Item label="联系人">
-                    {getFieldDecorator('contact')(<Input placeholder="请输入联系人姓名" />)}
+                    {getFieldDecorator('contact', {
+                      initialValue: defaultInfo.userName,
+                    })(<Input placeholder="请输入联系人姓名" />)}
                   </Form.Item>
                 </Col>
                 <Col span={8}>
                   <Form.Item label="手机">
                     {getFieldDecorator('contactTel', {
+                      initialValue: defaultInfo.phone,
                       rules: [
                         { required: true, message: '请输入手机号' },
                         { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
@@ -286,7 +311,9 @@ class DoorPlaceOrder extends PureComponent<RegisterProps, any> {
                 </Col>
                 <Col span={8}>
                   <Form.Item label="邮箱">
-                    {getFieldDecorator('contactEmail')(<Input placeholder="请输入邮箱" />)}
+                    {getFieldDecorator('contactEmail', {
+                      initialValue: defaultInfo.email,
+                    })(<Input placeholder="请输入邮箱" />)}
                   </Form.Item>
                 </Col>
               </Row>

@@ -1,5 +1,6 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
+import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import moment from 'moment';
 import { queryLclList, queryLclDetail, doOrderSubmit } from '@/services/lcl';
@@ -55,6 +56,8 @@ const model: DoorModelType = {
 
       if (response && response.code === '1') {
         message.success('委托已提交');
+
+        yield put(routerRedux.push('/control/order/my'));
       }
     },
   },
@@ -77,7 +80,6 @@ const model: DoorModelType = {
 export default model;
 
 const convertOrderInfo = info => {
-  console.log(info, '1');
   return {
     ...info,
     startTime: moment(new Date(info.startTime)).format('YYYY-MM-DD'),

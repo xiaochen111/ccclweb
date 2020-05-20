@@ -6,6 +6,7 @@ import router from 'umi/router';
 import { StateType } from '@/models/door';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { GetPageQuery } from '@/utils/utils';
+import { stringify } from 'qs';
 
 import PageWrapper from '@/components/PageWrapper';
 import DoorPriceList from '@/components/DoorPrice/List';
@@ -82,9 +83,14 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleLinkToOrder = info => {
-    console.log('PricePlan -> info', info);
     if (info && info.id) {
-      router.push(`/door/place-order/${info.id}`);
+      router.push({
+        pathname: `/door/place-order/${info.id}`,
+        search: stringify({
+          cbm: info.cbm,
+          kgs: info.kgs,
+        }),
+      });
     }
   };
 
