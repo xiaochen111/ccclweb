@@ -3,7 +3,7 @@ import { Row, Col, Form, Input, Button, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Dispatch, AnyAction } from 'redux';
 import StandardTable from '@/components/StandardTable';
-import { StateType } from '../../../models/model';
+import { StateType } from '@/models/address';
 import styles from './index.scss';
 import { connect } from 'dva';
 import { router } from 'umi';
@@ -18,7 +18,7 @@ interface IState {
   selectedRows: any[];
 }
 
-interface Iprps extends FormComponentProps, StateType {
+interface IProps extends FormComponentProps, StateType {
   tableLoading: boolean;
   dispatch: Dispatch<AnyAction>;
 }
@@ -28,7 +28,7 @@ interface Iprps extends FormComponentProps, StateType {
   addressTotal: address.addressTotal,
   tableLoading: Loading,
 }))
-export class index extends Component<Iprps, IState> {
+export class index extends Component<IProps, IState> {
   state = {
     pageNo: 0,
     pageSize: 0,
