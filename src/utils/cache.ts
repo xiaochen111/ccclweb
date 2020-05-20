@@ -17,9 +17,9 @@ export const GetGlobalToken = () => GetLocalStorage('globalToken');
 export const RemoveGlobalToken = () => RemoveLocalStorage('globalToken');
 
 // 用户登录信息
-export const SetAccountInfo = (info: any) => SetSessionStorage('accountInfo', info);
-export const GetAccountInfo = () => GetSessionStorage('accountInfo');
-export const RemoveAccountInfo = () => RemoveSessionStorage('accountInfo');
+export const SetAccountInfo = (info: any) => SetLocalStorage('accountInfo', info);
+export const GetAccountInfo = () => GetLocalStorage('accountInfo');
+export const RemoveAccountInfo = () => RemoveLocalStorage('accountInfo');
 
 // 清空所有storage
 export const RemoveAllStorage = () => {

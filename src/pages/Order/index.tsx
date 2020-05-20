@@ -1,8 +1,14 @@
 import React, { PureComponent } from 'react';
-
+import styles from './index.scss';
 class OrderPage extends PureComponent {
   render() {
-    return <h1>ORDER</h1>;
+    return (
+      <div className={styles.container}>
+        <header>
+          <h4>我的订单</h4>
+        </header>
+      </div>
+    );
   }
 }
 

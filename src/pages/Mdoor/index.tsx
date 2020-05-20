@@ -6,10 +6,9 @@ import router from 'umi/router';
 import { StateType } from '@/models/door';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { GetPageQuery } from '@/utils/utils';
-import styles from './index.scss';
-
-import PageWrapper from '@/components/PageWrapper';
 import DoorPriceList from '@/components/DoorPrice/List';
+
+import styles from './index.scss';
 
 interface IProps extends StateType {
   dispatch: Dispatch<AnyAction>;
@@ -95,8 +94,8 @@ export class PricePlan extends Component<IProps, IState> {
     );
   };
 
-  handleLinkToOrder = () => {
-    router.push('/control/mdoor-order');
+  handleLinkToOrder = info => {
+    router.push(`/control/mdoor-order/${info.id}`);
   };
 
   handleListSort = values => {
