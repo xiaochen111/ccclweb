@@ -13,11 +13,13 @@ export default [
         icon: 'area-chart',
         name: '门到门专区',
         component: './Mdoor/index',
+        type: 'backend',
       },
       {
         path: '/control/mdoor-order/:id',
         hideInMenu: true,
-        component: './Mdoor/Order',
+        component: './Door/PlaceOrder',
+        type: 'backend',
       },
       {
         path: '/control/order',

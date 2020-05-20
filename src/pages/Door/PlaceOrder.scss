@@ -4,7 +4,7 @@
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='start start'];
-  padding: 60px 0;
+  padding: 20px 0;
   :global {
     .ant-card-head {
       padding: 0;
@@ -14,20 +14,8 @@
 }
 
 .mainContent {
-  width: 680px;
+  width: calc(100% - 518px);
   margin-right: 40px;
-  .agreement {
-    text-align: center;
-    margin: 30px 0 12px;
-    .desc {
-      margin-left: 4px;
-    }
-  }
-  .submitBtn {
-    width: 100%;
-    height: 60px;
-    font-size: 20px;
-  }
 }
 
 .shippingInformation {
@@ -64,7 +52,7 @@
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='space-between center'];
-  line-height: 60px;
+  height: 60px;
   margin-top: 50px;
   border-top: 1px solid #cccccc;
   border-bottom: 1px solid #cccccc;
@@ -111,6 +99,9 @@
 
 .instructions {
   width: 478px;
+  position: fixed;
+  top: 84px;
+  right: 40px;
   p {
     color: #333;
     font-size: 16px;
@@ -137,8 +128,20 @@
       }
     }
   }
+  .agreement {
+    text-align: center;
+    margin: 30px 0 12px;
+    .desc {
+      margin-left: 4px;
+    }
+  }
+  .submitBtn {
+    width: 100%;
+    height: 60px;
+    font-size: 20px;
+  }
   &.sticky {
-    position: fixed;
-    top: 50px;
+    // position: fixed;
+    top: 40px;
   }
 }
