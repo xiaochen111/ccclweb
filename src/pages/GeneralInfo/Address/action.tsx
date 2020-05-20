@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button, Switch } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Dispatch, AnyAction } from 'redux';
-import { StateType } from '../../../models/model';
+import { StateType } from '@/models/address';
 import { connect } from 'dva';
 import styles from './index.scss';
 import { Link } from 'umi';

@@ -3,17 +3,19 @@ import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 import {
   Form,
+  Row,
+  Col,
   Card,
   Upload,
   Icon,
-  Row,
-  Col,
+  Table,
   Input,
   AutoComplete,
   Badge,
   Checkbox,
   Button,
   DatePicker,
+  Modal,
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import PageLoading from '@/components/PageLoading';
@@ -31,11 +33,16 @@ interface IProps extends FormComponentProps {
   lclOrderInfo: any;
   globalPackageTypeList: any[];
   route: any;
+  addressList: any[];
+  addressTotal: number;
 }
 interface IState {
   id: string;
   isSticky: boolean;
   routeType: string;
+  visible: boolean;
+  addressPageNo: number;
+  addressPageSize: number;
 }
 
 interface ParamsState {
@@ -59,7 +66,9 @@ interface ParamsState {
   // createId?: string;
 }
 
-@connect(({ loading, door, global }) => ({
+@connect(({ loading, door, global, address }) => ({
+  addressList: address.addressList,
+  addressTotal: address.addressTotal,
   lclOrderInfo: door.lclOrderInfo,
   globalPackageTypeList: global.globalPackageTypeList,
 }))
@@ -69,9 +78,26 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     isSticky: false,
     fixedRight: (document.body.clientWidth - 1200) / 2,
     routeType: this.props.route.type ? this.props.route.type : '',
+    visible: false,
+    addressPageNo: 1,
+    addressPageSize: 10,
   };
 
   private ref: any;
+
+  private columns = [
+    {
+      title: '送货地址',
+      dataIndex: 'portEndAddress',
+      key: 'portEndAddress',
+      render: (text, record) => (
+        <>
+          {record.contactDefault === 1 ? <span className={styles.default}>默认</span> : ''}
+          {record.portEndAddress}
+        </>
+      ),
+    },
+  ];
 
   componentDidMount() {
     const { id } = this.state;
@@ -90,12 +116,38 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         cbm: params.cbm,
       },
     });
+
+    this.getAddressList();
   }
 
   componentWillUnmount() {
     this.ref = null;
     window.removeEventListener('scroll', this.handlePageScroll);
   }
+
+  getAddressList = () => {
+    const { dispatch, form } = this.props;
+    const { addressPageNo, addressPageSize } = this.state;
+
+    // const values = form.getFieldsValue();
+
+    const params = {
+      pageNo: addressPageNo,
+      pageSize: addressPageSize,
+    };
+
+    dispatch({
+      type: 'address/getContactAddress',
+      payload: params,
+    });
+
+    // if (res) {
+    //   this.setState({
+    //     selectedRowKeys: [],
+    //     selectedRows: [],
+    //   });
+    // }
+  };
 
   handlePageScroll = () => {
     const sTop =
@@ -116,7 +168,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     });
   }, 500);
 
-  handleSubmit = params => {
+  handleSubmit = () => {
     const { id } = this.state;
     const {
       dispatch,
@@ -207,7 +259,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   };
 
   render() {
-    const { isSticky, routeType } = this.state;
+    const { isSticky, routeType, fixedRight, visible } = this.state;
 
     const {
       lclOrderInfo,
@@ -374,9 +426,16 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                 </Row>
                 <Row>
                   <Col span={24}>
-                    <Form.Item label="发货人地址">
+                    <Form.Item
+                      label={
+                        <span>
+                          目的地送货地址
+                          <Icon type="diff" style={{ marginLeft: 5 }} />
+                        </span>
+                      }
+                    >
                       {getFieldDecorator('portEndAddress')(
-                        <TextArea placeholder="请输入发货人地址" rows={4} />,
+                        <TextArea placeholder="请输入目的地送货地址" rows={4} />,
                       )}
                     </Form.Item>
                   </Col>
@@ -392,7 +451,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
           <div
             className={`${styles.instructions} ${isSticky ? styles.sticky : ''}`}
             ref={node => (this.ref = node)}
-            // style={{ right: isSticky ? 40 : 40 }}
+            style={{ right: routeType ? 40 : fixedRight }}
           >
             <Card title="费用说明" bordered={false}>
               <p>
@@ -424,6 +483,24 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             </Button>
           </div>
         </div>
+
+        <Modal title="目的地送货地址" visible={true} width={660}>
+          <div className={styles.modalSearch}>
+            <Row gutter={20}>
+              <Col span={20}>
+                <TextArea rows={2} />
+              </Col>
+
+              <Col span={2}>
+                <div style={{ textAlign: 'right' }}>
+                  <Button type="primary">搜索</Button>
+                </div>
+              </Col>
+            </Row>
+          </div>
+
+          <Table size={'middle'} columns={this.columns} dataSource={[]} scroll={{ y: 490 }} />
+        </Modal>
       </div>
     );
   }
