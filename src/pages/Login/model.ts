@@ -12,7 +12,7 @@ import {
   doPhoneSendRepasswordMsg,
   doSendRepasswordEmail,
 } from '@/services/login';
-import { SetGlobalToken, SetAccountInfo } from '@/utils/cache';
+import { SetGlobalFlag, SetGlobalToken, SetAccountInfo } from '@/utils/cache';
 
 export interface StateType {
   captchaImage: any;
@@ -56,15 +56,23 @@ const Model: LoginModelType = {
     },
 
     //登录
-    *sendLoginInfo({ payload }, { call, put }) {
+    *sendLoginInfo({ payload }, { call, put, select }) {
       const response = yield call(doLogin, payload);
-
       if (response && response.code === '1') {
         message.success('登录成功');
 
         yield delay(1000);
-        SetAccountInfo(response.resMap.user);
+
+        SetGlobalFlag(response.resMap.user.head);
         SetGlobalToken(response.resMap.user.token);
+        SetAccountInfo(response.resMap.user);
+
+        // yield delay(500);
+
+        // yield put({
+        //   type: 'global/getGlobalUserInfo',
+        // });
+
         yield put(routerRedux.push('/home'));
       }
     },

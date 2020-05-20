@@ -11,6 +11,11 @@ import {
   RemoveAllSessionStorage,
 } from './storage/session';
 
+// 网站标识
+export const SetGlobalFlag = (token: string) => SetLocalStorage('globalFlag', token);
+export const GetGlobalFlag = () => GetLocalStorage('globalFlag');
+export const RemoveGlobalFlag = () => RemoveSessionStorage('globalFlag');
+
 // 用户token
 export const SetGlobalToken = (token: string) => SetLocalStorage('globalToken', token);
 export const GetGlobalToken = () => GetLocalStorage('globalToken');

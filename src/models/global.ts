@@ -5,6 +5,7 @@ import {
   queryCountryDropList,
   queryGlobalPackageTypeList,
 } from '@/services/global';
+import { SetAccountInfo } from '@/utils/cache';
 
 export interface StateType {
   collapsed: boolean;
@@ -18,6 +19,7 @@ export interface GlobalModelType {
   effects: {
     getCountryDropList: Effect;
     getGlobalPackageTypeList: Effect;
+    getGlobalUserInfo: Effect;
   };
   reducers: {
     changeLayoutCollapsed: Reducer<StateType>;
@@ -51,8 +53,15 @@ const model: GlobalModelType = {
       if (response && response.code === '1') {
         yield put({
           type: 'saveGlobalPackageTypeList',
-          payload: response.resMap.countryList,
+          payload: response.resMap.dictionaryList,
         });
+      }
+    },
+    *getGlobalUserInfo(_, { call }) {
+      const response = yield call(queryUserBaseInfomation);
+
+      if (response && response.code === '1') {
+        yield SetAccountInfo(response.resMap.loginUser);
       }
     },
   },
@@ -73,7 +82,7 @@ const model: GlobalModelType = {
     saveGlobalPackageTypeList(state, { payload }) {
       return {
         ...state,
-        globalPackageTypeList: [],
+        globalPackageTypeList: payload,
       };
     },
   },

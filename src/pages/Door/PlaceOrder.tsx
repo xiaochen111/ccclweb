@@ -3,19 +3,22 @@ import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 import PageWrapper from '@/components/PageWrapper';
 import DoorPlaceOrder, { RegisterProps } from '@/components/DoorPrice/Order';
-
+import { GetPageQuery } from '@/utils/utils';
+import { GetAccountInfo } from '@/utils/cache';
+import { debounce } from 'lodash';
 interface IProps extends RegisterProps {
   dispatch: Dispatch<AnyAction>;
   match?: any;
   lclOrderInfo: any;
+  globalPackageTypeList: any[];
 }
 interface IState {
   id: string;
 }
 
-@connect(({ loading, door }) => ({
+@connect(({ loading, door, global }) => ({
   lclOrderInfo: door.lclOrderInfo,
-  pageLoading: loading.global,
+  globalPackageTypeList: global.globalPackageTypeList,
 }))
 class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   state = {
@@ -25,19 +28,26 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   componentDidMount() {
     const { id } = this.state;
     const { dispatch } = this.props;
+    const params = GetPageQuery();
 
     dispatch({
       type: 'door/getLclDetail',
       payload: {
         freightLclId: id,
-        kgs: 1,
+        kgs: params.kgs,
+        cbm: params.cbm,
       },
     });
+  }
+
+  handlePackageTypeSearch = debounce(value => {
+    const { dispatch } = this.props;
 
     dispatch({
       type: 'global/getGlobalPackageTypeList',
+      payload: { name: value },
     });
-  }
+  }, 500);
 
   handleSubmit = params => {
     const { id } = this.state;
@@ -52,14 +62,16 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   };
 
   render() {
-    const { pageLoading, lclOrderInfo } = this.props;
+    const { lclOrderInfo, globalPackageTypeList } = this.props;
+    const defalutInfo = Object.assign(GetAccountInfo() ? GetAccountInfo() : {}, lclOrderInfo);
 
     return (
       <PageWrapper>
         <DoorPlaceOrder
-          pageLoading={pageLoading}
-          defaultInfo={lclOrderInfo}
+          defaultInfo={defalutInfo}
           onSubmit={this.handleSubmit}
+          packageTypeSearch={this.handlePackageTypeSearch}
+          packageTypeData={globalPackageTypeList}
         />
       </PageWrapper>
     );
