@@ -77,6 +77,7 @@ class SystemMemberPage extends PureComponent<IProps, any> {
 
   saveUserInfo = () => {
     const { dispatch, form } = this.props;
+
     form.validateFields((err, values) => {
       if (err) return;
       dispatch({

@@ -3,14 +3,16 @@ import { Menu, Dropdown, Icon, Avatar } from 'antd';
 import styles from './index.scss';
 import { GetAccountInfo } from '@/utils/cache';
 
-export interface GlobalHeaderRightProps {}
+interface GlobalHeaderRightProps {
+  onMenuClick:(type:any)=>void;
+}
 
 class GlobalHeaderRight extends PureComponent<GlobalHeaderRightProps, any> {
   render() {
-    // const { currentName, onMenuClick } = this.props;
+    const { onMenuClick } = this.props;
 
     const menu = (
-      <Menu>
+      <Menu onClick={onMenuClick}>
         <Menu.Item key="mdify">
           <Icon type="edit" />
           <span>修改密码</span>

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { Link } from 'umi';
 import H from 'history';
 import styles from './index.scss';
-import { GetGlobalToken, GetAccountInfo } from '@/utils/cache';
+import { GetGlobalToken, GetAccountInfo, RemoveGlobalToken, RemoveAccountInfo } from '@/utils/cache';
 
 interface GlonbalHeaderProps {
   logo: string;
@@ -11,16 +11,24 @@ interface GlonbalHeaderProps {
 }
 
 class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
+
+
+  logout = () => {
+    RemoveGlobalToken();
+    RemoveAccountInfo();
+    this.setState({});
+  }
+
   render() {
     const { logo, location, isLogin } = this.props;
     const navs = isLogin
       ? []
       : [
-          { name: '首页', link: '/home' },
-          { name: '门到门专区', link: '/door' },
-          { name: '新闻中心', link: '/news' },
-          { name: '关于我们', link: '/about' },
-        ];
+        { name: '首页', link: '/home' },
+        { name: '门到门专区', link: '/door' },
+        { name: '新闻中心', link: '/news' },
+        { name: '关于我们', link: '/about' },
+      ];
 
     return (
       <div className={styles.wrap}>
@@ -48,10 +56,10 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
                     <Link to={'/control'}>工作台</Link>
                   </li>
                   <li>
-                    <Link to={'/control'}>修改密码</Link>
+                    <Link to={'/control/system/modify'}>修改密码</Link>
                   </li>
                   <li>
-                    <Link to={'/control'}>退出登录</Link>
+                    <a onClick={this.logout}>退出登录</a>
                   </li>
                 </ul>
               </div>
