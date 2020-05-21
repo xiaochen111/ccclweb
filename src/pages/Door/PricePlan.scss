@@ -6,36 +6,43 @@
   .rowInfos {
     width: 100%;
     padding: 0 30px;
+
     .ColumsWidth {
       display: inline-block;
-      text-align: left;
       width: 12%;
+      text-align: left;
     }
+
     .ColumsWidth:nth-child(1) {
       width: 40%;
     }
+
     .lineMain {
       display: flex;
-      align-items: center;
       flex-flow: row;
+      align-items: center;
     }
+
     .startTruck {
       display: flex;
       align-items: center;
     }
+
     .endTruck {
-      width: calc(100% - 130px);
       display: flex;
-      align-items: center;
       flex-shrink: 0;
+      align-items: center;
+      width: calc(100% - 130px);
+
       span {
         display: inline-block;
         overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         line-height: 1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
+
     .ColumsWidth:nth-child(6) {
       text-align: right;
     }
@@ -43,59 +50,69 @@
 
   .tableHeader {
     height: 60px;
-    background-color: #ebebeb;
-    line-height: 60px;
-    font-size: 16px;
     color: #333;
+    font-size: 16px;
+    line-height: 60px;
+    background-color: #ebebeb;
   }
+
   .tableBody {
     width: 100%;
     background-color: #fff;
+
     li {
       width: 100%;
       border-bottom: 1px solid #999;
+
       .rowInfos {
         height: 80px;
         line-height: 80px;
+
         .line {
-          font-size: 24px;
           display: inline-block;
+          font-size: 24px;
         }
+
         .voyage {
           color: #666;
           font-size: 20px;
         }
+
         .price {
           color: #ff7d14;
           font-weight: bold;
           font-size: 20px;
         }
+
         .total {
           color: #ff0808;
           font-weight: bold;
           font-size: 20px;
         }
+
         .btn {
           display: inline-block;
           width: 90px;
           height: 30px;
+          color: #fff;
           line-height: 30px;
           text-align: center;
           background-color: #2556f2;
           border-radius: 4px;
-          color: #fff;
           cursor: pointer;
         }
       }
+
       .expandeContent {
-        margin: 0 30px;
-        border-top: 1px dashed #ccc;
-        height: 58px;
-        line-height: 58px;
-        color: #999;
         display: flex;
         align-items: center;
+        height: 58px;
+        margin: 0 30px;
+        color: #999;
         font-size: 14px;
+        line-height: 58px;
+        border-top: 1px dashed #ccc;
+
         .validityTime {
           color: #666;
         }
@@ -106,13 +123,15 @@
 
 .paginationContainer {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   width: 100%;
   margin-top: 40px;
   text-align: center;
+
   .total {
     margin-right: 20px;
+
     strong {
       color: #0d46ef;
       font-weight: normal;

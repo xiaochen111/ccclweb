@@ -5,25 +5,28 @@
 }
 
 .banner {
+  position: relative;
   width: 100%;
   height: 600px;
-  position: relative;
+
   :global {
     .slick-slide {
-      text-align: center;
       height: 600px;
-      line-height: 600px;
       // background: #364d79;
       overflow: hidden;
+      line-height: 600px;
+      text-align: center;
     }
+
     .ant-select-auto-complete.ant-select-lg .ant-input {
       text-indent: 60px;
     }
+
     .ant-select-auto-complete.ant-select .ant-input,
-    .ant-input,
-    .ant-select-auto-complete.ant-select .ant-input {
+    .ant-input {
       border: 1px solid #fff !important;
     }
+
     .ant-select-auto-complete.ant-select .ant-input:focus,
     .ant-input:focus,
     .ant-select-auto-complete.ant-select .ant-input:hover {
@@ -33,21 +36,23 @@
 }
 
 .searchPanel {
-  width: 890px;
-  height: 124px;
-  border-radius: 8px;
-  padding: 20px;
-  background: rgba(0, 0, 0, 0.5);
   position: absolute;
   bottom: -32px;
   left: 50%;
+  width: 890px;
+  height: 124px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
   transform: translate(-50%, -50%);
+
   p {
-    font-size: 20px;
-    color: #fff;
-    line-height: 1;
     margin-bottom: 20px;
+    color: #fff;
+    font-size: 20px;
+    line-height: 1;
   }
+
   .btnBox {
     padding-left: 10px;
   }
@@ -87,6 +92,7 @@
   height: 254px;
   margin-right: 40px;
   margin-bottom: 40px;
+
   &:nth-child(4n) {
     margin-right: 0;
   }
@@ -107,6 +113,7 @@
   padding-left: 20px;
   color: #fff;
   background: rgba(0, 0, 0, 0.5);
+
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='start center'];
@@ -116,9 +123,11 @@
   height: 70px;
   padding: 15px 20px;
   border: 1px solid #ccc;
+
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='center center'];
+
   ul {
     li {
       @extend [layout];
@@ -127,11 +136,13 @@
 
       float: left;
       width: 68px;
+
       p {
         &:first-child {
           color: #999;
           font-size: 12px;
         }
+
         &:nth-child(2) {
           color: #ff7d14;
           font-size: 16px;
@@ -148,28 +159,33 @@
 }
 
 .serviceItem {
-  text-align: center;
   padding: 0 50px;
   color: #fff;
+  text-align: center;
   cursor: pointer;
+
   img,
   .text {
     transition: 0.3s;
   }
+
   &:hover {
     img {
       transform: scale(1.2) translateY(-20px);
     }
+
     .text {
       transform: translateY(-20px);
     }
   }
+
   .text {
     p {
       &:first-child {
-        font-size: 20px;
         margin-top: 50px;
+        font-size: 20px;
       }
+
       &:nth-child(2) {
         margin-top: 30px;
         font-size: 14px;
@@ -197,65 +213,72 @@
 }
 
 .newsPic {
-  height: 162px;
   display: flex;
   justify-content: space-between;
+  height: 162px;
+
   li {
     height: 162px;
   }
 }
 
 .newTit {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  line-height: 1;
-  margin-top: 20px;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
   padding-left: 15px;
+  line-height: 1;
+
   &::before {
-    content: '';
-    display: block;
-    height: 22px;
-    width: 8px;
-    background: linear-gradient(180deg, rgba(13, 70, 239, 1) 0%, rgba(47, 93, 244, 1) 100%);
     position: absolute;
     left: 0;
+    display: block;
+    width: 8px;
+    height: 22px;
+    background: linear-gradient(180deg, rgba(13, 70, 239, 1) 0%, rgba(47, 93, 244, 1) 100%);
+    content: '';
   }
+
   span {
     color: #0d46ef;
     font-size: 22px;
   }
+
   a {
-    font-size: 18px;
     color: #999;
+    font-size: 18px;
   }
 }
 
 .newsList {
   li {
-    line-height: 1;
-    margin-top: 22px;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 22px;
     padding-left: 15px;
     font-size: 18px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    line-height: 1;
+
     &::before {
-      content: '';
-      display: block;
-      height: 8px;
-      width: 8px;
-      border-radius: 50%;
-      background: linear-gradient(180deg, rgba(13, 70, 239, 1) 0%, rgba(47, 93, 244, 1) 100%);
       position: absolute;
-      left: 0;
       top: 5px;
+      left: 0;
+      display: block;
+      width: 8px;
+      height: 8px;
+      background: linear-gradient(180deg, rgba(13, 70, 239, 1) 0%, rgba(47, 93, 244, 1) 100%);
+      border-radius: 50%;
+      content: '';
     }
+
     span:nth-of-type(1) {
       color: #333;
     }
+
     span:nth-of-type(2) {
       color: #999;
     }

@@ -1,9 +1,9 @@
 .address {
-  
   .title {
+    color: #333;
     font-size: 20px;
     line-height: 90px;
-    color: #333;
+
     a {
       color: #333;
     }
@@ -11,55 +11,57 @@
 }
 
 .tableMain {
-  background: rgba(255, 255, 255, 1); 
   margin: 0 24px;
-  box-shadow: 0px 2px 10px 4px rgba(193, 193, 193, 0.15);
-  border-radius: 4px;
   margin-top: 16px;
   padding: 0 30px;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px 4px rgba(193, 193, 193, 0.15);
+
   .btns {
     line-height: 70px;
     text-align: right;
+
     button {
-      margin-left: 14px;
-      line-height: 1.499;
       position: relative;
       display: inline-block;
+      height: 32px;
+      margin-left: 14px;
+      padding: 0 15px;
+      color: #0068ff;
       font-weight: 400;
+      font-size: 14px;
+      line-height: 1.499;
       white-space: nowrap;
       text-align: center;
+      background: rgba(217, 238, 255, 1);
+      background-color: linear-gradient(46deg, #0d46ef 0%, #16a5ff 100%);
       background-image: none;
       border: 1px solid transparent;
+      border-radius: 2px;
+      outline: none;
       box-shadow: 0 2px 0 rgba(0, 0, 0, 0.015);
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
-      background: rgba(217, 238, 255, 1);
-      border-radius: 2px;
-      height: 32px;
-      outline: none;
-      padding: 0 15px;
-      font-size: 14px;
-      color: #0068ff;
-      background-color: linear-gradient(46deg, #0d46ef 0%, #16a5ff 100%);
     }
   }
 }
 
 .editMain {
-  background: rgba(255, 255, 255, 1);
-  box-shadow: 0px 2px 10px 4px rgba(193, 193, 193, 0.15);
-  border-radius: 4px;
   padding: 40px 0;
+  background: rgba(255, 255, 255, 1);
+  border-radius: 4px;
+  box-shadow: 0 2px 10px 4px rgba(193, 193, 193, 0.15);
 }
 
 .default {
   width: 24px;
   height: 14px;
-  font-size: 12px;
-  color: rgba(37, 86, 242, 1);
-  line-height: 14px;
-  padding: 2px 5px;
-  border-radius: 3px;
   margin-right: 10px;
+  padding: 2px 5px;
+  color: rgba(37, 86, 242, 1);
+  font-size: 12px;
+  line-height: 14px;
   border: 1px solid rgba(37, 86, 242, 1);
+  border-radius: 3px;
 }

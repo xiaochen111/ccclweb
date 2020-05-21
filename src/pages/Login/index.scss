@@ -67,18 +67,22 @@
   @extend [layout-align='center center'];
 
   margin-bottom: 70px;
+
   li {
     position: relative;
     color: #666;
     font-weight: bold;
     font-size: 24px;
     cursor: pointer;
+
     &:nth-of-type(1) {
       margin-right: 130px;
     }
   }
+
   .activeTab {
     color: #2556f2;
+
     &::after {
       position: absolute;
       bottom: -10px;
@@ -93,10 +97,12 @@
 
 .desc {
   font-size: 14px;
+
   .left {
     margin-left: 2px;
     color: #666;
   }
+
   strong {
     color: #2556f2;
     font-weight: normal;
@@ -119,8 +125,9 @@
 
 .imgCode {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+
   span {
     color: #2556f2;
     cursor: pointer;
