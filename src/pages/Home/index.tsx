@@ -114,16 +114,16 @@ class HomePage extends Component<IProps, any> {
         <div className={styles.bottomPart}>
           <ul>
             <li>
-              <p>CBM</p>
-              <p>{item.cbm}</p>
+              <p>KGS</p>
+              <p>{item.heavyStandsPrice}</p>
             </li>
             <li>
               <p>CBM</p>
-              <p>{item.kgs}</p>
+              <p>{item.tossStandsPrice}</p>
             </li>
           </ul>
           <Button type="primary" onClick={() => this.handleLinkToOrder(item)}>
-            立即抢购
+            立即下单
           </Button>
         </div>
       </div>

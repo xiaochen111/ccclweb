@@ -51,7 +51,13 @@ export class LoginPage extends Component<LoginProps, any> {
         </Form.Item>
         <Form.Item>
           {getFieldDecorator('password', {
-            rules: [{ required: true, message: '请输入密码' }],
+            rules: [
+              { required: true, message: '请输入密码' },
+              {
+                min: 6,
+                message: '密码长度不能小于6位',
+              },
+            ],
           })(
             <Input
               size="large"

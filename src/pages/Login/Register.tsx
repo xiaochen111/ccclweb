@@ -322,7 +322,13 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
         <Form.Item label="密码">
           {getFieldDecorator('password', {
             getValueFromEvent: event => event.target.value.trim(),
-            rules: [{ required: true, message: '请输入密码' }],
+            rules: [
+              { required: true, message: '请输入密码' },
+              {
+                min: 6,
+                message: '密码长度不能小于6位',
+              },
+            ],
           })(
             <Input size="large" placeholder="请输入密码" style={{ width: 370 }} type="password" />,
           )}

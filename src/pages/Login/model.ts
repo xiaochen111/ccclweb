@@ -67,12 +67,6 @@ const Model: LoginModelType = {
         SetGlobalToken(response.resMap.user.token);
         SetAccountInfo(response.resMap.user);
 
-        // yield delay(500);
-
-        // yield put({
-        //   type: 'global/getGlobalUserInfo',
-        // });
-
         yield put(routerRedux.push('/home'));
       }
     },
