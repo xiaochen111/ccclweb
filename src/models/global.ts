@@ -1,12 +1,14 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
+import { delay } from 'dva/saga';
+import { routerRedux } from 'dva/router';
 import {
   queryUserBaseInfomation,
   queryCountryDropList,
   queryGlobalPackageTypeList,
   sendUuidLogin,
 } from '@/services/global';
-import { SetAccountInfo } from '@/utils/cache';
+import { SetGlobalFlag, SetGlobalToken, SetAccountInfo } from '@/utils/cache';
 
 export interface StateType {
   collapsed: boolean;
@@ -66,14 +68,22 @@ const model: GlobalModelType = {
         yield SetAccountInfo(response.resMap.loginUser);
       }
     },
-    *uuidLogin({ payload }, { call }) {
-      console.log(payload);
+    *uuidLogin({ payload }, { call, put }) {
       const response = yield call(sendUuidLogin, payload);
-
-      console.log('*uuidLogin -> response', response);
 
       if (response && response.code === '1') {
         // yield SetAccountInfo(response.resMap.loginUser);
+        if (response.resMap.user && response.resMap.user.token) {
+          SetGlobalFlag(response.resMap.user.head);
+          SetGlobalToken(response.resMap.user.token);
+          SetAccountInfo(response.resMap.user);
+
+          yield delay(1000);
+
+          return true;
+        } else {
+          yield put(routerRedux.push('/login'));
+        }
       }
     },
   },

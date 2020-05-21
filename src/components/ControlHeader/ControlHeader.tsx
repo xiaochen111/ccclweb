@@ -2,11 +2,11 @@ import React, { PureComponent } from 'react';
 import { Icon } from 'antd';
 import debounce from 'lodash/debounce';
 import styles from './index.scss';
-import RightContent from './RightContent';
+import RightContent, { GlobalHeaderRightProps } from './RightContent';
 import { router } from 'umi';
-import { RemoveGlobalToken, RemoveAccountInfo } from '@/utils/cache';
+import { RemoveAllStorage } from '@/utils/cache';
 
-export interface GlobalControlHeaderProps{
+export interface GlobalControlHeaderProps extends GlobalHeaderRightProps {
   collapsed: boolean;
   onCollapse: (type: boolean) => void;
 }
@@ -37,8 +37,7 @@ export default class GlobalControlHeader extends PureComponent<GlobalControlHead
       router.push('/control/system/modify');
     }
     if (key === 'logout'){
-      RemoveGlobalToken();
-      RemoveAccountInfo();
+      RemoveAllStorage();
       router.push('/');
     }
   }

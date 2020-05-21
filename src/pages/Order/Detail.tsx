@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import { PageHeader, Card, Descriptions, Divider, Col, Row, Icon, Button } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
+import { router } from 'umi';
 import { StateType } from './model';
 import PageLoading from '@/components/PageLoading';
 import FooterToolbar from '@/components/FooterToolbar';
@@ -111,7 +112,7 @@ class orderDetailPage extends PureComponent<IProps, IState> {
           </Card>
         </div>
         <FooterToolbar>
-          <Button>返回</Button>
+          <Button onClick={() => { router.goBack(); } }>返回</Button>
         </FooterToolbar>
       </div>
     );
