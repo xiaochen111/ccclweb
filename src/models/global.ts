@@ -7,6 +7,7 @@ import {
   sendUuidLogin,
 } from '@/services/global';
 import { SetAccountInfo } from '@/utils/cache';
+import { message } from 'antd';
 
 export interface StateType {
   collapsed: boolean;
