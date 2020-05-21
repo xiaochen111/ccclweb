@@ -47,6 +47,7 @@ const Model: LoginModelType = {
     // 获取图片验证码
     *getCaptchImage(_, { call, put }) {
       const response = yield call(queryCaptchImage);
+
       if (response && response.code === '1') {
         yield put({
           type: 'saveCaptchaImage',
@@ -58,6 +59,7 @@ const Model: LoginModelType = {
     //登录
     *sendLoginInfo({ payload }, { call, put, select }) {
       const response = yield call(doLogin, payload);
+
       if (response && response.code === '1') {
         message.success('登录成功');
 

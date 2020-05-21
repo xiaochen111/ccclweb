@@ -65,7 +65,8 @@ class OrderPage extends PureComponent<IProps, IState> {
     },
     { title: '发货地', dataIndex: 'startTruck', key: 'startTruck' },
     { title: '收货地', dataIndex: 'endTruck', key: 'endTruck' },
-    { title: '品名', dataIndex: 'goodsType', key: 'goodsType' },
+    { title: '品名', dataIndex: 'goodsType', key: 'goodsType', render: text =>  <p style={{ width: '300px', wordBreak: 'break-all' }}>{text}</p> },
+
     {
       title: '订单状态',
       dataIndex: 'status',
@@ -194,12 +195,9 @@ class OrderPage extends PureComponent<IProps, IState> {
     form.validateFields((err, values) => {
       if (err) return;
 
-      this.setState(
-        {
-          searchValues: values,
-        },
-        this.handleSearchList,
-      );
+      this.setState({
+        searchValues: values,
+      }, this.handleSearchList);
     });
   };
 

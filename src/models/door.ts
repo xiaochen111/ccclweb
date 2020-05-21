@@ -35,6 +35,7 @@ const model: DoorModelType = {
   effects: {
     *getLclList({ payload }, { call, put }) {
       const response = yield call(queryLclList, payload);
+
       if (response && response.code === '1') {
         yield put({
           type: 'setLclList',
@@ -44,6 +45,7 @@ const model: DoorModelType = {
     },
     *getLclDetail({ payload }, { call, put }) {
       const response = yield call(queryLclDetail, payload);
+
       if (response && response.code === '1') {
         yield put({
           type: 'saveLclOrderInfo',
@@ -77,6 +79,7 @@ const model: DoorModelType = {
     },
   },
 };
+
 export default model;
 
 const convertOrderInfo = info => {

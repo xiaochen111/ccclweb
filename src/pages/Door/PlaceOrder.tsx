@@ -36,6 +36,7 @@ interface IProps extends FormComponentProps {
   route: any;
   addressList: any[];
   addressTotal: number;
+  submitLoading: boolean;
 }
 interface IState {
   id: string;
@@ -75,6 +76,7 @@ interface ParamsState {
   addressTotal: address.addressTotal,
   lclOrderInfo: door.lclOrderInfo,
   globalPackageTypeList: global.globalPackageTypeList,
+  submitLoading: loading.models['door/orderSubmit']
 }))
 class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   state = {
@@ -226,7 +228,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
         let file = fileList
           .filter(o => o.response && o.response.code === '1')
-          .map(item => item.response.resMap.fileId)
+          .map(item => item.response.resMap.resMap.sysFileId)
           .join(',');
 
         const params: ParamsState = {
@@ -305,6 +307,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       form: { getFieldDecorator },
       addressList,
       addressTotal,
+      submitLoading
     } = this.props;
 
     if (!lclOrderInfo) return <PageLoading />;
@@ -320,6 +323,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       selectedRowKeys,
       onChange: this.handleRowSelectionChange,
     };
+
+    const accepts = ['.pdf', '.txt', '.doc', '.xls', '.xlsx'].join(',');
 
     return (
       <div style={
@@ -377,7 +382,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     valuePropName: 'fileList',
                     getValueFromEvent: this.normFile,
                   })(
-                    <Upload.Dragger action="/api/web/lcl/upload.do">
+                    <Upload.Dragger action="/api/web/lcl/upload.do" accept={`image/*, ${accepts}`}>
                       <p className="ant-upload-drag-icon">
                         <Icon type="cloud-download" />
                       </p>
@@ -535,7 +540,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                 <span className={styles.desc}>环球义达委托协议</span>
               </Form.Item>
             </Form>
-            <Button type="primary" className={styles.submitBtn} onClick={this.handleSubmit}>
+            <Button type="primary" className={styles.submitBtn} loading={submitLoading} onClick={this.handleSubmit}>
               提交委托
             </Button>
           </div>

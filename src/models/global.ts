@@ -7,7 +7,6 @@ import {
   sendUuidLogin,
 } from '@/services/global';
 import { SetAccountInfo } from '@/utils/cache';
-import { message } from 'antd';
 
 export interface StateType {
   collapsed: boolean;
@@ -70,6 +69,7 @@ const model: GlobalModelType = {
     *uuidLogin({ payload }, { call }) {
       console.log(payload);
       const response = yield call(sendUuidLogin, payload);
+
       console.log('*uuidLogin -> response', response);
 
       if (response && response.code === '1') {

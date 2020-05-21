@@ -37,6 +37,7 @@ const Modal: AddressModelType = {
   effects: {
     *getContactAddress({ payload }, { call, put }) {
       const respone = yield call(contactAddress, payload);
+
       if (respone && respone.code === '1') {
         yield put({
           type: 'saveAddressList',
@@ -47,13 +48,15 @@ const Modal: AddressModelType = {
     },
     *doSaveContactAddress({ payload }, { call }) {
       const respone = yield call(saveContactAddress, payload);
-      if(respone && respone.code === '1') {
+
+      if (respone && respone.code === '1') {
         message.success('新增成功');
         return true;
       }
     },
     *doUpdateContactAddress({ payload }, { call }) {
       const respone = yield call(updateContactAddress, payload);
+
       if (respone && respone.code === '1') {
         message.success('修改成功');
         return true;
@@ -61,6 +64,7 @@ const Modal: AddressModelType = {
     },
     *doSetContactDefaultAddress({ payload }, { call }) {
       const respone = yield call(setContactDefaultAddress, payload);
+
       if (respone && respone.code === '1') {
         message.success('设置默认地址成功');
         return true;
@@ -68,6 +72,7 @@ const Modal: AddressModelType = {
     },
     *doCancelContactDefaultAddress({ payload }, { call }) {
       const respone = yield call(cancelContactDefaultAddress, payload);
+
       if (respone && respone.code === '1') {
         message.success('取消默认地址成功');
         return true;
