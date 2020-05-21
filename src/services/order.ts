@@ -12,6 +12,17 @@ export async function queryOrderList(data = {}) {
 }
 
 /**
+ * 获取我的订单详情
+ * @param data
+ */
+export async function queryOrderDetail(data = {}) {
+  return request('/api/web/lcl/order/orderDetail.do', {
+    method: 'POST',
+    data,
+  });
+}
+
+/**
  *
  * 获取订单费用明细
  * @export

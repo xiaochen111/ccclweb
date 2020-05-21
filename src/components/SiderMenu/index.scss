@@ -1,21 +1,22 @@
 .slider {
-  min-height: 100vh;
-  // background-color: #fff;
-  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
   position: relative;
   left: 0;
-  overflow: auto;
   z-index: 10;
+  min-height: 100vh;
+  overflow: auto;
+  // background-color: #fff;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
   width: 100%;
   padding: 10px;
   overflow: hidden;
+
   img {
     display: inline-block;
-    vertical-align: middle;
     height: 32px;
     margin: 4px;
+    vertical-align: middle;
   }
 }

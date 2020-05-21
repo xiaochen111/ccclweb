@@ -3,8 +3,9 @@ import { Form, PageHeader, Input, Button } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
-import styles from './index.scss';
+
 import { GetAccountInfo } from '../../../utils/cache';
+import styles from './index.scss';
 
 interface IProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;

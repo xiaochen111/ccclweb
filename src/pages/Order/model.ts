@@ -1,13 +1,12 @@
 import { Effect } from 'dva';
-import { delay } from 'dva/saga';
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
-import { queryOrderList, queryOrderFeeDetail } from '@/services/order';
+import { Reducer } from 'redux';
+import { queryOrderList, queryOrderDetail, queryOrderFeeDetail } from '@/services/order';
 import { ORDER_TATUS_DESC, ORDER_TATUS_COLOR, ORDER_FEE_STATUS_DESC } from '@/utils/const';
 
 export interface StateType {
   orderList: any[];
   orderTotal: number;
+  orderDetail: any;
 }
 
 export interface LoginModelType {
@@ -15,9 +14,13 @@ export interface LoginModelType {
   state: StateType;
   effects: {
     getOrderList: Effect;
+    getOrderDetail: Effect;
     getOrderFeeDetail: Effect;
   };
-  reducers: {};
+  reducers: {
+    saveOrderList: Reducer<StateType>;
+    saveOrderListDetail: Reducer<StateType>;
+  };
 }
 
 const Model: LoginModelType = {
@@ -26,11 +29,13 @@ const Model: LoginModelType = {
   state: {
     orderList: [],
     orderTotal: 0,
+    orderDetail: null
   },
 
   effects: {
     *getOrderList({ payload }, { call, put }) {
       const response = yield call(queryOrderList, payload);
+
       if (response && response.code === '1') {
         yield put({
           type: 'saveOrderList',
@@ -38,8 +43,19 @@ const Model: LoginModelType = {
         });
       }
     },
+    *getOrderDetail({ payload }, { call, put }) {
+      const response = yield call(queryOrderDetail, payload);
+
+      if (response && response.code === '1') {
+        yield put({
+          type: 'saveOrderListDetail',
+          payload: response.resMap.order,
+        });
+      }
+    },
     *getOrderFeeDetail({ payload }, { call, put }) {
       const response = yield call(queryOrderFeeDetail, payload);
+
       if (response && response.code === '1') {
         return response.resMap.orderPayfeeList;
       }
@@ -52,6 +68,12 @@ const Model: LoginModelType = {
         ...state,
         orderList: convertList(payload.result),
         orderTotal: payload.totalCount,
+      };
+    },
+    saveOrderListDetail(state, { payload }) {
+      return {
+        ...state,
+        orderDetail: payload,
       };
     },
   },

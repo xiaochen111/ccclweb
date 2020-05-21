@@ -3,8 +3,8 @@ import { Menu, Dropdown, Icon, Avatar } from 'antd';
 import styles from './index.scss';
 import { GetAccountInfo } from '@/utils/cache';
 
-interface GlobalHeaderRightProps {
-  onMenuClick:(type:any)=>void;
+export interface GlobalHeaderRightProps {
+  onMenuClick?:(type:any)=>void;
 }
 
 class GlobalHeaderRight extends PureComponent<GlobalHeaderRightProps, any> {

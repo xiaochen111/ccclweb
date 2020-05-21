@@ -1,7 +1,4 @@
-import { Reducer } from 'redux';
 import { Effect } from 'dva';
-import { routerRedux } from 'dva/router';
-import { message } from 'antd';
 import { bargainPrice } from '@/services/global';
 
 export interface StateType {
@@ -27,6 +24,7 @@ const Model: HomeModelType = {
   effects: {
     *getBargainPrice({ payload }, { call, put }) {
       const response = yield call(bargainPrice);
+
       if (response && response.code === '1') {
         yield put({
           type: 'setPriceList',

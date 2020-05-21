@@ -21,12 +21,14 @@ const Modal: SystemModelType = {
     // 更改个人信息
     *doUpdateWebUserInfo({ payload }, { call }) {
       const response = yield call(updateWebUserInfo, payload);
+
       if (response && response.code === '1') {
         message.success('更改个人信息成功');
       }
     },
     *doUpdateUserPwd({ payload }, { call }) {
       const response = yield call(updateUserPwd, payload);
+
       if (response && response.code === '1') {
         message.success('更改个人密码成功');
       }

@@ -1,30 +1,32 @@
 import React from 'react';
-// import { message } from 'antd';
-import { connect } from 'dva';
 import { Redirect } from 'umi';
 import { GetGlobalToken } from '@/utils/cache';
-// import { GetPageQuery } from '@/utils/utils';
+import { GetPageQuery } from '@/utils/utils';
+import { stringify } from 'qs';
 
-const Authorized = props => {
-  // const { dispatch } = props;
+export default (props) => {
+  const { location: { pathname }, children } = props;
+
   const token = GetGlobalToken();
-  // const params = GetPageQuery();
+  const pageQuery = GetPageQuery();
+  const loginRoute = ['/control', '/door/place-order'];
 
-  // if (params && params.uuid) {
-  //   dispatch({
-  //     type: 'global/uuidLogin',
-  //     payload: { uuid: params.uuid },
-  //   });
+  if (pageQuery && pageQuery.uuid) {
+    return <Redirect to={{
+      pathname: '/check-auth',
+      search: stringify({
+        loginUuid: pageQuery.uuid,
+        backUrl: pathname
+      })
+    }} />;
+  }
 
-  //   return null
-  // }
-
-  if (token) {
-    return props.children;
-  } else {
-    // message.info('请先登录');
+  if (loginRoute.includes(pathname)) {
+    if (token) {
+      return children;
+    }
     return <Redirect to="/login" />;
   }
-};
 
-export default connect()(Authorized);
+  return children;
+};

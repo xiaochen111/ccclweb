@@ -12,9 +12,11 @@
 
 .modalFooter {
   width: 100%;
+
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='end center'];
+
   margin-top: 60px;
   font-size: 20px;
 
@@ -22,20 +24,23 @@
     @extend [layout];
     @extend [layout='column'];
     @extend [layout-align='start end'];
+
     .text {
       margin-bottom: 20px;
-      color: #333333;
+      color: #333;
     }
+
     .price {
+      margin-left: 30px;
       color: #ff0808;
       font-size: 22px;
       vertical-align: bottom;
-      margin-left: 30px;
+
       i {
+        margin-left: 5px;
+        font-weight: bold;
         font-size: 14px;
         font-style: normal;
-        font-weight: bold;
-        margin-left: 5px;
       }
     }
   }
