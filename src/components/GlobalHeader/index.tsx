@@ -33,7 +33,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
     return (
       <div className={styles.wrap}>
         <Link to="/">
-          <img className={styles.logo} src={logo} />
+          <img className={styles.logo} src={logo} alt=""/>
         </Link>
         <nav className={styles.navsWrap}>
           {navs.map(item => (
@@ -59,7 +59,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
                     <Link to={'/control/system/modify'}>修改密码</Link>
                   </li>
                   <li>
-                    <a onClick={this.logout}>退出登录</a>
+                    <span onClick={this.logout}>退出登录</span>
                   </li>
                 </ul>
               </div>
