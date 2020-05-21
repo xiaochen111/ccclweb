@@ -48,5 +48,5 @@ class Broadside extends PureComponent {
     );
   }
 }
-
+//  window.open('http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=' + qq);
 export default Broadside;
