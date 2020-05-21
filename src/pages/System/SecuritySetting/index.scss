@@ -22,3 +22,19 @@
     flex-shrink: 0;
   }
 }
+
+.intension {
+  display: flex;
+  align-items: center;
+  height: 22px;
+  span {
+    display: inline-block;
+    width: 30px;
+    height: 6px;
+    background: rgba(216, 216, 216, 1);
+    margin-right: 10px;
+  }
+  .spanAct {
+    background: rgba(0, 176, 55, 1);
+  }
+}

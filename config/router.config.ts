@@ -66,6 +66,12 @@ export default [
             name: '安全设置',
             component: './System/SecuritySetting',
           },
+          {
+            path: '/control/system/modify',
+            name: '安全设置',
+            hideInMenu: true,
+            component: './System/SecuritySetting/modify',
+          },
         ],
       },
     ],

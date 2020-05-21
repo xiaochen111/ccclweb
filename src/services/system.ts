@@ -10,3 +10,13 @@ export async function updateWebUserInfo(params) {
     data: params,
   });
 }
+/**
+ * 更改个人信息
+ * @param params
+ */
+export async function updateUserPwd(params) {
+  return request('/api/web/webuser/update_user_pwd.do', {
+    method: 'POST',
+    data: params,
+  });
+}

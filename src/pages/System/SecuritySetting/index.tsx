@@ -7,7 +7,7 @@ const imgIcon = require('../../../assets/img/icon-xiugaimima.png');
 
 class SecuritySettingPage extends PureComponent {
   goModify = () => {
-    router.push('/');
+    router.push('/control/system/modify');
   };
 
   render() {
