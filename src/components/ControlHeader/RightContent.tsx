@@ -4,7 +4,7 @@ import styles from './index.scss';
 import { GetAccountInfo } from '@/utils/cache';
 
 export interface GlobalHeaderRightProps {
-  onMenuClick:(type:any)=>void;
+  onMenuClick?:(type:any)=>void;
 }
 
 class GlobalHeaderRight extends PureComponent<GlobalHeaderRightProps, any> {
