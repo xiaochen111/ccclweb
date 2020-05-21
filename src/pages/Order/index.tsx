@@ -1,7 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Form, PageHeader, Tabs, Card, Input, Button } from 'antd';
+import { Form, PageHeader, Tabs, Card, Input, Button, Modal } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
+import router from 'umi/router';
 import { FormComponentProps } from 'antd/lib/form';
 import { StateType } from './model';
 import StandardTable from '@/components/StandardTable';
@@ -23,6 +24,9 @@ interface IState {
     startTruck: string;
     endTruck: string;
   };
+  current: any;
+  visible: boolean;
+  detailList: any[];
 }
 @connect(({ loading, order, global }) => ({
   orderList: order.orderList,
@@ -40,6 +44,9 @@ class OrderPage extends PureComponent<IProps, IState> {
       startTruck: '',
       endTruck: '',
     },
+    current: null,
+    visible: false,
+    detailList: [],
   };
 
   tabs = [
@@ -54,7 +61,7 @@ class OrderPage extends PureComponent<IProps, IState> {
       title: 'CCCL NO',
       dataIndex: 'orderNo',
       key: 'orderNo',
-      render: text => <span style={{ color: '#2556F2' }}>{text}</span>,
+      render: (text, record) => <span style={{ color: '#2556F2' }} onClick={() => this.handleActions('detail', record)}>{text}</span>,
     },
     { title: '发货地', dataIndex: 'startTruck', key: 'startTruck' },
     { title: '收货地', dataIndex: 'endTruck', key: 'endTruck' },
@@ -69,8 +76,31 @@ class OrderPage extends PureComponent<IProps, IState> {
     },
     {
       title: '操作',
-      render: (text, record) => <span style={{ color: '#2556F2' }}>{record.feeStatusDesc}</span>,
+      render: (text, record) => (
+        <span style={{ color: '#2556F2' }} onClick={() => this.handleActions('action', record)}>
+          {record.feeStatusDesc}
+        </span>
+      ),
     },
+  ];
+
+  private detailColumns = [
+    { title: '费用名称', dataIndex: 'feeName', key: 'feeName' },
+    {
+      title: '单价',
+      dataIndex: 'unitPrice',
+      key: 'unitPrice',
+      render: text => <span>${text}</span>,
+    },
+    { title: '数量', dataIndex: 'count', key: 'count' },
+    {
+      title: '应付金额',
+      dataIndex: 'amount',
+      key: 'amount',
+      render: text => <span style={{ color: '#FE7100' }}>${text}</span>,
+    },
+    { title: '币种', dataIndex: 'currency', key: 'currency' },
+    { title: '汇率', dataIndex: 'rate', key: 'rate' },
   ];
 
   componentDidMount() {
@@ -110,6 +140,45 @@ class OrderPage extends PureComponent<IProps, IState> {
     });
   };
 
+  handleActions = (column, record) => {
+    if (column === 'action') {
+      switch (record.feeStatus) {
+      case 0:
+        this.handleGetFeeDetail(record);
+        break;
+      default:
+        break;
+      }
+    } else if (column === 'detail') {
+      router.push(`/control/order/my/detail/${record.id}`);
+    }
+  };
+
+  // 获取费用明细
+  handleGetFeeDetail = async record => {
+    const { dispatch } = this.props;
+
+    let result: any = await dispatch({
+      type: 'order/getOrderFeeDetail',
+      payload: {
+        orderId: record.id,
+      },
+    });
+
+    this.setState({
+      current: record,
+      detailList: result,
+      visible: true,
+    });
+  };
+
+  handleModalCancel = () => {
+    this.setState({
+      detailList: [],
+      visible: false,
+    });
+  };
+
   handleTabChange = key => {
     this.setState(
       {
@@ -118,6 +187,7 @@ class OrderPage extends PureComponent<IProps, IState> {
       this.handleSearchList,
     );
   };
+
   handleSearch = () => {
     const { form } = this.props;
 
@@ -132,6 +202,7 @@ class OrderPage extends PureComponent<IProps, IState> {
       );
     });
   };
+
   handleTabelChange = pagination => {
     this.setState(
       {
@@ -142,7 +213,7 @@ class OrderPage extends PureComponent<IProps, IState> {
   };
 
   render() {
-    const { status, pageNo, pageSize } = this.state;
+    const { status, pageNo, pageSize, current, detailList, visible } = this.state;
     const {
       form: { getFieldDecorator },
       orderList,
@@ -198,6 +269,31 @@ class OrderPage extends PureComponent<IProps, IState> {
             />
           </Card>
         </div>
+
+        <Modal
+          title="费用明细"
+          visible={visible}
+          width={800}
+          destroyOnClose
+          footer={null}
+          onCancel={this.handleModalCancel}
+        >
+          <>
+            <StandardTable rowKey={'feeId'} columns={this.detailColumns} dataSource={detailList} />
+            <div className={styles.modalFooter}>
+              <div className={styles.footerContent}>
+                <div className={styles.text}>
+                  总金额
+                  <span className={styles.price}>
+                    <strong>{current && current.totalPrice}</strong>
+                    <i>{current && current.totalPriceCurrency}</i>
+                  </span>
+                </div>
+                <Button type="primary">确认</Button>
+              </div>
+            </div>
+          </>
+        </Modal>
       </div>
     );
   }

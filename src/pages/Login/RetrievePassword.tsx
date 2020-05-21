@@ -1,5 +1,5 @@
-import React, { Component, Fragment } from 'react';
-import { Row, Col, Form, Input, Checkbox, Button } from 'antd';
+import React, { Component } from 'react';
+import { Row, Col, Form, Input, Button } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { FormComponentProps } from 'antd/lib/form';
 import { connect } from 'dva';
@@ -7,7 +7,6 @@ import { StateType } from './model';
 // import { formItemLayout } from '@/utills/config';
 import REGEX from '@/utils/regex';
 import styles from './index.scss';
-import { router } from 'umi';
 
 interface RegisterProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
@@ -70,6 +69,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
   init = () => {
     const { dispatch } = this.props;
+
     dispatch({
       type: 'login/getCaptchImage',
     });
@@ -79,6 +79,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   // 换图片验证码
   changeCodeImg = () => {
     const { dispatch } = this.props;
+
     console.log(this.props);
     dispatch({
       type: 'login/getCaptchImage',
@@ -92,6 +93,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       clickFlag: true,
     });
     const { form } = this.props;
+
     form.resetFields();
   };
 
@@ -119,6 +121,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
   sendPhoneRegistMsg = async () => {
     const { clickFlag } = this.state;
+
     if (!clickFlag) return;
     const { form, userLogin, dispatch } = this.props;
     const { captchaKey } = userLogin.captchaImage;
@@ -156,6 +159,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       type: 'login/getPhoneRepasswordMsg',
       payload: values,
     });
+
     if (res) {
       this.setCountdown();
     }
@@ -163,6 +167,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
   sendEmailRegistMsg = async () => {
     const { clickFlag } = this.state;
+
     if (!clickFlag) return;
     const { form, userLogin, dispatch } = this.props;
     const { captchaKey } = userLogin.captchaImage;
@@ -200,6 +205,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       type: 'login/getEmailRepasswordMsg',
       payload: values,
     });
+
     if (res) {
       this.setCountdown();
     }
@@ -207,6 +213,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
+
     if (value && value !== form.getFieldValue('password')) {
       callback('两次输入的密码不一样');
     } else {
@@ -216,6 +223,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
   setCountdown = () => {
     let num = 60;
+
     this.timer = setInterval(() => {
       if (num <= 0) {
         this.stopCountdown();
@@ -231,7 +239,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   stopCountdown = () => {
     clearInterval(this.timer);
     this.setState({
-      btnTxt: `获取验证码`,
+      btnTxt: '获取验证码',
       clickFlag: true,
     });
   };
@@ -341,10 +349,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
   render() {
     const { tabs, selectedTab } = this.state;
-    const {
-      form: { getFieldDecorator },
-      pageLoading,
-    } = this.props;
+    const { pageLoading } = this.props;
 
     return (
       <div className={styles.registerContainer} onSubmit={this.handleSubmit}>

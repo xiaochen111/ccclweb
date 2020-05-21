@@ -2,14 +2,29 @@
   "extends": "eslint-config-umi",
   "rules": {
     "semi": [2, "always"],
-    "no-var": 0,
+    "no-var": "error",
     "comma-dangle": ["off"],
     "indent": ["error", 2],
-    "semi-spacing": [0, { "before": false, "after": true }],
+    "semi-spacing": ["error", { "before": false, "after": true }],
     "quotes": [1, "single"],
-    "key-spacing": [0, { "beforeColon": false, "afterColon": true }],
+    "key-spacing": [2, { "beforeColon": false, "afterColon": true }],
     "no-spaced-func": 2,
     "eqeqeq": 2,
-    "always-multiline": true
+    "always-multiline": true,
+    "jsx-a11y/heading-has-content": 0,
+    "comma-spacing": 2,
+    "newline-after-var": 2,
+    "space-in-parens": [2, "never"],
+    "object-curly-spacing": ["error","always"],
+    "space-infix-ops": "error",
+    "jsx-quotes": 2,
+    "block-spacing": 2,
+    "arrow-spacing": 2,
+    "keyword-spacing": ["error", { "before": true }],
+    "no-trailing-spaces": "error"
+    // "@typescript-eslint/consistent-type-definitions": ["error", "type"]
+    // "key-spacing": [2, { "beforeColon": false, "afterColon": true }]
+    // "dot-location": "error"
+    // "padded-blocks": 1
   }
 }

@@ -57,6 +57,7 @@ export class index extends Component<IProps, IState> {
   handleActions = async type => {
     const { dispatch } = this.props;
     const { selectedRows } = this.state;
+
     if (type === 'add') {
       router.push({
         pathname: '/control/general/action',
@@ -145,6 +146,7 @@ export class index extends Component<IProps, IState> {
       type: 'address/getContactAddress',
       payload: params,
     });
+
     if (res) {
       this.setState({
         selectedRowKeys: [],
@@ -187,6 +189,7 @@ export class index extends Component<IProps, IState> {
       selectedRowKeys,
       onChange: this.handleRowSelectionChange,
     };
+
     return (
       <div className={styles.address}>
         <p className={styles.title}>目的港送货地址</p>

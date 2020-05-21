@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Button, Form, Input, AutoComplete, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import REGEX from '@/utils/regex';
+
 import styles from './index.scss';
 
 const { Option } = AutoComplete;
@@ -29,9 +30,11 @@ interface item {
 export class SearchCondition extends Component<IProps, any> {
   handleSubmit = () => {
     const { form, submit } = this.props;
+
     form.validateFields((err, values) => {
       if (err) return;
       const { kgs, cbm } = values;
+
       if (!kgs && !cbm) {
         message.warn('体积和重量比填一个');
         return;
@@ -81,7 +84,7 @@ export class SearchCondition extends Component<IProps, any> {
                     <Input
                       prefix={
                         <>
-                          <img src={startPartIcon} />{' '}
+                          <img src={startPartIcon} alt=""/>{' '}
                           <span style={{ fontSize: '14px' }}>&nbsp;义乌 —</span>
                         </>
                       }
@@ -96,7 +99,7 @@ export class SearchCondition extends Component<IProps, any> {
                 <Form.Item>
                   {getFieldDecorator('start', {
                     initialValue: '义乌',
-                  })(<Input size="large" prefix={<img src={startPartIcon} />} />)}
+                  })(<Input size="large" prefix={<img src={startPartIcon} alt=""/>} />)}
                 </Form.Item>
               </div>
               <div className={styles.formItemTwo}>
@@ -116,7 +119,7 @@ export class SearchCondition extends Component<IProps, any> {
                       optionLabelProp="value"
                       defaultActiveFirstOption={false}
                     >
-                      <Input prefix={<img src={endPartIcon} />} />
+                      <Input prefix={<img src={endPartIcon} alt=""/>} />
                     </AutoComplete>,
                   )}
                 </Form.Item>

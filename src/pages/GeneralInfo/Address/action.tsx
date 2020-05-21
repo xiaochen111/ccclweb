@@ -40,6 +40,7 @@ const tailFormItemLayout = {
     },
   },
 };
+
 @connect(({ address, Loading }) => ({
   addressList: address.addressList,
   addressTotal: address.addressTotal,
@@ -56,8 +57,10 @@ export class action extends Component<Iprps, any> {
   componentDidMount() {
     console.log(this.state.id);
     const urlParams = GetPageQuery();
+
     console.log(urlParams);
     const { flag, portEndAddress, contactDefault } = urlParams;
+
     this.setState({
       flag,
       portEndAddress,
@@ -68,6 +71,7 @@ export class action extends Component<Iprps, any> {
   saveContactAddress = () => {
     const { form, dispatch } = this.props;
     const { flag, id } = this.state;
+
     form.validateFields(async (err, values) => {
       if (err) return;
       console.log(values);
@@ -97,10 +101,11 @@ export class action extends Component<Iprps, any> {
       form: { getFieldDecorator },
     } = this.props;
     const { flag, portEndAddress, contactDefault } = this.state;
+
     return (
       <div className={styles.address}>
         <p className={styles.title}>
-          <Link to="/control/general/adress">目的港送货地址</Link>/{flag == '1' ? '新增' : '修改'}
+          <Link to="/control/general/adress">目的港送货地址</Link>/{flag === '1' ? '新增' : '修改'}
         </p>
         <div className={styles.editMain}>
           <Form {...formItemLayout}>
@@ -123,7 +128,7 @@ export class action extends Component<Iprps, any> {
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" onClick={this.saveContactAddress}>
-                {flag == '1' ? '新增' : '修改'}
+                {flag === '1' ? '新增' : '修改'}
               </Button>
               <Button onClick={this.goback} style={{ marginLeft: '20px' }}>
                 返回

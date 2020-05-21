@@ -1,3 +1,5 @@
+@import '@/styles/flexible.scss';
+
 .search {
   width: 100%;
   padding: 30px 30px 40px;
@@ -6,4 +8,35 @@
 
 .main {
   padding: 0 24px;
+}
+
+.modalFooter {
+  width: 100%;
+  @extend [layout];
+  @extend [layout='row'];
+  @extend [layout-align='end center'];
+  margin-top: 60px;
+  font-size: 20px;
+
+  .footerContent {
+    @extend [layout];
+    @extend [layout='column'];
+    @extend [layout-align='start end'];
+    .text {
+      margin-bottom: 20px;
+      color: #333333;
+    }
+    .price {
+      color: #ff0808;
+      font-size: 22px;
+      vertical-align: bottom;
+      margin-left: 30px;
+      i {
+        font-size: 14px;
+        font-style: normal;
+        font-weight: bold;
+        margin-left: 5px;
+      }
+    }
+  }
 }

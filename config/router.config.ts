@@ -31,6 +31,12 @@ export default [
             name: '我的订单',
             component: './Order/index',
           },
+          {
+            path: '/control/order/my/detail/:id',
+            name: '我的订单详情',
+            hideInMenu: true,
+            component: './Order/Detail',
+          },
         ],
       },
       {
@@ -73,7 +79,7 @@ export default [
   {
     path: '/',
     component: '../layouts/BasicLayout',
-    Routes: ['src/pages/hasLogin'],
+    Routes: ['src/pages/HasLogin'],
     routes: [
       {
         path: '/',

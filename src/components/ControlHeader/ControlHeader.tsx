@@ -16,12 +16,14 @@ export default class GlobalControlHeader extends PureComponent<GlobalControlHead
 
   triggerResizeEvent = debounce(() => {
     const event = document.createEvent('HTMLEvents');
+
     event.initEvent('resize', true, false);
     window.dispatchEvent(event);
   }, 500);
 
   toggle = () => {
     const { collapsed, onCollapse } = this.props;
+
     onCollapse(!collapsed);
     this.triggerResizeEvent();
   };

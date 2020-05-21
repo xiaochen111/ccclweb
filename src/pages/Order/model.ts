@@ -2,7 +2,7 @@ import { Effect } from 'dva';
 import { delay } from 'dva/saga';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
-import { queryOrderList } from '@/services/order';
+import { queryOrderList, queryOrderFeeDetail } from '@/services/order';
 import { ORDER_TATUS_DESC, ORDER_TATUS_COLOR, ORDER_FEE_STATUS_DESC } from '@/utils/const';
 
 export interface StateType {
@@ -15,6 +15,7 @@ export interface LoginModelType {
   state: StateType;
   effects: {
     getOrderList: Effect;
+    getOrderFeeDetail: Effect;
   };
   reducers: {};
 }
@@ -35,6 +36,12 @@ const Model: LoginModelType = {
           type: 'saveOrderList',
           payload: response.resMap.page,
         });
+      }
+    },
+    *getOrderFeeDetail({ payload }, { call, put }) {
+      const response = yield call(queryOrderFeeDetail, payload);
+      if (response && response.code === '1') {
+        return response.resMap.orderPayfeeList;
       }
     },
   },
@@ -62,6 +69,7 @@ const convertList = list => {
       ...item,
       statusDesc: ORDER_TATUS_DESC[item.status],
       statusColor: ORDER_TATUS_COLOR[item.status],
+      feeStatus: item.feeStatus !== undefined ? item.feeStatus : 0,
       feeStatusDesc: ORDER_FEE_STATUS_DESC[item.feeStatus ? item.feeStatus : 0],
     });
   }

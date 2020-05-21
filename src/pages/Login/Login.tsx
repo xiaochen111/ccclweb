@@ -21,6 +21,7 @@ export class LoginPage extends Component<LoginProps, any> {
   handleSubmit = e => {
     e.persist();
     const { form, dispatch } = this.props;
+
     form.validateFields((err, values) => {
       if (!err) {
         const { userName, password } = values;
@@ -36,6 +37,7 @@ export class LoginPage extends Component<LoginProps, any> {
   loginRender = () => {
     const { submitLoading, form } = this.props;
     const { getFieldDecorator } = form;
+
     return (
       <Form>
         <Form.Item>

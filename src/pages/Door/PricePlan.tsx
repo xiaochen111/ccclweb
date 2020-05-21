@@ -12,9 +12,10 @@ import { stringify } from 'qs';
 import { GetGlobalToken } from '@/utils/cache';
 import { message } from 'antd';
 
+import styles from './PricePlan.scss';
+
 const arrow = require('../../assets/img/arrow.png');
 
-import styles from './PricePlan.scss';
 interface IProps extends StateType {
   dispatch: Dispatch<AnyAction>;
   location: H.Location;
@@ -84,6 +85,7 @@ export class PricePlan extends Component<IProps, IState> {
 
   componentDidMount() {
     const params = GetPageQuery();
+
     this.setState(
       {
         endTruck: params.endTruck || '',
@@ -129,6 +131,7 @@ export class PricePlan extends Component<IProps, IState> {
     }
     if (info && info.id) {
       const { routeType } = this.state;
+
       router.push({
         pathname: routeType ? `/control/mdoor-order/${info.id}` : `/door/place-order/${info.id}`,
         search: stringify({
@@ -142,19 +145,17 @@ export class PricePlan extends Component<IProps, IState> {
   handleSearchSubmit = params => {
     const { endTruck, kgs, cbm } = params;
 
-    this.setState(
-      {
-        endTruck,
-        kgs,
-        cbm,
-      },
-      this.handleGetLclList,
-    );
+    this.setState({
+      endTruck,
+      kgs,
+      cbm,
+    }, this.handleGetLclList);
   };
 
   handleListSort = key => {
     const sortColums = ['sort', 'asc', 'desc'];
     const { sortInstance } = this.state;
+
     this.index = sortInstance !== key ? 1 : this.index >= 2 ? 0 : ++this.index;
     let orderType = sortInstance !== key ? sortColums[1] : sortColums[this.index];
 

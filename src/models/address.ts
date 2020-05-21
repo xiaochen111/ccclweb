@@ -47,7 +47,7 @@ const Modal: AddressModelType = {
     },
     *doSaveContactAddress({ payload }, { call }) {
       const respone = yield call(saveContactAddress, payload);
-      if (respone && respone.code === '1') {
+      if(respone && respone.code === '1') {
         message.success('新增成功');
         return true;
       }

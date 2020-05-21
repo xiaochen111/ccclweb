@@ -4,6 +4,7 @@ import {
   queryUserBaseInfomation,
   queryCountryDropList,
   queryGlobalPackageTypeList,
+  sendUuidLogin,
 } from '@/services/global';
 import { SetAccountInfo } from '@/utils/cache';
 
@@ -20,6 +21,7 @@ export interface GlobalModelType {
     getCountryDropList: Effect;
     getGlobalPackageTypeList: Effect;
     getGlobalUserInfo: Effect;
+    uuidLogin: Effect;
   };
   reducers: {
     changeLayoutCollapsed: Reducer<StateType>;
@@ -62,6 +64,15 @@ const model: GlobalModelType = {
 
       if (response && response.code === '1') {
         yield SetAccountInfo(response.resMap.loginUser);
+      }
+    },
+    *uuidLogin({ payload }, { call }) {
+      console.log(payload);
+      const response = yield call(sendUuidLogin, payload);
+      console.log('*uuidLogin -> response', response);
+
+      if (response && response.code === '1') {
+        // yield SetAccountInfo(response.resMap.loginUser);
       }
     },
   },

@@ -75,6 +75,7 @@ class HomePage extends Component<IProps, any> {
 
   searchPanel = () => {
     const { countryDropList } = this.props;
+
     return (
       <div className={styles.searchPanel}>
         <p>拼箱门到门</p>
@@ -157,6 +158,7 @@ class HomePage extends Component<IProps, any> {
 
   news = () => {
     const newsImg = require('../../assets/img/news.png');
+
     return (
       <div className={styles.middleWrap}>
         <p className={styles.title}>新闻资讯</p>
@@ -199,6 +201,7 @@ class HomePage extends Component<IProps, any> {
     } = this.props;
     const bannerList = [1, 2, 3];
     const bannerListPic = bannerList.map(item => require(`../../assets/img/banner${item}.jpg`));
+
     return (
       <main className={styles.conatiner}>
         <Broadside />

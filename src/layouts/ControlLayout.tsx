@@ -10,6 +10,7 @@ import 'moment/locale/zh-cn';
 import SiderMenu from '@/components/SiderMenu';
 import ControlHeader from '@/components/ControlHeader/ControlHeader';
 import { StateType } from '@/models/menu';
+import { GetPageQuery } from '@/utils/utils';
 
 const { Header, Content } = Layout;
 
@@ -33,8 +34,21 @@ export interface ControlLayoutProps extends StateType {
 }))
 class ControlLayout extends Component<ControlLayoutProps, any> {
   componentDidMount() {
+    // this.checkAuth();
     this.handleGetMenuData();
   }
+
+  checkAuth = () => {
+    const { dispatch } = this.props;
+    const params = GetPageQuery();
+
+    if (params && params.uuid) {
+      dispatch({
+        type: 'global/uuidLogin',
+        payload: { uuid: params.uuid },
+      });
+    }
+  };
 
   handleMenuCollapse = collapsed => {
     const { dispatch } = this.props;
@@ -80,6 +94,7 @@ class ControlLayout extends Component<ControlLayoutProps, any> {
         </Layout>
       </Layout>
     );
+
     return (
       <ConfigProvider locale={zh_CN}>
         <Context.Provider value={this.getContext()}>{layout}</Context.Provider>

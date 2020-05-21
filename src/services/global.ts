@@ -13,6 +13,19 @@ export async function queryUserBaseInfomation() {
 }
 
 /**
+ * 使用uuid登录
+ *
+ * @export
+ * @returns
+ */
+export async function sendUuidLogin(data = {}) {
+  return request('/api/web/webuser/auto_login.do', {
+    method: 'POST',
+    data,
+  });
+}
+
+/**
  * 国家下拉框
  * @param data
  */

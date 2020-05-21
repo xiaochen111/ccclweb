@@ -27,6 +27,7 @@ import styles from './PlaceOrder.scss';
 
 const { TextArea } = Input;
 const Option = AutoComplete.Option;
+
 interface IProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
   match?: any;
@@ -51,6 +52,7 @@ interface ParamsState {
   startTruck: string; //收货地点(国内门点)
   endTruck: string; //海外城市(交货地)
   totalPrice: number; //参考价
+  totalPriceCurrency: string; //币种
   goodsType?: string; //品名
   totalPiece?: number; //货物总件数
   totalKgs?: number; //货物总重量
@@ -95,10 +97,10 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       dataIndex: 'portEndAddress',
       key: 'portEndAddress',
       render: (text, record) => (
-        <>
+        <div className={styles.addressContainer}>
           {record.contactDefault === 1 ? <span className={styles.default}>默认</span> : ''}
           {record.portEndAddress}
-        </>
+        </div>
       ),
     },
   ];
@@ -130,10 +132,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   }
 
   getAddressList = () => {
-    const { dispatch, form } = this.props;
+    const { dispatch } = this.props;
     const { addressPageNo, addressPageSize } = this.state;
-
-    // const values = form.getFieldsValue();
 
     const params = {
       pageNo: addressPageNo,
@@ -142,7 +142,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
     dispatch({
       type: 'address/getContactAddress',
-      // payload: params,
+      payload: params,
     });
   };
 
@@ -166,24 +166,40 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   }, 500);
 
   handleTabelChange = pagination => {
-    this.setState(
-      {
-        addressPageNo: pagination.current,
-      },
-      this.getAddressList,
+    this.setState({
+      addressPageNo: 1,
+    }, this.getAddressList,
     );
   };
 
   handleRowSelectionChange = (selectedRowKeys, selectedRows) => {
-    // console.log(selectedRowKeys, selectedRows);
     this.setState({
       selectedRowKeys,
       selectedRows,
     });
   };
 
+  handleModalOk = () => {
+    const { form } = this.props;
+    const { selectedRows } = this.state;
+
+    if (selectedRows && selectedRows.length) {
+      form.setFieldsValue({
+        portEndAddress: selectedRows[0].portEndAddress,
+      });
+    }
+    this.handleModalCancel();
+  };
+
+  handleModalCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
   handleSubmit = () => {
     const { id } = this.state;
+
     const {
       dispatch,
       lclOrderInfo,
@@ -192,8 +208,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
     validateFields((err, values) => {
       if (!err) {
-        const { startTruck, endTruck, totalPrice } = lclOrderInfo;
-
+        const { startTruck, endTruck, totalPrice, currency } = lclOrderInfo;
         const {
           fileList,
           goodsType,
@@ -218,6 +233,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
           startTruck,
           endTruck,
           totalPrice,
+          totalPriceCurrency: currency,
           file,
           contactCompanyName,
           contactTel,
@@ -306,12 +322,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     };
 
     return (
-      <div
-        style={
-          routeType
-            ? { width: '100%', padding: '0 20px' }
-            : { width: 1200, margin: '0 auto', padding: 20 }
-        }
+      <div style={
+        routeType
+          ? { width: '100%', padding: '0 20px' }
+          : { width: 1200, margin: '0 auto', padding: 20 }
+      }
       >
         <div className={styles.container} onScroll={this.handlePageScroll}>
           <div className={styles.mainContent}>
@@ -466,7 +481,13 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                       label={
                         <span>
                           目的地送货地址
-                          <Icon type="diff" style={{ marginLeft: 5 }} />
+                          <Icon
+                            type="diff"
+                            style={{ marginLeft: 5 }}
+                            onClick={() => {
+                              this.setState({ visible: true });
+                            }}
+                          />
                         </span>
                       }
                     >
@@ -520,7 +541,13 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
           </div>
         </div>
 
-        <Modal title="目的地送货地址" visible={true} width={660}>
+        <Modal
+          title="目的地送货地址"
+          visible={visible}
+          width={800}
+          onOk={this.handleModalOk}
+          onCancel={this.handleModalCancel}
+        >
           <div className={styles.modalSearch}>
             <Row gutter={20}>
               <Col span={20}>

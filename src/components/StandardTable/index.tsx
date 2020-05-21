@@ -19,9 +19,9 @@ class StandardTable extends React.PureComponent<any, any> {
         pagination={
           pagination
             ? {
-                ...pagination,
-                showTotal: total => <span style={{ color: 'red' }}>总共{total}条数据</span>,
-              }
+              ...pagination,
+              showTotal: total => <span style={{ color: 'red' }}>总共{total}条数据</span>,
+            }
             : false
         }
       />

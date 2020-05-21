@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Modal, Button } from 'antd';
+import { Modal } from 'antd';
 import styles from './index.scss';
 
 class Broadside extends PureComponent {
@@ -11,6 +11,7 @@ class Broadside extends PureComponent {
   }
   render() {
     const mask = require('../../assets/img/mask.png');
+
     return (
       <div className={styles.broadSideMain}>
         <ul className={styles.broadSide}>
