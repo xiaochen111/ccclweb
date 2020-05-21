@@ -2,9 +2,11 @@ import React, { PureComponent } from 'react';
 import { Icon } from 'antd';
 import debounce from 'lodash/debounce';
 import styles from './index.scss';
-import RightContent, { GlobalHeaderRightProps } from './RightContent';
+import RightContent from './RightContent';
+import { router } from 'umi';
+import { RemoveGlobalToken, RemoveAccountInfo } from '@/utils/cache';
 
-export interface GlobalControlHeaderProps extends GlobalHeaderRightProps {
+export interface GlobalControlHeaderProps{
   collapsed: boolean;
   onCollapse: (type: boolean) => void;
 }
@@ -28,6 +30,19 @@ export default class GlobalControlHeader extends PureComponent<GlobalControlHead
     this.triggerResizeEvent();
   };
 
+  onMenuClick =(type) => {
+    const { key } = type;
+
+    if (key === 'mdify'){
+      router.push('/control/system/modify');
+    }
+    if (key === 'logout'){
+      RemoveGlobalToken();
+      RemoveAccountInfo();
+      router.push('/');
+    }
+  }
+
   render() {
     const { collapsed } = this.props;
 
@@ -36,7 +51,7 @@ export default class GlobalControlHeader extends PureComponent<GlobalControlHead
         <span className={styles.trigger} onClick={this.toggle}>
           <Icon type={collapsed ? 'menu-unfold' : 'menu-fold'} />
         </span>
-        <RightContent {...this.props} />
+        <RightContent {...this.props} onMenuClick={this.onMenuClick}/>
       </div>
     );
   }

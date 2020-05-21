@@ -66,12 +66,12 @@
       white-space: nowrap;
       line-height: 1;
       &:hover {
-        a {
+        a,span {
           color: #2556f2;
         }
       }
     }
-    a {
+    a,span {
       color: #333;
     }
   }

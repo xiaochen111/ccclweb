@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Input, Button, message } from 'antd';
+import { Row, Col, Form, Input, Button, message, PageHeader } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Dispatch, AnyAction } from 'redux';
 import StandardTable from '@/components/StandardTable';
@@ -172,9 +172,31 @@ export class index extends Component<IProps, IState> {
     });
   };
 
+
+  topFormRender = () => {
+    const { form: { getFieldDecorator } } = this.props;
+
+    return (
+      <Form>
+        <Row gutter={20}>
+          <Col span={22}>
+            <Form.Item>{getFieldDecorator('portEndAddress')(<TextArea rows={4} />)}</Form.Item>
+          </Col>
+
+          <Col span={2}>
+            <div style={{ textAlign: 'right' }}>
+              <Button type="primary" size="large" block onClick={this.getAddressList}>
+                  搜索
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      </Form>
+    );
+  }
+
   render() {
     const {
-      form: { getFieldDecorator },
       addressList,
       tableLoading,
       addressTotal,
@@ -192,23 +214,7 @@ export class index extends Component<IProps, IState> {
 
     return (
       <div className={styles.address}>
-        <p className={styles.title}>目的港送货地址</p>
-        <Form>
-          <Row gutter={20}>
-            <Col span={22}>
-              <Form.Item>{getFieldDecorator('portEndAddress')(<TextArea rows={4} />)}</Form.Item>
-            </Col>
-
-            <Col span={2}>
-              <div style={{ textAlign: 'right' }}>
-                <Button type="primary" size="large" block onClick={this.getAddressList}>
-                  搜索
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </Form>
-
+        <PageHeader title="目的港送货地址" footer={this.topFormRender()}/>
         <div className={styles.tableMain}>
           <div className={styles.btns}>
             <button

@@ -45,9 +45,11 @@ export class modify extends Component<IProps, any> {
 
   modifyPw = () => {
     const { form, dispatch } = this.props;
+
     form.validateFields((err, values) => {
       if (err) return;
       const { oldPwd, newPwd } = values;
+
       dispatch({
         type: 'system/doUpdateUserPwd',
         payload: { oldPwd, newPwd },
@@ -58,6 +60,7 @@ export class modify extends Component<IProps, any> {
   changePw = e => {
     const value = e.target.value;
     const flag = value.length >= 6;
+
     this.setState({
       showIntension: flag,
     });
@@ -71,6 +74,7 @@ export class modify extends Component<IProps, any> {
     ); //中
     const enoughRegex = new RegExp('(?=.{6,}).*', 'g'); //弱
     const regexList = [strongRegex, mediumRegex, enoughRegex];
+
     for (let i = 0, len = regexList.length; i < len; i++) {
       if (regexList[i].test(value)) {
         this.setState({
@@ -88,6 +92,7 @@ export class modify extends Component<IProps, any> {
       1: '中',
       2: '弱',
     };
+
     return (
       <div className={styles.intension}>
         <span className={intension <= 2 ? `${styles.spanAct}` : ''}></span>
@@ -100,6 +105,7 @@ export class modify extends Component<IProps, any> {
 
   compareToFirstPassword = (rule, value, callback) => {
     const { form } = this.props;
+
     if (value && value !== form.getFieldValue('newPwd')) {
       callback('两次输入的密码不一样');
     } else {
@@ -114,6 +120,7 @@ export class modify extends Component<IProps, any> {
     } = this.props;
 
     const { showIntension } = this.state;
+
     return (
       <div>
         <PageHeader title="安全设置 / 修改密码" />
@@ -146,12 +153,7 @@ export class modify extends Component<IProps, any> {
                   },
                 ],
               })(
-                <Input
-                  type="password"
-                  onChange={() => {
-                    this.changePw(event);
-                  }}
-                />,
+                <Input type="password" onChange={(e) => { this.changePw(e); }}/>,
               )}
             </Form.Item>
             <Form.Item label="再次输入密码 :">

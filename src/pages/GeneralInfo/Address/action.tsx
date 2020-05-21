@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Form, Input, Button, Switch } from 'antd';
+import { Form, Input, Button, Switch, PageHeader } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import { Dispatch, AnyAction } from 'redux';
 import { StateType } from '@/models/address';
@@ -55,7 +55,6 @@ export class action extends Component<Iprps, any> {
   };
 
   componentDidMount() {
-    console.log(this.state.id);
     const urlParams = GetPageQuery();
 
     console.log(urlParams);
@@ -93,49 +92,56 @@ export class action extends Component<Iprps, any> {
   };
 
   goback = () => {
-    history.go(-1);
+    window.history.go(-1);
   };
 
-  render() {
+
+  topFormRender=() => {
     const {
       form: { getFieldDecorator },
     } = this.props;
-    const { flag, portEndAddress, contactDefault } = this.state;
+    const {  portEndAddress, contactDefault, flag } = this.state;
+
+    return (
+      <div className={styles.editMain}>
+        <Form {...formItemLayout}>
+          <Form.Item label="目的港送货地址">
+            {getFieldDecorator('portEndAddress', {
+              initialValue: portEndAddress,
+              rules: [
+                {
+                  required: true,
+                  message: '请输入目的港送货地址',
+                },
+              ],
+            })(<TextArea rows={4} />)}
+          </Form.Item>
+          <Form.Item label="默认">
+            {getFieldDecorator('contactDefault', {
+              valuePropName: 'checked',
+              initialValue: contactDefault,
+            })(<Switch />)}
+          </Form.Item>
+          <Form.Item {...tailFormItemLayout}>
+            <Button type="primary" onClick={this.saveContactAddress}>
+              {flag === '1' ? '新增' : '修改'}
+            </Button>
+            <Button onClick={this.goback} style={{ marginLeft: '20px' }}>
+                返回
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    );
+  }
+
+  render() {
+    const { flag } = this.state;
 
     return (
       <div className={styles.address}>
-        <p className={styles.title}>
-          <Link to="/control/general/adress">目的港送货地址</Link>/{flag === '1' ? '新增' : '修改'}
-        </p>
-        <div className={styles.editMain}>
-          <Form {...formItemLayout}>
-            <Form.Item label="目的港送货地址">
-              {getFieldDecorator('portEndAddress', {
-                initialValue: portEndAddress,
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入目的港送货地址',
-                  },
-                ],
-              })(<TextArea rows={4} />)}
-            </Form.Item>
-            <Form.Item label="默认">
-              {getFieldDecorator('contactDefault', {
-                valuePropName: 'checked',
-                initialValue: contactDefault,
-              })(<Switch />)}
-            </Form.Item>
-            <Form.Item {...tailFormItemLayout}>
-              <Button type="primary" onClick={this.saveContactAddress}>
-                {flag === '1' ? '新增' : '修改'}
-              </Button>
-              <Button onClick={this.goback} style={{ marginLeft: '20px' }}>
-                返回
-              </Button>
-            </Form.Item>
-          </Form>
-        </div>
+        <PageHeader title={<><Link to="/control/general/adress" style={{ color: '#333' }}>目的港送货地址</Link>/{flag === '1' ? '新增' : '修改'}</>}
+          footer={this.topFormRender()}/>
       </div>
     );
   }
