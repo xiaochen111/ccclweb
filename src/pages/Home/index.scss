@@ -232,7 +232,7 @@
   height: 162px;
 
   li {
-    height: 162px;
+    height: 162px; cursor: pointer;
   }
 }
 
@@ -276,7 +276,7 @@
     padding-left: 15px;
     font-size: 18px;
     line-height: 1;
-
+    cursor: pointer;
     &::before {
       position: absolute;
       top: 5px;

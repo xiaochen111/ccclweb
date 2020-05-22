@@ -8,9 +8,10 @@ import { stringify } from 'qs';
 import Broadside from '@/components/Broadside';
 import styles from './index.scss';
 import { StateType } from './model';
+import { StateType as newsStateType } from '@/models/news';
 import { GetGlobalFlag, GetGlobalToken } from '../../utils/cache';
 
-interface IProps {
+interface IProps extends newsStateType {
   dispatch: Dispatch<AnyAction>;
   homeModelState: StateType;
   countryDropList: any[];
@@ -56,8 +57,10 @@ const specialPriceImages = [
   require('@/assets/img/special-price-bg4.png'),
 ];
 
-@connect(({ home, loading, global }) => ({
+@connect(({ home, news, loading, global }) => ({
   homeModelState: home,
+  newsList: news.newsList,
+  LimitList: news.LimitList,
   countryDropList: global.countryDropList,
 }))
 class HomePage extends Component<IProps, any> {
@@ -70,6 +73,15 @@ class HomePage extends Component<IProps, any> {
 
     dispatch({
       type: 'home/getBargainPrice',
+    });
+
+    dispatch({
+      type: 'news/getWebNewsListPage',
+      payload: {}
+    });
+
+    dispatch({
+      type: 'news/getQueryLimit'
     });
   }
 
@@ -165,8 +177,17 @@ class HomePage extends Component<IProps, any> {
     );
   };
 
+  toDetail = id => {
+    router.push({
+      pathname: `/news/newDetail/${id}`
+    });
+  }
+
   news = () => {
     const newsImg = require('../../assets/img/news.png');
+    const {  newsList, LimitList } = this.props;
+    const LimitNews = LimitList.slice(0, 2);
+    const LimitNewsList = newsList.slice(0, 5);
 
     return (
       <div className={styles.middleWrap}>
@@ -175,12 +196,11 @@ class HomePage extends Component<IProps, any> {
           <div className={styles.vedio} />
           <div className={styles.newsMain}>
             <ul className={styles.newsPic}>
-              <li>
-                <img src={newsImg} alt="" />
-              </li>
-              <li>
-                <img src={newsImg} alt="" />
-              </li>
+              {LimitNews && LimitNews.map(item => (
+                <li key={item.id} onClick={() => { this.toDetail(item.id); }}>
+                  <img src={item.picPath} alt="" width="280" height="162" />
+                </li>
+              ))}
             </ul>
 
             <p className={styles.newTit}>
@@ -189,14 +209,12 @@ class HomePage extends Component<IProps, any> {
             </p>
 
             <ul className={styles.newsList}>
-              <li>
-                <span>箱管部停止南通码头现场业务受理公告</span>
-                <span>06-07</span>
-              </li>
-              <li>
-                <span>箱管部停止南通码头现场业务受理公告</span>
-                <span>06-07</span>
-              </li>
+              {LimitNewsList && LimitNewsList.map(item => (
+                <li key={item.id} onClick={() => { this.toDetail(item.id); }}>
+                  <span>{item.title}</span>
+                  <span>{item.strNewsDate}</span>
+                </li>
+              ))}
             </ul>
           </div>
         </div>

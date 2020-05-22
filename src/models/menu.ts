@@ -1,5 +1,4 @@
 import { Reducer } from 'redux';
-import { Effect } from 'dva';
 import memoizeOne from 'memoize-one';
 import { isEqual } from 'lodash';
 
@@ -50,6 +49,7 @@ const formatter = data => {
 
       if (item.routes) {
         const children = formatter(item.routes);
+
         result.children = children;
       }
 
