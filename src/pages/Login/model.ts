@@ -66,7 +66,7 @@ const Model: LoginModelType = {
         yield delay(1000);
 
         SetGlobalFlag(response.resMap.user.head);
-        SetGlobalToken(response.resMap.user.token);
+        SetGlobalToken(response.resMap.user.head, response.resMap.user.token);
         SetAccountInfo(response.resMap.user);
 
         yield put(routerRedux.push('/home'));

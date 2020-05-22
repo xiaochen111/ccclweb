@@ -99,7 +99,9 @@ export class LoginPage extends Component<LoginProps, any> {
     return (
       <div className={styles.conatiner}>
         <div className={styles.middleLoginBox}>
-          <span className={styles.logo}>logo</span>
+          <span className={styles.logo}>
+            <img src={require('../../assets/img/login-logo.png')} alt="logo"/>
+          </span>
           <p className={styles.title}>账户登录</p>
           <div className={styles.loginMain} onSubmit={this.handleSubmit}>
             {this.loginRender()}

@@ -9,7 +9,7 @@ import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { GetPageQuery } from '@/utils/utils';
 import { stringify } from 'qs';
 
-import { GetGlobalToken } from '@/utils/cache';
+import { GetGlobalFlag, GetGlobalToken } from '@/utils/cache';
 import { message } from 'antd';
 
 import styles from './PricePlan.scss';
@@ -33,6 +33,8 @@ interface IState {
   sortInstance: string;
   orderBy: string; // 排序方式
   routeType: string;
+  pageNo: number;
+  pageSize: number;
 }
 
 @connect(({ door, global, loading }) => ({
@@ -51,6 +53,8 @@ export class PricePlan extends Component<IProps, IState> {
     sortInstance: '',
     orderBy: '',
     routeType: this.props.route.type ? this.props.route.type : '',
+    pageNo: 1,
+    pageSize: 10,
   };
 
   private index = 1;
@@ -108,13 +112,15 @@ export class PricePlan extends Component<IProps, IState> {
 
   handleGetLclList = () => {
     const { dispatch } = this.props;
-    const { endTruck, kgs, cbm, orderByClause } = this.state;
+    const { endTruck, kgs, cbm, orderByClause, pageNo, pageSize } = this.state;
 
     const params = {
       endTruck,
       kgs,
       cbm,
       orderByClause,
+      pageNo,
+      pageSize,
     };
 
     dispatch({
@@ -124,7 +130,7 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleLinkToOrder = info => {
-    if (!GetGlobalToken()) {
+    if (!GetGlobalToken(GetGlobalFlag())) {
       message.warn('下单需要登录，请先登录');
       router.replace('/login');
       return;
@@ -169,10 +175,24 @@ export class PricePlan extends Component<IProps, IState> {
     );
   };
 
+  handleTabelChange = current => {
+    this.setState(
+      {
+        pageNo: current,
+      },
+      this.handleGetLclList,
+    );
+  };
+
   render() {
     const { lclList, totalCount, countryDropList, tableLoading } = this.props;
-    const { sortInstance, orderBy, endTruck, kgs, cbm, routeType } = this.state;
+    const { sortInstance, orderBy, endTruck, kgs, cbm, routeType, pageNo, pageSize } = this.state;
     const searchDefaultValue = { endTruck, kgs, cbm };
+    const pagination = {
+      total: totalCount,
+      current: pageNo,
+      pageSize,
+    };
 
     return (
       <div
@@ -274,7 +294,7 @@ export class PricePlan extends Component<IProps, IState> {
               <span className={styles.total}>
                 共<strong>{totalCount}</strong>条
               </span>
-              <Pagination showQuickJumper showSizeChanger total={totalCount} />
+              <Pagination showQuickJumper showSizeChanger {...pagination} onChange={this.handleTabelChange}/>
             </div>
           </div>
         </Spin>

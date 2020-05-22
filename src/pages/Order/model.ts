@@ -57,7 +57,7 @@ const Model: LoginModelType = {
       const response = yield call(queryOrderFeeDetail, payload);
 
       if (response && response.code === '1') {
-        return response.resMap.orderPayfeeList;
+        return response.resMap.orderPayfee;
       }
     },
   },

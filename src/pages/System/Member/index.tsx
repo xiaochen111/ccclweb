@@ -40,42 +40,6 @@ const tailFormItemLayout = {
   submitLoading: loading.effects['system/doUpdateWebUserInfo'],
 }))
 class SystemMemberPage extends PureComponent<IProps, any> {
-  state = {
-    userName: '',
-    companyName: '',
-    name: '',
-    phone: '',
-    email: '',
-    bussinessNo: '',
-    companyAddress: '',
-  };
-
-  componentDidMount() {
-    this.initUserInfo();
-  }
-
-  initUserInfo = () => {
-    const {
-      userName,
-      companyName,
-      name,
-      phone,
-      email,
-      bussinessNo,
-      companyAddress,
-    } = GetAccountInfo();
-
-    this.setState({
-      userName,
-      companyName,
-      name,
-      phone,
-      email,
-      bussinessNo,
-      companyAddress,
-    });
-  };
-
   saveUserInfo = () => {
     const { dispatch, form } = this.props;
 
@@ -93,7 +57,7 @@ class SystemMemberPage extends PureComponent<IProps, any> {
       form: { getFieldDecorator },
       submitLoading,
     } = this.props;
-    const { companyName, name, phone, email, bussinessNo, companyAddress } = this.state;
+    const { userName, companyName, name, phone = '', email, bussinessNo, companyAddress } = GetAccountInfo();
 
     return (
       <div>
@@ -102,7 +66,7 @@ class SystemMemberPage extends PureComponent<IProps, any> {
           <Form {...formItemLayout}>
             <Form.Item label="用户名">
               {getFieldDecorator('userName', {
-                initialValue: '账号名',
+                initialValue: userName,
               })(<Input disabled />)}
             </Form.Item>
             <Form.Item label="公司名称">
@@ -124,7 +88,7 @@ class SystemMemberPage extends PureComponent<IProps, any> {
             <Form.Item label="手机号码">
               {getFieldDecorator('phone', {
                 initialValue: phone,
-              })(<Input />)}
+              })(<Input placeholder="请输入手机号"/>)}
             </Form.Item>
             <Form.Item label="邮箱">
               {getFieldDecorator('email', {
@@ -134,12 +98,12 @@ class SystemMemberPage extends PureComponent<IProps, any> {
             <Form.Item label="商家摊位号">
               {getFieldDecorator('bussinessNo', {
                 initialValue: bussinessNo,
-              })(<Input />)}
+              })(<Input placeholder="请输入商家摊位号"/>)}
             </Form.Item>
             <Form.Item label="公司地址">
               {getFieldDecorator('companyAddress', {
                 initialValue: companyAddress,
-              })(<Input />)}
+              })(<Input placeholder="请输入公司地址"/>)}
             </Form.Item>
             <Form.Item {...tailFormItemLayout}>
               <Button type="primary" loading={submitLoading} onClick={this.saveUserInfo}>

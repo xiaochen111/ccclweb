@@ -90,7 +90,7 @@ class ControlLayout extends Component<ControlLayoutProps, any> {
           <Header style={{ padding: 0, overflow: 'hidden' }}>
             <ControlHeader collapsed={collapsed} onCollapse={this.handleMenuCollapse} />
           </Header>
-          <Content>{children}</Content>
+          <Content style={{ height: '100%' }}>{children}</Content>
         </Layout>
       </Layout>
     );

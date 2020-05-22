@@ -29,7 +29,7 @@ export class doorIndex extends PureComponent<IProps, any> {
     const { countryDropList } = this.props;
 
     return (
-      <PageWrapper>
+      <PageWrapper wrapperClassName={styles.bg}>
         <div className={styles.container}>
           <div className={styles.mainContainer}>
             <p className={styles.title}>拼箱门到门</p>
