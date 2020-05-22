@@ -50,6 +50,7 @@ const formatter = data => {
 
       if (item.routes) {
         const children = formatter(item.routes);
+
         result.children = children;
       }
 

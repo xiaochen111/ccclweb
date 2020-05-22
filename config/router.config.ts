@@ -133,6 +133,18 @@ export default [
             path: '/door/place-order/:id',
             component: './Door/PlaceOrder',
           },
+          {
+            path: 'news',
+            redirect: '/news/index',
+          },
+          {
+            path: '/news/index',
+            component: './News/index',
+          },
+          {
+            path: '/news/newDetail/:id',
+            component: './News/action',
+          },
         ],
       },
     ]
