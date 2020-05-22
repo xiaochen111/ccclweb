@@ -102,7 +102,7 @@ export class News extends Component<Iprops, Istate> {
         <Carousel autoplay>
           {LimitList && LimitList.map(item => (
             <div className={styles.banner} key={item.id} onClick={() => { this.toDetail(item.id); }}>
-              <img src={item.picPath} alt=""/>
+              <img src={item.picPath || newsImg} alt="" onError={(e) => { e.target['src'] = newsImg; }}/>
             </div>
           ))}
         </Carousel>
@@ -114,7 +114,7 @@ export class News extends Component<Iprops, Istate> {
         <div className={styles.newsMain}>
           {newsList && newsList.map(item => (
             <div className={styles.newItem} key={item.id} onClick={() => { this.toDetail(item.id); }}>
-              <img src={newsImg} alt=""/>
+              <img src={item.picPath || newsImg} alt="" onError={(e) => { e.target['src'] = newsImg; }}/>
               <div className={styles.newRight}>
                 <p className={styles.titleNews}>{item.title}</p>
                 <p className={styles.date}>{item.strNewsDate}</p>

@@ -57,6 +57,8 @@ const specialPriceImages = [
   require('@/assets/img/special-price-bg4.png'),
 ];
 
+const newsImg = require('../../assets/img/news.png');
+
 @connect(({ home, news, loading, global }) => ({
   homeModelState: home,
   newsList: news.newsList,
@@ -197,20 +199,20 @@ class HomePage extends Component<IProps, any> {
             <ul className={styles.newsPic}>
               {LimitNews && LimitNews.map(item => (
                 <li key={item.id} onClick={() => { this.toDetail(item.id); }}>
-                  <img src={item.picPath} alt="" width="280" height="162" />
+                  <img src={item.picPath || newsImg} alt="" width="280" height="162" onError={(e) => { e.target['src'] = newsImg; }} />
                 </li>
               ))}
             </ul>
 
             <p className={styles.newTit}>
               <span>新闻公告</span>
-              <Link to="/">更多</Link>
+              <Link to="/news">更多</Link>
             </p>
 
             <ul className={styles.newsList}>
               {LimitNewsList && LimitNewsList.map(item => (
                 <li key={item.id} onClick={() => { this.toDetail(item.id); }}>
-                  <span>{item.title}</span>
+                  <span className={styles.newsTitls}>{item.title}</span>
                   <span>{item.strNewsDate}</span>
                 </li>
               ))}
