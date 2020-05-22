@@ -4,7 +4,8 @@ import { FormComponentProps } from 'antd/lib/form';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 
-import { GetAccountInfo } from '../../../utils/cache';
+import { GetAccountInfo } from '@/utils/cache';
+import REGEX from '@/utils/regex';
 import styles from './index.scss';
 
 interface IProps extends FormComponentProps {
@@ -88,11 +89,13 @@ class SystemMemberPage extends PureComponent<IProps, any> {
             <Form.Item label="手机号码">
               {getFieldDecorator('phone', {
                 initialValue: phone,
+                rules: [{ pattern: REGEX.MOBILE, message: '手机号格式不正确' }, ]
               })(<Input placeholder="请输入手机号"/>)}
             </Form.Item>
             <Form.Item label="邮箱">
               {getFieldDecorator('email', {
                 initialValue: email,
+                rules: [{ pattern: REGEX.EMAIL, message: '邮箱格式不正确' }, ]
               })(<Input />)}
             </Form.Item>
             <Form.Item label="商家摊位号">
