@@ -35,6 +35,7 @@ interface IState {
   routeType: string;
   pageNo: number;
   pageSize: number;
+  currentExplain: string;
 }
 
 @connect(({ door, global, loading }) => ({
@@ -55,6 +56,7 @@ export class PricePlan extends Component<IProps, IState> {
     routeType: this.props.route.type ? this.props.route.type : '',
     pageNo: 1,
     pageSize: 10,
+    currentExplain: '',
   };
 
   private index = 1;
@@ -186,7 +188,7 @@ export class PricePlan extends Component<IProps, IState> {
 
   render() {
     const { lclList, totalCount, countryDropList, tableLoading } = this.props;
-    const { sortInstance, orderBy, endTruck, kgs, cbm, routeType, pageNo, pageSize } = this.state;
+    const { sortInstance, orderBy, endTruck, kgs, cbm, routeType, pageNo, pageSize, currentExplain } = this.state;
     const searchDefaultValue = { endTruck, kgs, cbm };
     const pagination = {
       total: totalCount,
@@ -238,7 +240,10 @@ export class PricePlan extends Component<IProps, IState> {
               <ul className={styles.tableBody}>
                 {lclList && lclList.length ? (
                   lclList.map((item, index) => (
-                    <li key={index} className={styles.tableItem}>
+                    <li key={index} className={styles.tableItem} onMouseEnter={() => this.setState({ currentExplain: item.id })}>
+                      {
+                        item.specialFlag && item.specialFlag === 1 ? <i className={styles.specialFlag}/> : null
+                      }
                       <div className={styles.rowInfos}>
                         <div className={`${styles.line} ${styles.ColumsWidth}`}>
                           <div className={styles.lineMain}>
@@ -274,15 +279,24 @@ export class PricePlan extends Component<IProps, IState> {
                         </div>
                       </div>
                       <div className={styles.expandeContent}>
-                        <div style={{ width: '40%' }}>
-                          <span style={{ marginRight: 50 }} className={styles.validityTime}>
-                            有效船期 : {item.startTime} 至 {item.endTime}
-                          </span>
-                        </div>
-                        <span>
-                          <Icon type="exclamation-circle" theme="filled" /> {item.remarkOut}
+                        <span>{item.supplierName}</span>
+                        <span style={{ marginRight: 50 }} className={styles.validityTime}>
+                          体重比 : 1CBM : 400KGS
+                        </span>
+                        <span style={{ marginRight: 50 }} className={styles.validityTime}>
+                          有效船期 : {item.startTime} 至 {item.endTime}
+                        </span>
+                        <span style={{ color: currentExplain === item.id ? '#2556F2' : '' }}>
+                          <Icon type="exclamation-circle" theme="filled"/> 专线说明
                         </span>
                       </div>
+                      {
+                        currentExplain === item.id ?
+                          <div className={styles.explain}>
+                            <div className={styles.title}><Icon type="exclamation-circle" theme="filled" /> 专线说明</div>
+                            <p>{item.remarkOut}</p>
+                          </div> : null
+                      }
                     </li>
                   ))
                 ) : (

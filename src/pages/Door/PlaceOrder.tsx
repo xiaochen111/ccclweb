@@ -352,11 +352,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   </div>
                 </div>
                 <div className={styles.subContent}>
+                  <Badge status="processing" text={lclOrderInfo.supplierName} />
                   <Badge
                     status="processing"
                     text={`有效船期 : ${lclOrderInfo.startTime} 至${lclOrderInfo.endTime}`}
                   />
-                  <Badge status="processing" text={`有效信息 :${lclOrderInfo.remarkOut}`} />
                 </div>
                 <div className={styles.priceInfo}>
                   <h5>单价:</h5>
@@ -515,13 +515,9 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             ref={node => (this.ref = node)}
             style={{ right: routeType ? 40 : fixedRight }}
           >
-            <Card title="费用说明" bordered={false}>
+            <Card title="专线说明" bordered={false}>
               <p>
-                1、MIN
-                2CBM起计费，价格适用于普货，最长边不超过63cm，单箱不超过22.5kg，不接受任何木制品包装。
-              </p>
-              <p>
-                2、需用卖家自有bond清关，需加收每票285USD的额外费用，包含AMS/ISF/DOC/单独清关费用。{' '}
+                {lclOrderInfo.remarkOut}
               </p>
               <div className={styles.price}>
                 <span className={styles.text}>总价</span>
