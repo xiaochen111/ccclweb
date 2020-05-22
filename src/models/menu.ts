@@ -1,5 +1,4 @@
 import { Reducer } from 'redux';
-import { Effect } from 'dva';
 import memoizeOne from 'memoize-one';
 import { isEqual } from 'lodash';
 

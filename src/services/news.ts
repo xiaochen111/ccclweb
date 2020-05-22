@@ -24,3 +24,15 @@ export async function webQueryNewsById(data = {}) {
     data
   });
 }
+/**
+ * 获取新闻推荐
+ *
+ * @export
+ * @returns
+ */
+export async function queryLimit(data = {}) {
+  return request('/api/web/webnews/queryLimit.do', {
+    method: 'POST',
+    data
+  });
+}

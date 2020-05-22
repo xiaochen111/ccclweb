@@ -1,6 +1,11 @@
 .banner{
   height: 300px;
   background-color: #ccc;
+  img{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
 }
 .main{
   padding: 20px 0;
@@ -13,6 +18,7 @@
   display: flex;
   align-items: center;
   margin-bottom: 40px;
+  cursor: pointer;
   img{
     flex-shrink: 0;
     width: 200px;
@@ -26,7 +32,7 @@
     flex-direction: column;
     justify-content: space-between;
   }
-  .title{
+  .titleNews{
     color:#333333;
     line-height:30px;
     font-size:20px;
@@ -57,7 +63,10 @@
   }
 }
 
-
+.newMainBox{
+  min-height: calc(100vh - 80px);
+  background-color: #fff;
+}
 .newsMain{
   .title{
     text-align: center;
@@ -69,5 +78,6 @@
     font-size: 14px;
     line-height: 2;
     color: #666;
+    margin-bottom: 20px;
   }
 }

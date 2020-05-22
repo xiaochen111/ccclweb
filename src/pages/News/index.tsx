@@ -23,6 +23,7 @@ interface Istate {
 
 @connect(({ news }) => ({
   newsList: news.newsList,
+  LimitList: news.LimitList,
   listTotal: news.listTotal,
 }))
 export class News extends Component<Iprops, Istate> {
@@ -36,6 +37,16 @@ export class News extends Component<Iprops, Istate> {
   componentDidMount(){
     console.log(this.props);
     this.handleSearchList();
+    this.initLimit();
+  }
+
+  initLimit = () => {
+    // getQueryLimit
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'news/getQueryLimit'
+    });
   }
 
   handleSearchList = () => {
@@ -77,7 +88,7 @@ export class News extends Component<Iprops, Istate> {
   }
 
   render() {
-    const { listTotal, newsList } = this.props;
+    const { listTotal, newsList, LimitList } = this.props;
 
     const { pageNo, pageSize } =  this.state;
     const pagination = {
@@ -86,42 +97,38 @@ export class News extends Component<Iprops, Istate> {
       pageSize,
     };
 
-
     return (
-      <div>
-        <PageWrapper>
-          <Carousel>
-            <div className={styles.banner}>
-                11
+      <PageWrapper>
+        <Carousel autoplay>
+          {LimitList && LimitList.map(item => (
+            <div className={styles.banner} key={item.id} onClick={() => { this.toDetail(item.id); }}>
+              <img src={item.picPath} alt=""/>
             </div>
-            <div className={styles.banner}>
-              33
-            </div>
-          </Carousel>
+          ))}
+        </Carousel>
 
-          <div className={styles.main}>
-            <Search placeholder="请输入搜索关键词" size="large" onSearch={value => { this.setTitleSearch(value); }} enterButton />
-          </div>
+        <div className={styles.main}>
+          <Search placeholder="请输入搜索关键词" size="large" onSearch={value => { this.setTitleSearch(value); }} enterButton />
+        </div>
 
-          <div className={styles.newsMain}>
-            {newsList && newsList.map(item => (
-              <div className={styles.newItem} key={item.iD} onClick={() => { this.toDetail(item.iD); }}>
-                <img src={newsImg} alt=""/>
-                <div className={styles.newRight}>
-                  <p className={styles.title}>{item.title}</p>
-                  <p className={styles.date}>{item.strNewsDate}</p>
-                </div>
+        <div className={styles.newsMain}>
+          {newsList && newsList.map(item => (
+            <div className={styles.newItem} key={item.iD} onClick={() => { this.toDetail(item.iD); }}>
+              <img src={newsImg} alt=""/>
+              <div className={styles.newRight}>
+                <p className={styles.titleNews}>{item.title}</p>
+                <p className={styles.date}>{item.strNewsDate}</p>
               </div>
-            ))}
-          </div>
-          <div className={styles.paginationContainer}>
-            <span className={styles.total}>
+            </div>
+          ))}
+        </div>
+        <div className={styles.paginationContainer}>
+          <span className={styles.total}>
                 共<strong>{listTotal}</strong>条
-            </span>
-            <Pagination onChange={this.handleTabelChange} {...pagination} showQuickJumper showSizeChanger />
-          </div>
-        </PageWrapper>
-      </div>
+          </span>
+          <Pagination onChange={this.handleTabelChange} {...pagination} showQuickJumper showSizeChanger />
+        </div>
+      </PageWrapper>
     );
   }
 }

@@ -1,10 +1,11 @@
 import { Effect } from 'dva';
 
-import { webNewsListPage, webQueryNewsById } from '@/services/news';
+import { webNewsListPage, webQueryNewsById, queryLimit } from '@/services/news';
 
 
 export interface StateType {
   newsList: any[];
+  LimitList: any[];
   newDetail:any;
   listTotal: number;
 }
@@ -15,6 +16,7 @@ export interface NewsModelType {
   effects: {
     getWebNewsListPage: Effect;
     getWebQueryNewsById: Effect;
+    getQueryLimit: Effect;
   };
   reducers: {};
 }
@@ -23,6 +25,7 @@ const Model: NewsModelType = {
   namespace: 'news',
   state: {
     newsList: [],
+    LimitList: [],
     newDetail: {},
     listTotal: 0,
   },
@@ -48,6 +51,17 @@ const Model: NewsModelType = {
           payload: response.resMap.wbVo
         });
       }
+    },
+
+    *getQueryLimit({ payload }, { call, put }) {
+      const response =  yield call(queryLimit, payload);
+
+      if (response && response.code === '1'){
+        yield put({
+          type: 'setLimitList',
+          payload: response.resMap.webNewsVoList
+        });
+      }
     }
 
   },
@@ -64,6 +78,12 @@ const Model: NewsModelType = {
       return {
         ...state,
         newDetail: payload,
+      };
+    },
+    setLimitList(state, { payload }){
+      return {
+        ...state,
+        LimitList: payload,
       };
     }
   },

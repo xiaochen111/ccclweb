@@ -6,6 +6,7 @@ import { Breadcrumb } from 'antd';
 import { StateType } from '@/models/news';
 import { connect } from 'dva';
 import styles from './index.scss';
+import { Link } from 'umi';
 
 interface IProps extends StateType  {
   dispatch: Dispatch<AnyAction>;
@@ -43,10 +44,10 @@ export class NewsDetail extends Component<IProps, any> {
       return <PageLoading/>;
     }
     return (
-      <PageWrapper>
+      <PageWrapper wrapperClassName={styles.newMainBox}>
         <Breadcrumb>
           <Breadcrumb.Item>
-            新闻列表
+            <Link to="/news">新闻列表</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
             新闻详情
