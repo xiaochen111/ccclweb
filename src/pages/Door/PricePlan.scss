@@ -63,7 +63,16 @@
     li {
       width: 100%;
       border-bottom: 1px solid #999;
-
+      position: relative;
+      .specialFlag {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 50px;
+        height: 20px;
+        background-image: url('../../assets/img/special-flag-icon.svg');
+        background-size: cover;
+      }
       .rowInfos {
         height: 80px;
         line-height: 80px;
@@ -106,15 +115,27 @@
       .expandeContent {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         height: 58px;
         margin: 0 30px;
         color: #999;
         font-size: 14px;
         line-height: 58px;
         border-top: 1px dashed #ccc;
+        color: #666;
+      }
 
-        .validityTime {
-          color: #666;
+      .explain {
+        border-top: 1px dashed #ccc;
+        margin: 0 30px;
+        padding: 12px 0;
+        .title {
+          color: #2556F2;
+          font-size: 16px;
+        }
+        p {
+          color: #333;
+          margin-top: 5px;
         }
       }
     }

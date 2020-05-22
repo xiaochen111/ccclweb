@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="50px" height="18px" viewBox="0 0 50 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
+    <title>icon-tejia</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <text id="text-1" font-family="YouSheBiaoTiHei" font-size="14" font-weight="normal" fill="#FFFFFF">
+            <tspan x="10" y="14">特价</tspan>
+        </text>
+        <filter x="-3.8%" y="-11.1%" width="115.4%" height="122.2%" filterUnits="objectBoundingBox" id="filter-2">
+            <feOffset dx="1" dy="0" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0.5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.99516369   0 0 0 0 0.444647606   0 0 0 0 0  0 0 0 0.422752491 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="拼箱门到门" transform="translate(-361.000000, -367.000000)">
+            <g id="icon-tejia" transform="translate(361.000000, 367.000000)">
+                <path d="M16,-16 L16,-16 C25.9411255,-16 34,-7.9411255 34,2 L34,34 L16,34 L16,-16 Z" id="矩形" fill="#FFBE00" fill-rule="nonzero" transform="translate(25.000000, 9.000000) rotate(-270.000000) translate(-25.000000, -9.000000) "></path>
+                <g id="特价" fill="#FFFFFF" fill-opacity="1">
+                    <use filter="url(#filter-2)" xlink:href="#text-1"></use>
+                    <use xlink:href="#text-1"></use>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
