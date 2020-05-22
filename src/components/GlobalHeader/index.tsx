@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react';
-import { Link } from 'umi';
+import { Link, router } from 'umi';
 import H from 'history';
 import styles from './index.scss';
-import { GetGlobalToken, GetAccountInfo, RemoveGlobalToken, RemoveAccountInfo } from '@/utils/cache';
+import { GetGlobalFlag, GetGlobalToken, GetAccountInfo, RemoveAllStorage } from '@/utils/cache';
 
 interface GlonbalHeaderProps {
   logo: string;
@@ -11,12 +11,9 @@ interface GlonbalHeaderProps {
 }
 
 class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
-
-
   logout = () => {
-    RemoveGlobalToken();
-    RemoveAccountInfo();
-    this.setState({});
+    RemoveAllStorage();
+    router.replace('/');
   }
 
   render() {
@@ -47,7 +44,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
               {item.name}
             </Link>
           ))}
-          {GetGlobalToken() ? (
+          {GetGlobalToken(GetGlobalFlag()) ? (
             <div className={styles.loginer}>
               <span>{GetAccountInfo().userName}</span>
               <div className={styles.controlNav}>

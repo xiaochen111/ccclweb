@@ -129,18 +129,18 @@ export class SearchCondition extends Component<IProps, any> {
 
           <div className={styles.formItemThree}>
             <Form.Item>
-              {getFieldDecorator('kgs', {
-                initialValue: defaultValue.kgs,
-                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }],
-              })(<Input placeholder="重量" size="large" suffix={<span>KGS</span>} />)}
-            </Form.Item>
-          </div>
-          <div className={styles.formItemFour}>
-            <Form.Item>
               {getFieldDecorator('cbm', {
                 initialValue: defaultValue.cbm,
                 rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }],
               })(<Input placeholder="体积" size="large" suffix={<span>CBM</span>} />)}
+            </Form.Item>
+          </div>
+          <div className={styles.formItemFour}>
+            <Form.Item>
+              {getFieldDecorator('kgs', {
+                initialValue: defaultValue.kgs,
+                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }],
+              })(<Input placeholder="重量" size="large" suffix={<span>KGS</span>} />)}
             </Form.Item>
           </div>
           <div className={styles.formItemBtn}>

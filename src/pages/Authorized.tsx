@@ -1,13 +1,13 @@
 import React from 'react';
 import { Redirect } from 'umi';
-import { GetGlobalToken } from '@/utils/cache';
+import { GetGlobalFlag, GetGlobalToken } from '@/utils/cache';
 import { GetPageQuery } from '@/utils/utils';
 import { stringify } from 'qs';
 
 export default (props) => {
   const { location: { pathname }, children } = props;
 
-  const token = GetGlobalToken();
+  const token = GetGlobalToken(GetGlobalFlag());
   const pageQuery = GetPageQuery();
   const loginRoute = ['/control', '/door/place-order'];
 

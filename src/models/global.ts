@@ -75,7 +75,7 @@ const model: GlobalModelType = {
         // yield SetAccountInfo(response.resMap.loginUser);
         if (response.resMap.user && response.resMap.user.token) {
           SetGlobalFlag(response.resMap.user.head);
-          SetGlobalToken(response.resMap.user.token);
+          SetGlobalToken(response.resMap.user.head, response.resMap.user.token);
           SetAccountInfo(response.resMap.user);
 
           yield delay(1000);

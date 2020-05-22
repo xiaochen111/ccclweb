@@ -33,6 +33,7 @@ const codeMessage: any = {
 const errorHandler = (error: { response: Response }): Response => {
   console.log(error, 'error');
   const { response } = error;
+
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
@@ -52,7 +53,7 @@ const errorHandler = (error: { response: Response }): Response => {
 
 request.interceptors.request.use((url, options: any) => {
   const flag = GetGlobalFlag();
-  const token = GetGlobalToken() || '';
+  const token = GetGlobalToken(flag) || '';
   const headers = Object.assign({}, token ? { [flag]: token } : {});
 
   if (options.method.toUpperCase() === 'DELETE') {
@@ -69,6 +70,7 @@ request.interceptors.request.use((url, options: any) => {
   }
   if (options.method.toUpperCase() === 'UPLOAD') {
     const formData = new FormData();
+
     formData.append('uploadPicture', options['body']);
 
     return {
@@ -94,13 +96,13 @@ request.interceptors.response.use(async response => {
     try {
       if (Number(code) !== 1) {
         switch (Number(code)) {
-          case 401:
-            // RemoveAllStorage();
-            router.push('/login');
+        case 401:
+          // RemoveAllStorage();
+          router.push('/login');
 
-            throw resMessage;
-          default:
-            throw resMessage;
+          throw resMessage;
+        default:
+          throw resMessage;
         }
       }
     } catch (errMsg) {

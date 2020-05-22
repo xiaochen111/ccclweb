@@ -8,7 +8,7 @@ import { stringify } from 'qs';
 import Broadside from '@/components/Broadside';
 import styles from './index.scss';
 import { StateType } from './model';
-import { GetGlobalToken } from '../../utils/cache';
+import { GetGlobalFlag, GetGlobalToken } from '../../utils/cache';
 
 interface IProps {
   dispatch: Dispatch<AnyAction>;
@@ -18,12 +18,12 @@ interface IProps {
 
 const serviceList = [
   {
-    img: require('../../assets/img/price.png'),
+    img: require('@/assets/img/price.png'),
     tit: '价格可靠',
     intro: '直营运价 全口岸全航线覆盖 多',
   },
   {
-    img: require('../../assets/img/icon_kuaisu.png'),
+    img: require('@/assets/img/icon_kuaisu.png'),
     tit: '快速响应',
     intro: '客户一对一服务 及时在线问题解',
   },
@@ -47,6 +47,13 @@ const serviceList = [
     tit: '团队合作',
     intro: '直营运价 全口岸全航线覆盖 多',
   },
+];
+
+const specialPriceImages = [
+  require('@/assets/img/special-price-bg1.png'),
+  require('@/assets/img/special-price-bg2.png'),
+  require('@/assets/img/special-price-bg3.png'),
+  require('@/assets/img/special-price-bg4.png'),
 ];
 
 @connect(({ home, loading, global }) => ({
@@ -90,7 +97,7 @@ class HomePage extends Component<IProps, any> {
   };
 
   handleLinkToOrder = info => {
-    if (!GetGlobalToken()) {
+    if (!GetGlobalToken(GetGlobalFlag())) {
       message.warn('下单需要登录，请先登录');
       router.replace('/login');
       return;
@@ -108,8 +115,9 @@ class HomePage extends Component<IProps, any> {
 
   specialOfferItem = item => {
     return (
-      <div className={styles.SpecialOfferItem} key={item.id}>
+      <div className={styles.specialOfferItem} key={item.id}>
         <div className={styles.picPort}>
+          <img src={specialPriceImages[Math.ceil(Math.random() * 3)]} alt="pic"/>
           <p className={styles.ports}>义乌 — {item.endTruck}</p>
         </div>
         <div className={styles.bottomPart}>
@@ -134,7 +142,7 @@ class HomePage extends Component<IProps, any> {
   serviceAdvantages = () => {
     return (
       <div className={styles.serviceMain}>
-        <p className={styles.title} style={{ color: '#fff' }}>
+        {/* <p className={styles.title} style={{ color: '#fff' }}>
           服务优势
         </p>
         <div className={styles.middleWrap}>
@@ -151,7 +159,8 @@ class HomePage extends Component<IProps, any> {
               </Col>
             ))}
           </Row>
-        </div>
+        </div> */}
+        <div className={styles.serviceContent}/>
       </div>
     );
   };
@@ -206,7 +215,7 @@ class HomePage extends Component<IProps, any> {
       <main className={styles.conatiner}>
         <Broadside />
         <div className={styles.banner}>
-          <Carousel>
+          <Carousel autoplay>
             {bannerListPic.map((item, index) => (
               <div key={index}>
                 <div style={{ background: `url(${item}) center` }}>

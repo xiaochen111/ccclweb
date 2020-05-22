@@ -1,7 +1,13 @@
 .container {
   width: 100%;
-  padding: 190px 0 100px 0;
+  padding: 190px 0 100px;
   color: #333;
+}
+
+.bg {
+  background: url('../../assets/img/door-bg.jpg') no-repeat center;
+  background-size: 100% 100%;
+  height: calc(100vh - 80px);
 }
 
 .mainContainer {

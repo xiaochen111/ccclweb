@@ -24,9 +24,9 @@ interface IState {
     startTruck: string;
     endTruck: string;
   };
-  current: any;
   visible: boolean;
   detailList: any[];
+  detailPriceInfo: any;
 }
 @connect(({ loading, order, global }) => ({
   orderList: order.orderList,
@@ -44,9 +44,12 @@ class OrderPage extends PureComponent<IProps, IState> {
       startTruck: '',
       endTruck: '',
     },
-    current: null,
     visible: false,
     detailList: [],
+    detailPriceInfo: {
+      unPayMoney: 0,
+      unPayMoneyCurrency: ''
+    },
   };
 
   tabs = [
@@ -167,8 +170,11 @@ class OrderPage extends PureComponent<IProps, IState> {
     });
 
     this.setState({
-      current: record,
-      detailList: result,
+      detailList: result.orderPayfeeList,
+      detailPriceInfo: {
+        unPayMoney: result.unPayMoney || 0,
+        unPayMoneyCurrency: result.unPayMoneyCurrency || ''
+      },
       visible: true,
     });
   };
@@ -211,7 +217,7 @@ class OrderPage extends PureComponent<IProps, IState> {
   };
 
   render() {
-    const { status, pageNo, pageSize, current, detailList, visible } = this.state;
+    const { status, pageNo, pageSize, detailList, detailPriceInfo, visible } = this.state;
     const {
       form: { getFieldDecorator },
       orderList,
@@ -283,11 +289,11 @@ class OrderPage extends PureComponent<IProps, IState> {
                 <div className={styles.text}>
                   总金额
                   <span className={styles.price}>
-                    <strong>{current && current.totalPrice}</strong>
-                    <i>{current && current.totalPriceCurrency}</i>
+                    <strong>{detailPriceInfo.unPayMoney}</strong>
+                    <i>{detailPriceInfo.unPayMoneyCurrency}</i>
                   </span>
                 </div>
-                <Button type="primary">确认</Button>
+                <Button type="primary" onClick={this.handleModalCancel}>确认</Button>
               </div>
             </div>
           </>
