@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Row, Col, Carousel, message } from 'antd';
+import { Button, Carousel, message } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { Link, router } from 'umi';
@@ -17,38 +17,38 @@ interface IProps extends newsStateType {
   countryDropList: any[];
 }
 
-const serviceList = [
-  {
-    img: require('@/assets/img/price.png'),
-    tit: '价格可靠',
-    intro: '直营运价 全口岸全航线覆盖 多',
-  },
-  {
-    img: require('@/assets/img/icon_kuaisu.png'),
-    tit: '快速响应',
-    intro: '客户一对一服务 及时在线问题解',
-  },
-  {
-    img: require('../../assets/img/icon_xinyu.png'),
-    tit: '信誉保证',
-    intro: '对客户 我们以诚相 寻求长期的',
-  },
-  {
-    img: require('../../assets/img/icon_chuangxin.png'),
-    tit: '技术创新',
-    intro: '直营运价 全口岸全航线覆盖 多',
-  },
-  {
-    img: require('../../assets/img/icon_kexue.png'),
-    tit: '科学管理',
-    intro: '直营运价 全口岸全航线覆盖 多',
-  },
-  {
-    img: require('../../assets/img/icon_tuandui.png'),
-    tit: '团队合作',
-    intro: '直营运价 全口岸全航线覆盖 多',
-  },
-];
+// const serviceList = [
+//   {
+//     img: require('@/assets/img/price.png'),
+//     tit: '价格可靠',
+//     intro: '直营运价 全口岸全航线覆盖 多',
+//   },
+//   {
+//     img: require('@/assets/img/icon_kuaisu.png'),
+//     tit: '快速响应',
+//     intro: '客户一对一服务 及时在线问题解',
+//   },
+//   {
+//     img: require('../../assets/img/icon_xinyu.png'),
+//     tit: '信誉保证',
+//     intro: '对客户 我们以诚相 寻求长期的',
+//   },
+//   {
+//     img: require('../../assets/img/icon_chuangxin.png'),
+//     tit: '技术创新',
+//     intro: '直营运价 全口岸全航线覆盖 多',
+//   },
+//   {
+//     img: require('../../assets/img/icon_kexue.png'),
+//     tit: '科学管理',
+//     intro: '直营运价 全口岸全航线覆盖 多',
+//   },
+//   {
+//     img: require('../../assets/img/icon_tuandui.png'),
+//     tit: '团队合作',
+//     intro: '直营运价 全口岸全航线覆盖 多',
+//   },
+// ];
 
 const specialPriceImages = [
   require('@/assets/img/special-price-bg1.png'),
@@ -184,7 +184,6 @@ class HomePage extends Component<IProps, any> {
   }
 
   news = () => {
-    const newsImg = require('../../assets/img/news.png');
     const {  newsList, LimitList } = this.props;
     const LimitNews = LimitList.slice(0, 2);
     const LimitNewsList = newsList.slice(0, 5);

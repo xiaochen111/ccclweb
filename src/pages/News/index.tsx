@@ -113,7 +113,7 @@ export class News extends Component<Iprops, Istate> {
 
         <div className={styles.newsMain}>
           {newsList && newsList.map(item => (
-            <div className={styles.newItem} key={item.iD} onClick={() => { this.toDetail(item.iD); }}>
+            <div className={styles.newItem} key={item.id} onClick={() => { this.toDetail(item.id); }}>
               <img src={newsImg} alt=""/>
               <div className={styles.newRight}>
                 <p className={styles.titleNews}>{item.title}</p>
