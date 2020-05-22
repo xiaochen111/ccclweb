@@ -7,7 +7,7 @@ import router from 'umi/router';
 import { notification, message } from 'antd';
 import { IsEmptyObject, ObjectToUrl } from './utils';
 // import { GetGlobalToken, RemoveAllStorage } from './cache';
-import { GetGlobalFlag, GetGlobalToken } from '@/utils/cache';
+import { GetGlobalFlag, GetGlobalToken, RemoveAllStorage } from '@/utils/cache';
 
 const codeMessage: any = {
   200: '服务器成功返回请求的数据。',
@@ -37,6 +37,13 @@ const errorHandler = (error: { response: Response }): Response => {
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
+
+    if (Number(status) === 401) {
+      message.info('请重新登录');
+      RemoveAllStorage();
+
+      router.push('/login');
+    }
 
     notification.error({
       message: `请求错误 ${status}: ${url}`,
