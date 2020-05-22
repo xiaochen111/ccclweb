@@ -19,11 +19,15 @@ const Modal: SystemModelType = {
   state: {},
   effects: {
     // 更改个人信息
-    *doUpdateWebUserInfo({ payload }, { call }) {
+    *doUpdateWebUserInfo({ payload }, { call, put }) {
       const response = yield call(updateWebUserInfo, payload);
 
       if (response && response.code === '1') {
         message.success('更改个人信息成功');
+
+        yield put({
+          type: 'global/getGlobalUserInfo'
+        });
       }
     },
     *doUpdateUserPwd({ payload }, { call }) {
