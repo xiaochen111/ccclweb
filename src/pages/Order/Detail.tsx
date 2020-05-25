@@ -55,17 +55,17 @@ class orderDetailPage extends PureComponent<IProps, IState> {
             </Descriptions>
             <Divider/>
             <Descriptions title="附件">
-              <Row>
+              <ul>
                 {
                   orderDetail.fileList.map(item => (
-                    <Col span={12} key={item.sysFileId}>
-                      <Icon type="link"/>
+                    <li key={item.sysFileId}>
+                      <Icon type="link" style={{ marginRight: 5 }}/>
                       <a href={item.fileUrl}>{item.nameUrl}</a>
                       {/* <span style={{ color: '#2556F2' }}>{item.nameUrl}</span> */}
-                    </Col>
+                    </li>
                   ))
                 }
-              </Row>
+              </ul>
             </Descriptions>
             <Divider/>
             <Descriptions title="货物信息委托">

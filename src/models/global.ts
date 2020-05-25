@@ -43,7 +43,12 @@ const model: GlobalModelType = {
   effects: {
     *getCountryDropList({ payload }, { call, put, select }) {
       const response = yield call(queryCountryDropList, payload);
-      const countryDropList = yield select(state => state.countryDropList);
+      const countryDropList = yield select(state => {
+        console.log('*getCountryDropList -> state', state);
+        return state.global.countryDropList;
+      });
+
+      console.log('*getCountryDropList -> countryDropList', countryDropList);
 
       if (countryDropList.length) return;
 

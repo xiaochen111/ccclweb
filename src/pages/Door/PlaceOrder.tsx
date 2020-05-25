@@ -23,7 +23,7 @@ import StandardTable from '@/components/StandardTable';
 import { GetPageQuery } from '@/utils/utils';
 import { GetAccountInfo } from '@/utils/cache';
 import REGEX from '@/utils/regex';
-import { debounce } from 'lodash';
+import { debounce, cloneDeep } from 'lodash';
 import styles from './PlaceOrder.scss';
 
 const { TextArea } = Input;
@@ -60,7 +60,7 @@ interface ParamsState {
   totalKgs?: number; //货物总重量
   totalCbm?: number; //货物总体积
   deliveryDate?: string; //预计送货日期
-  file: string; //附件ID
+  file?: string; //附件ID
   packageType?: string; //包装类型
   contactCompanyName: string; //委托人信息-公司名称
   contact?: string; //委托人信息-联系人
@@ -214,63 +214,33 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         const { startTruck, endTruck, totalPrice, currency } = lclOrderInfo;
         const {
           fileList,
-          goodsType,
-          packageType,
           deliveryDate,
-          totalKgs,
-          totalCbm,
-          contactCompanyName,
-          contact,
-          contactTel,
-          contactEmail,
-          portEndAddress,
-          remark,
         } = values;
 
-        let file = fileList
-          .filter(o => o.response && o.response.code === '1')
-          .map(item => item.response.resMap.resMap.sysFileId)
-          .join(',');
-
-        const params: ParamsState = {
+        let params: ParamsState = {
           startTruck,
           endTruck,
           totalPrice,
           totalPriceCurrency: currency,
-          file,
-          contactCompanyName,
-          contactTel,
+          contactCompanyName: values.contactCompanyName,
+          contactTel: values.contactTel,
         };
 
-        if (goodsType) {
-          params['goodsType'] = goodsType;
+        for (let i in values) {
+          if (values[i] !== undefined &&  values[i] !== null) {
+            params[i] = values[i];
+          }
         }
-        if (packageType) {
-          params['packageType'] = packageType;
+
+        if (fileList && fileList.length) {
+          params['fileList'] = fileList
+            .filter(o => o.response && o.response.code === '1')
+            .map(item => item.response.resMap.resMap.sysFileId)
+            .join(',');
         }
+
         if (deliveryDate) {
           params['deliveryDate'] = deliveryDate.format('YYYY-MM-DD');
-        }
-        if (totalKgs) {
-          params['totalKgs'] = totalKgs;
-        }
-        if (totalCbm) {
-          params['totalCbm'] = totalCbm;
-        }
-        if (contact) {
-          params['contact'] = contact;
-        }
-        if (totalCbm) {
-          params['totalCbm'] = totalCbm;
-        }
-        if (contactEmail) {
-          params['contactEmail'] = contactEmail;
-        }
-        if (portEndAddress) {
-          params['portEndAddress'] = portEndAddress;
-        }
-        if (remark) {
-          params['remark'] = remark;
         }
 
         dispatch({
