@@ -1,12 +1,13 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
-import { queryOrderList, queryOrderDetail, queryOrderFeeDetail } from '@/services/order';
+import { queryOrderList, queryOrderDetail, queryOrderFeeDetail, sendCancelOrder, queryPaymentOrCode, sendOrderFeeConfirm } from '@/services/order';
 import { ORDER_TATUS_DESC, ORDER_TATUS_COLOR, ORDER_FEE_STATUS_DESC } from '@/utils/const';
 
 export interface StateType {
   orderList: any[];
   orderTotal: number;
   orderDetail: any;
+  payTypeQrcode: null;
 }
 
 export interface LoginModelType {
@@ -16,10 +17,14 @@ export interface LoginModelType {
     getOrderList: Effect;
     getOrderDetail: Effect;
     getOrderFeeDetail: Effect;
+    cancelOrder: Effect;
+    getQrcode: Effect;
+    orderFeeConfirm: Effect
   };
   reducers: {
     saveOrderList: Reducer<StateType>;
     saveOrderListDetail: Reducer<StateType>;
+    saveQrcode: Reducer<StateType>;
   };
 }
 
@@ -29,11 +34,12 @@ const Model: LoginModelType = {
   state: {
     orderList: [],
     orderTotal: 0,
-    orderDetail: null
+    orderDetail: null,
+    payTypeQrcode: null
   },
 
   effects: {
-    *getOrderList({ payload }, { call, put }) {
+    *getOrderList({ payload }, { call, put, select }) {
       const response = yield call(queryOrderList, payload);
 
       if (response && response.code === '1') {
@@ -60,6 +66,30 @@ const Model: LoginModelType = {
         return response.resMap.orderPayfee;
       }
     },
+    *cancelOrder({ payload }, { call, put }) {
+      const response = yield call(sendCancelOrder, payload);
+
+      if (response && response.code === '1') {
+        return true;
+      }
+    },
+    *orderFeeConfirm({ payload }, { call }) {
+      const response = yield call(sendOrderFeeConfirm, payload);
+
+      if (response && response.code === '1') {
+        return true;
+      }
+    },
+    *getQrcode({ payload }, { call, put }) {
+      const response = yield call(queryPaymentOrCode, payload);
+
+      if (response && response.code === '1') {
+        yield put({
+          type: 'saveQrcode',
+          payload: response.resMap.order,
+        });
+      }
+    }
   },
 
   reducers: {
@@ -76,6 +106,12 @@ const Model: LoginModelType = {
         orderDetail: payload,
       };
     },
+    saveQrcode(state, { payload }) {
+      return {
+        ...state,
+        payTypeQrcode: payload
+      };
+    }
   },
 };
 

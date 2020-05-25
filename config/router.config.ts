@@ -43,6 +43,12 @@ export default [
                 hideInMenu: true,
                 component: './Order/Detail',
               },
+              {
+                path: '/control/order/my/payment/:id',
+                name: '订单支付',
+                hideInMenu: true,
+                component: './Order/Payment',
+              },
             ],
           },
           {

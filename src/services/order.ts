@@ -36,6 +36,33 @@ export async function queryOrderFeeDetail(data) {
   });
 }
 
+/**
+ * 取消订单
+ *
+ * @export
+ * @param {*} data
+ * @returns
+ */
+export async function sendCancelOrder(data) {
+  return request('/api/web/lcl/order/cancelOrder.do', {
+    method: 'POST',
+    data,
+  });
+}
+
+/**
+ * 订单费用确认
+ *
+ * @export
+ * @param {*} data
+ * @returns
+ */
+export async function sendOrderFeeConfirm(data) {
+  return request('/api/web/lcl/order/confirmOrderFee.do', {
+    method: 'POST',
+    data,
+  });
+}
 
 /**
  * 获取支付二维码

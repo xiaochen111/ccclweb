@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, PageHeader, Tabs, Card, Input, Button, Modal } from 'antd';
+import { Form, PageHeader, Tabs, Card, Input, Button, Modal, Popconfirm, Popover } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 import router from 'umi/router';
@@ -25,6 +25,7 @@ interface IState {
     endTruck: string;
   };
   visible: boolean;
+  currentOrderId: string;
   detailList: any[];
   detailPriceInfo: any;
 }
@@ -46,6 +47,7 @@ class OrderPage extends PureComponent<IProps, IState> {
     },
     visible: false,
     detailList: [],
+    currentOrderId: '',
     detailPriceInfo: {
       unPayMoney: 0,
       unPayMoneyCurrency: ''
@@ -59,17 +61,12 @@ class OrderPage extends PureComponent<IProps, IState> {
     { label: '已退单', value: 3 },
   ];
 
-  paymentMethods = [
-    { label: '支付宝', value: 1 },
-    { label: '微信', value: 2 },
-  ]
-
   private columns = [
     {
       title: 'CCCL NO',
       dataIndex: 'orderNo',
       key: 'orderNo',
-      render: (text, record) => <span style={{ color: '#2556F2' }} onClick={() => this.handleActions('detail', record)}>{text}</span>,
+      render: (text, record) => <span style={{ color: '#2556F2', cursor: 'pointer' }} onClick={() => this.handleActions('detail', record)}>{text}</span>,
     },
     { title: '发货地', dataIndex: 'startTruck', key: 'startTruck' },
     { title: '收货地', dataIndex: 'endTruck', key: 'endTruck' },
@@ -79,17 +76,38 @@ class OrderPage extends PureComponent<IProps, IState> {
       title: '订单状态',
       dataIndex: 'status',
       key: 'status',
-      render: (text, record) => (
-        <span style={{ color: record.statusColor }}>{record.statusDesc}</span>
-      ),
+      render: (text, record) => {
+        if (record.feeStatus === 40) {
+          return <span style={{ color: '#FF0808' }}>已支付</span>;
+        }
+        if (text === 1 || text === 2) {
+          return (
+            <Popover content={record.statusDesc} trigger="hover">
+              <span style={{ color: '#FF0808' }}>已退单</span>
+            </Popover>
+          );
+        }
+        return <span style={{ color: record.statusColor }}>{record.statusDesc}</span>;
+      }
     },
     {
       title: '操作',
-      render: (text, record) => (
-        <span style={{ color: '#2556F2' }} onClick={() => this.handleActions('action', record)}>
+      render: (text, record) => {
+        if (record.status === 0) {
+          return (
+            <Popconfirm onConfirm={() => this.handleActions('cancel', record)} title="是否确认取消订单">
+              <span style={{ color: '#2556F2', cursor: 'pointer' }}>取消订单</span>
+            </Popconfirm>
+          );
+        }
+        if (record.feeStatus === 30 || record.feeStatus === 40) {
+          return <span style={{ color: '#2556F2', cursor: 'pointer' }}>- - - - - -</span>;
+        }
+
+        return <span style={{ color: '#2556F2', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>
           {record.feeStatusDesc}
-        </span>
-      ),
+        </span>;
+      }
     },
   ];
 
@@ -150,16 +168,22 @@ class OrderPage extends PureComponent<IProps, IState> {
   };
 
   handleActions = (column, record) => {
+    // column为action 根据订单费用类型， 非action单独处理订单状态
     if (column === 'action') {
       switch (record.feeStatus) {
       case 0:
         this.handleGetFeeDetail(record);
+        break;
+      case 10:
+        router.push(`/control/order/my/payment/${record.id}`);
         break;
       default:
         break;
       }
     } else if (column === 'detail') {
       router.push(`/control/order/my/detail/${record.id}`);
+    } else if (column === 'cancel') {
+      this.handleCancelOrder(record);
     }
   };
 
@@ -176,6 +200,7 @@ class OrderPage extends PureComponent<IProps, IState> {
 
     this.setState({
       detailList: result.orderPayfeeList,
+      currentOrderId: record.id,
       detailPriceInfo: {
         unPayMoney: result.unPayMoney || 0,
         unPayMoneyCurrency: result.unPayMoneyCurrency || ''
@@ -184,8 +209,43 @@ class OrderPage extends PureComponent<IProps, IState> {
     });
   };
 
+  // 取消订单
+  handleCancelOrder = async record => {
+    const { dispatch } = this.props;
+
+    let result: any = await dispatch({
+      type: 'order/cancelOrder',
+      payload: {
+        id: record.id,
+      },
+    });
+
+    if (result) {
+      this.handleSearchList();
+    }
+  };
+
+  // 订单费用确认
+  handleFeeConfirm = async() => {
+    const { currentOrderId } = this.state;
+    const { dispatch } = this.props;
+
+    let result: any = await dispatch({
+      type: 'order/orderFeeConfirm',
+      payload: {
+        orderId: currentOrderId,
+      },
+    });
+
+    if (result) {
+      this.handleSearchList();
+      this.handleModalCancel();
+    }
+  }
+
   handleModalCancel = () => {
     this.setState({
+      currentOrderId: '',
       detailList: [],
       visible: false,
     });
@@ -298,31 +358,10 @@ class OrderPage extends PureComponent<IProps, IState> {
                     <i>{detailPriceInfo.unPayMoneyCurrency}</i>
                   </span>
                 </div>
-                <Button type="primary" onClick={this.handleModalCancel}>确认</Button>
+                <Button type="primary" onClick={this.handleFeeConfirm}>确认</Button>
               </div>
             </div>
           </>
-        </Modal>
-
-
-        <Modal
-          visible={false}
-          title="请选择支付方式"
-          width={800}
-          destroyOnClose
-          footer={null}
-
-        >
-          <div className={styles.qrcodeWrapper}>
-            <ul className={styles.content}>
-              {this.paymentMethods.map(item => (
-                <li key={item.value}>
-                  <img alt="" src={'#'}/>
-                  <span>{item.label}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
         </Modal>
       </div>
     );

@@ -178,12 +178,15 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleTabelChange = current => {
-    this.setState(
-      {
-        pageNo: current,
-      },
-      this.handleGetLclList,
-    );
+    this.setState({
+      pageNo: current,
+    }, this.handleGetLclList);
+  };
+
+  handleTableSizeChange = (current, pageSize) => {
+    this.setState({
+      pageSize: pageSize,
+    }, this.handleGetLclList);
   };
 
   render() {
@@ -308,7 +311,7 @@ export class PricePlan extends Component<IProps, IState> {
               <span className={styles.total}>
                 共<strong>{totalCount}</strong>条
               </span>
-              <Pagination showQuickJumper showSizeChanger {...pagination} onChange={this.handleTabelChange}/>
+              <Pagination showQuickJumper showSizeChanger {...pagination} onChange={this.handleTabelChange} onShowSizeChange={this.handleTableSizeChange}/>
             </div>
           </div>
         </Spin>

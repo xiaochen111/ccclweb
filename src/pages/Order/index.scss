@@ -47,27 +47,79 @@
 }
 
 
-.qrcodeWrapper {
+.orderPaymentWrapper {
   .content {
-    @extend [layout];
-    @extend [layout='row'];
-    @extend [layout-align='space-between center'];
-    padding: 0 180px;
     li {
       @extend [layout];
-      @extend [layout='column'];
-      @extend [layout-align='center center'];
-      width: 160px;
-      height: 210px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      @extend [layout='row'];
+      @extend [layout-align='start center'];
       font-size: 16px;
-      img {
-        width: 60px;
-        height: 60px;
-        border-radius: 50%;
-        margin-bottom: 33px;
+      margin-bottom: 40px;
+      .label {
+        width: 100px;
+      }
+      .types {
+        @extend [layout];
+        @extend [layout='row'];
+        @extend [layout-align='start center'];
+        .typesItem {
+          @extend [layout];
+          @extend [layout='row'];
+          @extend [layout-align='center center'];
+          position: relative;
+          width: 180px;
+          height: 60px;
+          border-radius: 4px;
+          border: 1px solid #999;
+          margin-right: 40px;
+          img {
+            margin-right: 16px;
+            width: 20px;
+            height: 20px;
+          }
+          &.active {
+            border-color: #2556F2;
+          }
+          .checkIcon {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 24px;
+            height: 24px;
+            background: url('../../assets/img/payment-check-icon.svg') no-repeat;
+            background-size: cover;
+          }
+        }
+      }
+      .price {
+        font-size: 16px;
+        color: #333;
+        strong {
+          font-size: 22px;
+          color: #FF0808;
+        }
+      }
+      .qrcode {
+        width: 200px;
+        height: 200px;
       }
     }
   }
 }
+
+// li {
+//   @extend [layout];
+//   @extend [layout='column'];
+//   @extend [layout-align='center center'];
+//   width: 160px;
+//   height: 210px;
+//   border: 1px solid #ccc;
+//   border-radius: 8px;
+//   font-size: 16px;
+//   img {
+//     width: 60px;
+//     height: 60px;
+//     border-radius: 50%;
+//     margin-bottom: 33px;
+//   }
+// }
