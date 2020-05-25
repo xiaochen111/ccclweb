@@ -79,7 +79,7 @@ export class SearchCondition extends Component<IProps, any> {
                     style={{ width: '100%' }}
                     dataSource={options}
                     optionLabelProp="value"
-                    placeholder="国家"
+                    placeholder="请输入国家"
                     defaultActiveFirstOption={false}
                   >
                     <Input
@@ -115,7 +115,7 @@ export class SearchCondition extends Component<IProps, any> {
                       dropdownMatchSelectWidth={false}
                       dropdownStyle={{ width: 300 }}
                       size="large"
-                      placeholder="国家"
+                      placeholder="请输入国家"
                       style={{ width: '100%' }}
                       dataSource={options}
                       optionLabelProp="value"
@@ -133,7 +133,7 @@ export class SearchCondition extends Component<IProps, any> {
             <Form.Item>
               {getFieldDecorator('cbm', {
                 initialValue: defaultValue.cbm,
-                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }, { max: 10, message: '长度不能超过10位' }],
+                rules: [{ pattern: REGEX.BIGNUM, message: '请填写大于0的整数' }, { max: 10, message: '长度不能超过10位' }],
               })(<Input placeholder="体积" size="large" suffix={<span>CBM</span>} />)}
             </Form.Item>
           </div>
@@ -141,7 +141,7 @@ export class SearchCondition extends Component<IProps, any> {
             <Form.Item>
               {getFieldDecorator('kgs', {
                 initialValue: defaultValue.kgs,
-                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }, { max: 10, message: '长度不能超过10位' }],
+                rules: [{ pattern: REGEX.BIGNUM, message: '请填写大于0的整数' }, { max: 10, message: '长度不能超过10位' }],
               })(<Input placeholder="重量" size="large" suffix={<span>KGS</span>} />)}
             </Form.Item>
           </div>
