@@ -79,7 +79,7 @@ export class SearchCondition extends Component<IProps, any> {
                     style={{ width: '100%' }}
                     dataSource={options}
                     optionLabelProp="value"
-                    placeholder="请输入国家"
+                    placeholder="请输入城市"
                     defaultActiveFirstOption={false}
                   >
                     <Input
@@ -115,7 +115,7 @@ export class SearchCondition extends Component<IProps, any> {
                       dropdownMatchSelectWidth={false}
                       dropdownStyle={{ width: 300 }}
                       size="large"
-                      placeholder="请输入国家"
+                      placeholder="请输入城市"
                       style={{ width: '100%' }}
                       dataSource={options}
                       optionLabelProp="value"
