@@ -225,6 +225,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
           contactEmail,
           portEndAddress,
           remark,
+          totalPiece,
         } = values;
 
         let file = fileList
@@ -271,6 +272,9 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         }
         if (remark) {
           params['remark'] = remark;
+        }
+        if (totalPiece) {
+          params['totalPiece'] = totalPiece;
         }
 
         dispatch({
