@@ -4,8 +4,11 @@ import { Form, Icon, Input, Button, Checkbox } from 'antd';
 import { connect } from 'dva';
 import { StateType } from './model';
 import { FormComponentProps } from 'antd/lib/form';
-import { Link } from 'umi';
+import { Link, router } from 'umi';
 import styles from './index.scss';
+import REGEX from '@/utils/regex';
+import { stringify } from 'qs';
+import { GetPageQuery } from '../../utils/utils';
 
 interface LoginProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
@@ -18,21 +21,59 @@ interface LoginProps extends FormComponentProps {
   submitLoading: loading.effects['login/sendLoginInfo'],
 }))
 export class LoginPage extends Component<LoginProps, any> {
+
+  private toOrderParmse:any = {}
+
+  componentDidMount(){
+    if (Object.keys(GetPageQuery()).length){
+      const { cbm, kgs, id } =  GetPageQuery();
+
+      this.toOrderParmse = { cbm, kgs, id };
+    }
+  }
+
   handleSubmit = e => {
     e.persist();
     const { form, dispatch } = this.props;
 
-    form.validateFields((err, values) => {
+    form.validateFields(async (err, values) => {
       if (!err) {
-        const { userName, password } = values;
 
-        dispatch({
+        if (Object.keys(this.toOrderParmse).length){
+          values['toOrder'] = true;
+        }
+        const res = await  dispatch({
           type: 'login/sendLoginInfo',
-          payload: { userName, password },
+          payload: values,
         });
+
+        if (res){
+          const { id, cbm, kgs } = this.toOrderParmse;
+
+          router.push({
+            pathname: `/door/place-order/${id}`,
+            search: stringify({
+              cbm, kgs
+            }),
+          });
+        }
       }
     });
   };
+
+  toRetrievePassword = () => {
+    const { form } = this.props;
+    const username = form.getFieldValue('userName');
+    const params = {
+      username,
+      type: REGEX.EMAIL.test(username) ? 2 : 1
+    };
+
+    router.push({
+      pathname: '/login/retrievePassword',
+      search: stringify(params)
+    });
+  }
 
   loginRender = () => {
     const { submitLoading, form } = this.props;
@@ -42,12 +83,12 @@ export class LoginPage extends Component<LoginProps, any> {
       <Form>
         <Form.Item>
           {getFieldDecorator('userName', {
-            rules: [{ required: true, message: '请输入用户名' }],
+            rules: [{ required: true, message: '手机号/邮箱' }],
           })(
             <Input
               size="large"
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="用户名"
+              prefix={<i className="iconfont iconicon_yonghu" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              placeholder="手机号/邮箱"
             />,
           )}
         </Form.Item>
@@ -59,7 +100,7 @@ export class LoginPage extends Component<LoginProps, any> {
           })(
             <Input
               size="large"
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+              prefix={<i className="iconfont iconicon_mima" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="密码"
             />,
@@ -70,9 +111,7 @@ export class LoginPage extends Component<LoginProps, any> {
             valuePropName: 'checked',
             initialValue: true,
           })(<Checkbox>记住密码</Checkbox>)}
-          <Link className={styles.loginFormForgot} to="/login/retrievePassword">
-            忘记密码
-          </Link>
+          <span className={styles.loginFormForgot} onClick={this.toRetrievePassword}>忘记密码</span>
           <Button
             type="primary"
             htmlType="submit"

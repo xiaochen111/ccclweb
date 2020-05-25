@@ -68,12 +68,21 @@
   @extend [layout];
   @extend [layout='row'];
   @extend [layout-align='space-around center'];
-
-  height: 170px;
+  height: 200px;
   color: #333;
   font-weight: bold;
   font-size: 24px;
 }
+
+.newsTitle{
+  background: url('../../assets/img/newsTile.png') no-repeat center 100px;
+}
+.specalTitle{
+  background: url('../../assets/img/specalTitle.png') no-repeat center 100px;
+}
+
+
+
 
 .clearfloat::after {
   display: block;
