@@ -47,6 +47,10 @@
       .ant-select-auto-complete.ant-select .ant-select-selection__placeholder {
         margin-left: 85px;
       }
+
+      .ant-select-auto-complete.ant-select-lg .ant-input{
+        text-indent: 55px;
+      }
     }
   }
 
@@ -94,7 +98,11 @@
     flex-shrink: 0;
     width: (2/7) * 100%;
     padding-right: 20px;
-
+    :global {
+      .ant-input-affix-wrapper .ant-input-prefix {
+        left: 6px;
+      }
+    }
     &::after {
       position: absolute;
       top: 20px;
@@ -163,6 +171,11 @@
     width: 50%;
     padding-right: 20px;
     padding-bottom: 20px;
+    :global {
+      .ant-input-affix-wrapper .ant-input-prefix {
+        left: 6px;
+      }
+    }
 
     &::after {
       position: absolute;
