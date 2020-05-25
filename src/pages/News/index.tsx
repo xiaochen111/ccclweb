@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Carousel, Input, Pagination } from 'antd';
+import { Carousel, Input, Pagination, Empty, Skeleton, Row } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { StateType } from '@/models/news';
 import { connect } from 'dva';
@@ -12,6 +12,7 @@ const newsImg = require('../../assets/img/news.png');
 
 interface Iprops extends StateType {
   dispatch: Dispatch<AnyAction>;
+  newLoading:boolean
 }
 
 interface Istate {
@@ -21,10 +22,12 @@ interface Istate {
 }
 
 
-@connect(({ news }) => ({
+@connect(({ news, loading }) => ({
   newsList: news.newsList,
   LimitList: news.LimitList,
   listTotal: news.listTotal,
+  // newLoading: loading.global
+  newLoading: loading.effects['news/getWebNewsListPage']
 }))
 export class News extends Component<Iprops, Istate> {
 
@@ -36,6 +39,7 @@ export class News extends Component<Iprops, Istate> {
 
   componentDidMount(){
     console.log(this.props);
+
     this.handleSearchList();
     this.initLimit();
   }
@@ -88,8 +92,9 @@ export class News extends Component<Iprops, Istate> {
   }
 
   render() {
-    const { listTotal, newsList, LimitList } = this.props;
+    const { listTotal, newsList, LimitList, newLoading } = this.props;
 
+    console.log(newLoading);
     const { pageNo, pageSize } =  this.state;
     const pagination = {
       total: listTotal,
@@ -112,22 +117,29 @@ export class News extends Component<Iprops, Istate> {
         </div>
 
         <div className={styles.newsMain}>
-          {newsList && newsList.map(item => (
-            <div className={styles.newItem} key={item.id} onClick={() => { this.toDetail(item.id); }}>
-              <img src={item.picPath || newsImg} alt="" onError={(e) => { e.target['src'] = newsImg; }}/>
-              <div className={styles.newRight}>
-                <p className={styles.titleNews}>{item.title}</p>
-                <p className={styles.date}>{item.strNewsDate}</p>
-              </div>
-            </div>
-          ))}
+          <Skeleton loading={newLoading} active avatar paragraph={{ rows: 4 }}>
+            {
+              newsList && newsList.length ? (newsList.map(item => (
+                <div className={styles.newItem} key={item.id} onClick={() => { this.toDetail(item.id); }}>
+                  <img src={item.picPath || newsImg} alt="" onError={(e) => { e.target['src'] = newsImg; }}/>
+                  <div className={styles.newRight}>
+                    <p className={styles.titleNews}>{item.title}</p>
+                    <p className={styles.date}>{item.strNewsDate}</p>
+                  </div>
+                </div>
+              ))) : (<Empty style={{ padding: 40 }} description="暂无数据" />)
+            }
+          </Skeleton>
         </div>
-        <div className={styles.paginationContainer}>
-          <span className={styles.total}>
+
+        {
+          newsList && newsList.length ? <div className={styles.paginationContainer}>
+            <span className={styles.total}>
                 共<strong>{listTotal}</strong>条
-          </span>
-          <Pagination onChange={this.handleTabelChange} {...pagination} showQuickJumper showSizeChanger />
-        </div>
+            </span>
+            <Pagination onChange={this.handleTabelChange} {...pagination} showQuickJumper showSizeChanger />
+          </div> : ''
+        }
       </PageWrapper>
     );
   }

@@ -68,6 +68,7 @@ export class SearchCondition extends Component<IProps, any> {
               <Form.Item>
                 {getFieldDecorator('endTruck', {
                   initialValue: defaultValue.endTruck,
+                  rules: [{ max: 20, message: '长度不能超过20位', } ]
                 })(
                   <AutoComplete
                     className="certain-category-search"
@@ -106,6 +107,7 @@ export class SearchCondition extends Component<IProps, any> {
                 <Form.Item>
                   {getFieldDecorator('endTruck', {
                     initialValue: defaultValue.endTruck,
+                    rules: [{ max: 20, message: '长度不能超过20位', } ]
                   })(
                     <AutoComplete
                       className="certain-category-search"
@@ -131,7 +133,7 @@ export class SearchCondition extends Component<IProps, any> {
             <Form.Item>
               {getFieldDecorator('cbm', {
                 initialValue: defaultValue.cbm,
-                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }],
+                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }, { max: 10, message: '长度不能超过10位' }],
               })(<Input placeholder="体积" size="large" suffix={<span>CBM</span>} />)}
             </Form.Item>
           </div>
@@ -139,7 +141,7 @@ export class SearchCondition extends Component<IProps, any> {
             <Form.Item>
               {getFieldDecorator('kgs', {
                 initialValue: defaultValue.kgs,
-                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }],
+                rules: [{ pattern: REGEX.NUMBER, message: '请填写数字' }, { max: 10, message: '长度不能超过10位' }],
               })(<Input placeholder="重量" size="large" suffix={<span>KGS</span>} />)}
             </Form.Item>
           </div>
