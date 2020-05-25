@@ -35,3 +35,18 @@ export async function queryOrderFeeDetail(data) {
     data,
   });
 }
+
+
+/**
+ * 获取支付二维码
+ *
+ * @export
+ * @param {*} data
+ * @returns
+ */
+export async function queryPaymentOrCode(data) {
+  return request('/api/web/lcl/order/getPaymentQRCode.do', {
+    method: 'POST',
+    data,
+  });
+}

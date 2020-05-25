@@ -59,6 +59,11 @@ class OrderPage extends PureComponent<IProps, IState> {
     { label: '已退单', value: 3 },
   ];
 
+  paymentMethods = [
+    { label: '支付宝', value: 1 },
+    { label: '微信', value: 2 },
+  ]
+
   private columns = [
     {
       title: 'CCCL NO',
@@ -297,6 +302,27 @@ class OrderPage extends PureComponent<IProps, IState> {
               </div>
             </div>
           </>
+        </Modal>
+
+
+        <Modal
+          visible={false}
+          title="请选择支付方式"
+          width={800}
+          destroyOnClose
+          footer={null}
+
+        >
+          <div className={styles.qrcodeWrapper}>
+            <ul className={styles.content}>
+              {this.paymentMethods.map(item => (
+                <li key={item.value}>
+                  <img alt="" src={'#'}/>
+                  <span>{item.label}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </Modal>
       </div>
     );

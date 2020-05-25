@@ -15,6 +15,7 @@ import {
   Button,
   DatePicker,
   Modal,
+  Select,
 } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import PageLoading from '@/components/PageLoading';
@@ -26,7 +27,7 @@ import { debounce } from 'lodash';
 import styles from './PlaceOrder.scss';
 
 const { TextArea } = Input;
-const Option = AutoComplete.Option;
+const Option = Select.Option;
 
 interface IProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
@@ -169,7 +170,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
   handleTabelChange = pagination => {
     this.setState({
-      addressPageNo: 1,
+      addressPageNo: pagination.current,
     }, this.getAddressList,
     );
   };
@@ -378,7 +379,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               <Card title="附件上传" bordered={false} style={{ marginTop: 30 }}>
                 <Form.Item>
                   {getFieldDecorator('fileList', {
-                    rules: [{ required: true, message: '请上传文件' }],
+                    // rules: [{ required: true, message: '请上传文件' }],
                     valuePropName: 'fileList',
                     getValueFromEvent: this.normFile,
                   })(
@@ -405,7 +406,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   <Col span={8}>
                     <Form.Item label="包装类型">
                       {getFieldDecorator('packageType')(
-                        <AutoComplete
+                        <Select
+                          showSearch
                           placeholder="请选择包装类型"
                           onSearch={this.handlePackageTypeSearch}
                         >
@@ -414,7 +416,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                               {d.nameCn}
                             </Option>
                           ))}
-                        </AutoComplete>,
+                        </Select>,
                       )}
                     </Form.Item>
                   </Col>
