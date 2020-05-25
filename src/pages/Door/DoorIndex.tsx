@@ -25,6 +25,15 @@ export class doorIndex extends PureComponent<IProps, any> {
       search: stringify(params),
     });
   };
+
+  componentDidMount(){
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'global/getCountryDropList',
+    });
+  }
+
   render() {
     const { countryDropList } = this.props;
 
