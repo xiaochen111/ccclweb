@@ -57,6 +57,8 @@ const specialPriceImages = [
   require('@/assets/img/special-price-bg4.png'),
 ];
 
+const newsImg = require('../../assets/img/news.png');
+
 @connect(({ home, news, loading, global }) => ({
   homeModelState: home,
   newsList: news.newsList,
@@ -135,12 +137,12 @@ class HomePage extends Component<IProps, any> {
         <div className={styles.bottomPart}>
           <ul>
             <li>
-              <p>KGS</p>
-              <p>{item.heavyStandsPrice}</p>
-            </li>
-            <li>
               <p>CBM</p>
               <p>{item.tossStandsPrice}</p>
+            </li>
+            <li>
+              <p>KGS</p>
+              <p>{item.heavyStandsPrice}</p>
             </li>
           </ul>
           <Button type="primary" onClick={() => this.handleLinkToOrder(item)}>
@@ -192,25 +194,31 @@ class HomePage extends Component<IProps, any> {
       <div className={styles.middleWrap}>
         <p className={styles.title}>新闻资讯</p>
         <div className={styles.videoNews}>
-          <div className={styles.vedio} />
+          <div className={styles.vedio} >
+            <video controls  width="580" height="400" style={{ objectFit: 'fill' }} >
+              <source src="https://eshipping.oss-cn-shanghai.aliyuncs.com/eshipping/vedio/%E7%88%B1%E5%89%AA%E8%BE%91-%E7%8E%AF%E4%B8%96%E7%89%A9%E6%B5%81%E8%AE%B8%E4%B8%AD%E5%8D%8E%2000_00_05-00_04_42.mp4"
+                type="video/mp4"/>
+            </video>
+          </div>
+
           <div className={styles.newsMain}>
             <ul className={styles.newsPic}>
               {LimitNews && LimitNews.map(item => (
                 <li key={item.id} onClick={() => { this.toDetail(item.id); }}>
-                  <img src={item.picPath} alt="" width="280" height="162" />
+                  <img src={item.picPath || newsImg} alt="" width="280" height="162" onError={(e) => { e.target['src'] = newsImg; }} />
                 </li>
               ))}
             </ul>
 
             <p className={styles.newTit}>
               <span>新闻公告</span>
-              <Link to="/">更多</Link>
+              <Link to="/news">更多</Link>
             </p>
 
             <ul className={styles.newsList}>
               {LimitNewsList && LimitNewsList.map(item => (
                 <li key={item.id} onClick={() => { this.toDetail(item.id); }}>
-                  <span>{item.title}</span>
+                  <span className={styles.newsTitls}>{item.title}</span>
                   <span>{item.strNewsDate}</span>
                 </li>
               ))}

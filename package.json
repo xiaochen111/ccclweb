@@ -10,6 +10,7 @@
     "precommit": "lint-staged"
   },
   "dependencies": {
+    "@babel/polyfill": "^7.8.7",
     "@types/qs": "^6.9.2",
     "antd": "^3.19.5",
     "dva": "2.4.1",
@@ -19,6 +20,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "sass-loader": "^8.0.2",
+    "setprototypeof": "^1.2.0",
     "stylelint": "^13.3.3",
     "stylelint-config-rational-order": "^0.1.2",
     "stylelint-config-standard": "^20.0.0",

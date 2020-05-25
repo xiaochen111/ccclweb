@@ -13,7 +13,13 @@ const config: IConfig = {
       {
         antd: true,
         dva: true,
-        dynamicImport: { webpackChunkName: true },
+        // dynamicImport: {
+        //   loadingComponent: './components/PageLoading/index',
+        //   webpackChunkName: true,
+        //   level: 3
+        // },
+        // dynamicImport: { webpackChunkName: true },
+        // dynamicImport: false,
         dll: false,
 
         routes: {
@@ -38,7 +44,7 @@ const config: IConfig = {
     'btn-default-bg': 'linear-gradient(46deg,rgba(13,70,239,1) 0%,rgba(22,165,255,1) 100%)',
   },
   targets: {
-    ie: 9,
+    ie: 10,
   },
   proxy: {
     '/api': {
