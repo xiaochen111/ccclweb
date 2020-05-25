@@ -12,4 +12,5 @@ export default {
   IDENTITY_CARD: /(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/,
   NAME: /^[\u4e00-\u9fa5]{2,4}$/,
   NUMBER: /^\d+$/,
+  BIGNUM: /^[1-9]+$/,
 };

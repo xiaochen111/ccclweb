@@ -7,6 +7,7 @@ import { StateType } from './model';
 // import { formItemLayout } from '@/utills/config';
 import REGEX from '@/utils/regex';
 import styles from './index.scss';
+import { GetPageQuery } from '../../utils/utils';
 
 interface RegisterProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
@@ -19,6 +20,8 @@ interface RegisterState {
   readonly selectedTab: number;
   btnTxt: string;
   clickFlag: boolean;
+  phoneUser:string;
+  emailUser:string;
 }
 
 const formItemLayout = {
@@ -58,6 +61,8 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     selectedTab: 1,
     btnTxt: '获取验证码',
     clickFlag: true,
+    phoneUser: '',
+    emailUser: ''
   };
 
   timer: any;
@@ -65,6 +70,13 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   componentDidMount() {
     this.init();
     this.stopCountdown();
+    const { username, type } = GetPageQuery();
+
+    this.setState({
+      selectedTab: type * 1,
+      phoneUser: type === '1' ? username : '',
+      emailUser: type === '2' ? username : ''
+    });
   }
 
   init = () => {
@@ -252,7 +264,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     } = this.props;
 
     const { captchaImage } = userLogin;
-    const { btnTxt } = this.state;
+    const { btnTxt, phoneUser, emailUser } = this.state;
 
     return (
       <Form {...formItemLayout}>
@@ -260,7 +272,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
           <Form.Item label="手机号">
             {getFieldDecorator('phone', {
               getValueFromEvent: event => event.target.value.trim(),
-              initialValue: '',
+              initialValue: phoneUser,
               rules: [
                 { required: true, message: '请输入手机号' },
                 { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
@@ -270,6 +282,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
         ) : (
           <Form.Item label="邮箱">
             {getFieldDecorator('email', {
+              initialValue: emailUser,
               getValueFromEvent: event => event.target.value.trim(),
               rules: [
                 { required: true, message: '请输入邮箱' },

@@ -113,7 +113,14 @@ class HomePage extends Component<IProps, any> {
   handleLinkToOrder = info => {
     if (!GetGlobalToken(GetGlobalFlag())) {
       message.warn('下单需要登录，请先登录');
-      router.replace('/login');
+      router.push({
+        pathname: '/login/index',
+        search: stringify({
+          cbm: info.cbm,
+          kgs: info.kgs,
+          id: info.id
+        }),
+      });
       return;
     }
     if (info && info.id) {
@@ -192,7 +199,7 @@ class HomePage extends Component<IProps, any> {
 
     return (
       <div className={styles.middleWrap}>
-        <p className={styles.title}>新闻资讯</p>
+        <p className={`${styles.title} ${styles.newsTitle}`}></p>
         <div className={styles.videoNews}>
           <div className={styles.vedio} >
             <video controls  width="580" height="400" style={{ objectFit: 'fill' }} >
@@ -233,7 +240,7 @@ class HomePage extends Component<IProps, any> {
     const {
       homeModelState: { priceList },
     } = this.props;
-    const bannerList = [1, 2, 3];
+    const bannerList = [1, 2, 3, 4];
     const bannerListPic = bannerList.map(item => require(`../../assets/img/banner${item}.jpg`));
 
     return (
@@ -251,7 +258,8 @@ class HomePage extends Component<IProps, any> {
           </Carousel>
           {this.searchPanel()}
         </div>
-        <p className={styles.title}>专线特价区</p>
+
+        <p className={`${styles.title} ${styles.specalTitle}`}></p>
         <div className={`${styles.middleWrap} ${styles.clearfloat}`}>
           {priceList.map((item, index) => this.specialOfferItem(item))}
         </div>
