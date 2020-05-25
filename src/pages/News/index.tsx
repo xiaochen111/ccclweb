@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Carousel, Input, Pagination, Empty, Skeleton, Row } from 'antd';
+import { Carousel, Input, Pagination, Empty, Skeleton } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { StateType } from '@/models/news';
 import { connect } from 'dva';
