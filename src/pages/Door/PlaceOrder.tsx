@@ -213,7 +213,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       if (!err) {
         const { startTruck, endTruck, totalPrice, currency } = lclOrderInfo;
         const {
-          fileList,
+          file,
           deliveryDate,
         } = values;
 
@@ -232,8 +232,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
           }
         }
 
-        if (fileList && fileList.length) {
-          params['fileList'] = fileList
+        if (file && file.length) {
+          params['file'] = file
             .filter(o => o.response && o.response.code === '1')
             .map(item => item.response.resMap.resMap.sysFileId)
             .join(',');
@@ -350,7 +350,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             <Form layout="vertical" hideRequiredMark>
               <Card title="附件上传" bordered={false} style={{ marginTop: 30 }}>
                 <Form.Item extra="建议上传excel,word类型">
-                  {getFieldDecorator('fileList', {
+                  {getFieldDecorator('file', {
                     // rules: [{ required: true, message: '请上传文件' }],
                     valuePropName: 'fileList',
                     getValueFromEvent: this.normFile,

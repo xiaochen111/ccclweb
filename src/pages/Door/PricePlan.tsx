@@ -203,7 +203,7 @@ export class PricePlan extends Component<IProps, IState> {
       <div
         style={
           routeType
-            ? { width: '100%', padding: '0 20px' }
+            ? { width: '100%', padding: '20px' }
             : { width: 1200, margin: '0 auto', padding: 20 }
         }
       >
@@ -218,7 +218,7 @@ export class PricePlan extends Component<IProps, IState> {
             <div className={styles.tableContainer}>
               <div className={styles.tableHeader}>
                 {this.columns.map((item, index) => (
-                  <div className={styles.ColumsWidth} key={item.key}>
+                  <div className={styles.columsWidth} key={item.key}>
                     {item.title}&nbsp;
                     {index > 0 ? (
                       <span
@@ -248,7 +248,7 @@ export class PricePlan extends Component<IProps, IState> {
                         item.specialFlag && item.specialFlag === 1 ? <i className={styles.specialFlag}/> : null
                       }
                       <div className={styles.rowInfos}>
-                        <div className={`${styles.line} ${styles.ColumsWidth}`}>
+                        <div className={`${styles.line} ${styles.columsWidth}`}>
                           <div className={styles.lineMain}>
                             {/* {item.startTruck} */}
                             <div className={styles.startTruck}>
@@ -263,19 +263,19 @@ export class PricePlan extends Component<IProps, IState> {
                             </p>
                           </div>
                         </div>
-                        <div className={`${styles.voyage} ${styles.ColumsWidth}`}>
+                        <div className={`${styles.voyage} ${styles.columsWidth}`}>
                           {item.days}天
                         </div>
-                        <div className={`${styles.price} ${styles.ColumsWidth}`}>
+                        <div className={`${styles.price} ${styles.columsWidth}`}>
                           ${item.tossStandsPrice}
                         </div>
-                        <div className={`${styles.price} ${styles.ColumsWidth}`}>
+                        <div className={`${styles.price} ${styles.columsWidth}`}>
                           ${item.heavyStandsPrice}
                         </div>
-                        <div className={`${styles.total} ${styles.ColumsWidth}`}>
+                        <div className={`${styles.total} ${styles.columsWidth}`}>
                           ${item.totalPrice}
                         </div>
-                        <div className={`${styles.ColumsWidth}`}>
+                        <div className={`${styles.columsWidth}`}>
                           <span className={styles.btn} onClick={() => this.handleLinkToOrder(item)}>
                             下单
                           </span>
