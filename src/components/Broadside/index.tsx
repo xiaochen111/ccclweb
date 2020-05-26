@@ -4,30 +4,37 @@ import styles from './index.scss';
 
 class Broadside extends PureComponent {
   state = {
-    modal1Visible: false,
+    modalVisible: false,
   };
-  setModal1Visible(modal1Visible) {
-    this.setState({ modal1Visible });
+  setModalVisible(modalVisible) {
+    this.setState({ modalVisible });
   }
+
+  openQQ = () => {
+    const qq = '323345454';
+
+    window.open('http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=' + qq);
+  }
+
   render() {
     const mask = require('../../assets/img/mask.png');
 
     return (
       <div className={styles.broadSideMain}>
         <ul className={styles.broadSide}>
-          <li onClick={() => this.setModal1Visible(true)}>
+          <li onClick={() => this.setModalVisible(true)}>
             {/* <div className={styles.point}></div> */}
             <i className="icon24pxicon_gonggao iconfont"></i>
             <span>公告</span>
           </li>
-          <li>
+          <li onClick={this.openQQ}>
             <i className="icon24pxicon-qq iconfont"></i>
             <span>客服</span>
           </li>
         </ul>
         <Modal
           wrapClassName={styles.wrapClassName}
-          visible={this.state.modal1Visible}
+          visible={this.state.modalVisible}
           bodyStyle={{
             paddingTop: '130px',
             paddingBottom: '50px',
@@ -36,7 +43,7 @@ class Broadside extends PureComponent {
             background: `url(${mask}) top no-repeat`,
           }}
           width={890}
-          onCancel={() => this.setModal1Visible(false)}
+          onCancel={() => this.setModalVisible(false)}
           footer={null}
         >
           <h3 className={styles.h3}>公告</h3>
@@ -48,5 +55,4 @@ class Broadside extends PureComponent {
     );
   }
 }
-//  window.open('http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=' + qq);
 export default Broadside;

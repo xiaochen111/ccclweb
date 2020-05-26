@@ -13,6 +13,8 @@ import {
   doSendRepasswordEmail,
 } from '@/services/login';
 import { SetGlobalFlag, SetGlobalToken, SetAccountInfo } from '@/utils/cache';
+import md5 from 'js-md5';
+import { RemoveLocalStorage } from '../../utils/storage/local';
 
 export interface StateType {
   captchaImage: any;
@@ -58,6 +60,7 @@ const Model: LoginModelType = {
 
     //登录
     *sendLoginInfo({ payload }, { call, put, select }) {
+
       const { userName, password } = payload;
 
       const response = yield call(doLogin, { userName, password });
@@ -69,8 +72,7 @@ const Model: LoginModelType = {
 
         SetGlobalFlag(response.resMap.user.head);
         SetGlobalToken(response.resMap.user.head, response.resMap.user.token);
-        SetAccountInfo(response.resMap.user);
-
+        // SetAccountInfo(response.resMap.user);
         return true;
       }
     },
@@ -111,12 +113,17 @@ const Model: LoginModelType = {
     },
 
     // 手机、邮箱注册
-    *register({ payload }, { call, put }) {
+    *register({ payload }, { call, put, select }) {
       const response = yield call(doRegister, payload);
+      // const { userName, password } = payload;
 
       if (response && response.code === '1') {
         message.success('注册成功');
-        yield put(routerRedux.push('/login'));
+        // yield put({
+        //   type: 'sendLoginInfo',
+        //   payload: { userName, password: md5(password) }
+        // });
+        return true;
       }
     },
 
@@ -126,6 +133,7 @@ const Model: LoginModelType = {
 
       if (response && response.code === '1') {
         message.success('密码找回成功');
+        RemoveLocalStorage('loginInfo');
         yield put(routerRedux.push('/login'));
       }
     },

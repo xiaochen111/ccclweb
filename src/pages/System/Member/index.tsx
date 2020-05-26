@@ -58,11 +58,11 @@ class SystemMemberPage extends PureComponent<IProps, any> {
       form: { getFieldDecorator },
       submitLoading,
     } = this.props;
-    const { userName, companyName, name, phone = '', email, bussinessNo, companyAddress } = GetAccountInfo();
+    const { userName, companyName, name, phone, email, bussinessNo, companyAddress } = GetAccountInfo();
 
     return (
       <div>
-        <PageHeader title="会员信息" />
+        <PageHeader title="会员信息1" />
         <div className={styles.main}>
           <Form {...formItemLayout}>
             <Form.Item label="用户名">

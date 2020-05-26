@@ -98,8 +98,7 @@ export class index extends Component<IProps, IState> {
       });
 
       if (res) {
-        this.getAddressList();
-        this.resetState();
+        this.resetState(this.getAddressList);
       }
     }
 
@@ -118,19 +117,18 @@ export class index extends Component<IProps, IState> {
       });
 
       if (res) {
-        this.getAddressList();
-        this.resetState();
+        this.resetState(this.getAddressList);
       }
     }
   };
 
-  resetState = () => {
+  resetState = cb => {
     this.setState({
       pageNo: 0,
       pageSize: 0,
       selectedRowKeys: [],
       selectedRows: [],
-    });
+    }, () => cb());
   };
 
   getAddressList = async () => {

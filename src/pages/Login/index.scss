@@ -2,7 +2,7 @@
 
 .conatiner {
   width: 100%;
-  min-height: calc(100vh - 80px);
+  min-height: calc(100vh - 64px);
   padding: 140px 0 100px;
   background: url('../../assets/img/login-bg.png') no-repeat center;
 }
@@ -61,6 +61,7 @@
 .registerContainer {
   width: 100%;
   padding: 80px 0;
+  min-height: calc(100vh - 64px);
   background-color: #fff;
 }
 

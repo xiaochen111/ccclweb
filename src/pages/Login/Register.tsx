@@ -7,6 +7,8 @@ import { StateType } from './model';
 // import { formItemLayout } from '@/utills/config';
 import REGEX from '@/utils/regex';
 import styles from './index.scss';
+import md5 from 'js-md5';
+import router from 'umi/router';
 
 interface RegisterProps extends FormComponentProps {
   dispatch: Dispatch<AnyAction>;
@@ -91,7 +93,7 @@ const Protocols = (modalVisible, setModalVisible) => {
   </Modal>);
 };
 
-@connect(({ login, loading }) => ({
+@connect(({ login, loading, global }) => ({
   userLogin: login,
   pageLoading: loading.models['login'],
 }))
@@ -122,15 +124,6 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     });
   };
 
-  // 换图片验证码
-  changeCodeImg = () => {
-    const { dispatch } = this.props;
-
-    console.log(this.props);
-    dispatch({
-      type: 'login/getCaptchImage',
-    });
-  };
 
   handleChangeTab = (tab: any) => {
     this.setState({
@@ -148,7 +141,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { selectedTab } = this.state;
     const { form, dispatch } = this.props;
 
-    form.validateFields((err, values) => {
+    form.validateFields(async (err, values) => {
       if (err) return;
       const { company, email, password, phone, veriyCode } = values;
       const params = {
@@ -161,12 +154,40 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
         veriyCode,
       };
 
-      dispatch({
+      const res = await dispatch({
         type: 'login/register',
         payload: params,
       });
+
+      const userLogin =  { userName: selectedTab === 1 ? phone : email, password: md5(password) };
+
+      this.autoLogin(res, userLogin);
+
     });
   };
+
+
+  // 自动登录
+  autoLogin = async (res:any, params:any) => {
+    const { dispatch } = this.props;
+
+    if (res){
+      const loginRes = await dispatch({
+        type: 'login/sendLoginInfo',
+        payload: params,
+      });
+
+      if (loginRes){
+        const getUseres = await  dispatch({
+          type: 'global/getGlobalUserInfo',
+        });
+
+        if (getUseres){
+          router.push('/home');
+        }
+      }
+    }
+  }
 
   sendPhoneRegistMsg = async () => {
     const { clickFlag } = this.state;
@@ -305,10 +326,8 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   renderHtml = selectedTab => {
     const {
       form: { getFieldDecorator },
-      userLogin,
       pageLoading } = this.props;
 
-    const { captchaImage } = userLogin;
     const { btnTxt } = this.state;
 
     return (
