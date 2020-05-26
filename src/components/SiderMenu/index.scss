@@ -12,11 +12,14 @@
   width: 100%;
   padding: 10px;
   overflow: hidden;
-
-  img {
-    display: inline-block;
-    height: 32px;
-    margin: 4px;
-    vertical-align: middle;
+  i {
+    text-align: center;
+    overflow: hidden;
   }
+  // img {
+  //   display: inline-block;
+  //   height: 32px;
+  //   margin: 4px;
+  //   vertical-align: middle;
+  // }
 }

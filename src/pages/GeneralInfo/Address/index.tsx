@@ -65,10 +65,10 @@ export class index extends Component<IProps, IState> {
       });
     }
     if (type === 'edit') {
-      if (selectedRows.length > 1) {
-        message.warn('最多只能选择一条修改');
-        return;
-      }
+      // if (selectedRows.length > 1) {
+      //   message.warn('最多只能选择一条修改');
+      //   return;
+      // }
       if (selectedRows.length === 0) {
         message.warn('至少选择一条修改');
         return;
@@ -208,6 +208,7 @@ export class index extends Component<IProps, IState> {
       pageSize,
     };
     const rowSelection = {
+      type: 'radio',
       selectedRowKeys,
       onChange: this.handleRowSelectionChange,
     };

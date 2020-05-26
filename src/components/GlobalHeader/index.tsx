@@ -2,10 +2,11 @@ import React, { PureComponent } from 'react';
 import { Link, router } from 'umi';
 import { Menu, Dropdown } from 'antd';
 import H from 'history';
-import styles from './index.scss';
+import { stringify } from 'qs';
 import { RemoveLocalStorage } from '@/utils/storage/local';
 import { GetGlobalFlag, GetGlobalToken, GetAccountInfo } from '@/utils/cache';
 
+import styles from './index.scss';
 interface GlonbalHeaderProps {
   logo: string;
   location: H.Location;
@@ -84,7 +85,12 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
             </Dropdown>
           ) : (
             <>
-              <Link to={'/login/index'} className={`${styles.navItem} ${styles.otherItem}`}>
+              <Link to={{
+                pathname: '/login/index',
+                search: stringify({
+                  backUrl: location.pathname
+                })
+              }} className={`${styles.navItem} ${styles.otherItem}`}>
                 登录
               </Link>
               &nbsp;&#x007C;&nbsp;

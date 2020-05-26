@@ -25,7 +25,12 @@ export default (props) => {
     if (token) {
       return children;
     }
-    return <Redirect to="/login" />;
+    return <Redirect to={{
+      pathname: '/login',
+      search: stringify({
+        backUrl: pathname
+      })
+    }} />;
   }
 
   return children;

@@ -10,7 +10,7 @@ const SubMenu = Menu.SubMenu;
 
 interface SilderMenuProps {
   location: H.Location;
-  logo: string;
+  // logo: string;
   menuData: any[];
   collapsed: boolean;
 }
@@ -63,14 +63,14 @@ class SiderMenu extends PureComponent<SilderMenuProps, any> {
   };
 
   render() {
-    const { logo, menuData, location, collapsed } = this.props;
+    const { menuData, location, collapsed } = this.props;
 
     return (
       <Sider className={styles.slider} collapsed={collapsed}>
         <div className={styles.logo} id="logo">
-          <Link to="/" style={{ display: 'inline-block' }}>
+          <Link to="/" style={{ display: 'inline-block', color: '#fff' }}>
             {/* <img src={logo} alt="logo" style={{ width: '80%', height: '32px' }} /> */}
-            <i className={'iconfont iconlogo'} style={{ fontSize: '40px', color: '#fff', verticalAlign: 'middle' }}></i>
+            <i className={'iconfont iconjingyulogo'} style={{ fontSize: '40px', verticalAlign: 'middle' }}></i>
           </Link>
           {/* {collapsed ? null : <span>环球义达</span>} */}
         </div>

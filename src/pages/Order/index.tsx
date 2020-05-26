@@ -57,8 +57,9 @@ class OrderPage extends PureComponent<IProps, IState> {
   tabs = [
     { label: '全部', value: -1 },
     { label: '待接单', value: 0 },
-    { label: '已接单', value: 4 },
-    { label: '已退单', value: 3 },
+    { label: '已接单', value: 3 },
+    { label: '商家拒单', value: 1 },
+    { label: '用户取消', value: 2 },
   ];
 
   private columns = [
@@ -70,7 +71,7 @@ class OrderPage extends PureComponent<IProps, IState> {
     },
     { title: '发货地', dataIndex: 'startTruck', key: 'startTruck' },
     { title: '收货地', dataIndex: 'endTruck', key: 'endTruck' },
-    { title: '品名', dataIndex: 'goodsType', key: 'goodsType', render: text =>  <p style={{ width: '300px', wordBreak: 'break-all' }}>{text}</p> },
+    { title: '品名', dataIndex: 'goodsType', key: 'goodsType', render: text =>  <p style={{ width: '300px', wordBreak: 'break-all' }}>{text ? text.substring(0, 50) : ''}</p> },
 
     {
       title: '订单状态',

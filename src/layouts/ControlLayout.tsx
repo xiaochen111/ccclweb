@@ -81,11 +81,10 @@ class ControlLayout extends Component<ControlLayoutProps, any> {
 
   render() {
     const { children, menuData, collapsed } = this.props;
-    const logo = require('../assets/img/logo.png');
 
     const layout = (
       <Layout>
-        <SiderMenu logo={logo} menuData={menuData} collapsed={collapsed} {...this.props} />
+        <SiderMenu menuData={menuData} collapsed={collapsed} {...this.props} />
         <Layout style={{ minHeight: '100vh' }}>
           <Header style={{ padding: 0, overflow: 'hidden' }}>
             <ControlHeader collapsed={collapsed} onCollapse={this.handleMenuCollapse} />

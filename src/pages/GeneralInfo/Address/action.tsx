@@ -104,8 +104,8 @@ export class action extends Component<Iprps, any> {
 
     return (
       <div className={styles.editMain}>
-        <Form {...formItemLayout}>
-          <Form.Item label="目的港送货地址">
+        <Form {...formItemLayout} hideRequiredMark>
+          <Form.Item label="目的港送货地址（必填）">
             {getFieldDecorator('portEndAddress', {
               initialValue: portEndAddress,
               rules: [
