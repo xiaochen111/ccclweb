@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, PageHeader, Tabs, Card, Input, Button, Modal, Popconfirm, Popover } from 'antd';
+import { Form, PageHeader, Tabs, Card, Input, Button, Modal, Popconfirm, Popover, message } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 import router from 'umi/router';
@@ -77,17 +77,38 @@ class OrderPage extends PureComponent<IProps, IState> {
       dataIndex: 'status',
       key: 'status',
       render: (text, record) => {
-        if (record.feeStatus === 40) {
-          return <span style={{ color: '#FF0808' }}>已支付</span>;
-        }
+        // if (record.feeStatus === 40) {
+        //   return <span style={{ color: '#FF0808' }}>已支付</span>;
+        // }
         if (text === 1 || text === 2) {
           return (
             <Popover content={record.statusDesc} trigger="hover">
-              <span style={{ color: '#FF0808' }}>已退单</span>
+              <span style={{ color: '#999' }}>已退单</span>
             </Popover>
           );
         }
         return <span style={{ color: record.statusColor }}>{record.statusDesc}</span>;
+      }
+    },
+    {
+      title: '支付状态',
+      dataIndex: 'feeStatus',
+      key: 'feeStatus',
+      render: (text, record) => {
+        if (record.status === 0) {
+          return <span style={{ color: '#FE7100' }}>- - - - -</span>;
+        }
+        // if (record.feeStatus === 40) {
+        //   return <span style={{ color: '#FF0808' }}>已支付</span>;
+        // }
+        // if (text === 1 || text === 2) {
+        //   return (
+        //     <Popover content={record.statusDesc} trigger="hover">
+        //       <span style={{ color: '#FF0808' }}>已退单</span>
+        //     </Popover>
+        //   );
+        // }
+        return <span style={{ color: record.feeStatusColor }}>{record.feeStatusDesc}</span>;
       }
     },
     {
@@ -96,15 +117,18 @@ class OrderPage extends PureComponent<IProps, IState> {
         if (record.status === 0) {
           return (
             <Popconfirm onConfirm={() => this.handleActions('cancel', record)} title="是否确认取消订单">
-              <span style={{ color: '#2556F2', cursor: 'pointer' }}>取消订单</span>
+              <span style={{ color: '#333', cursor: 'pointer' }}>取消订单</span>
             </Popconfirm>
           );
         }
+        if (record.status === 1 || record.status === 2) {
+          return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
+        }
         if (record.feeStatus === 30 || record.feeStatus === 40) {
-          return <span style={{ color: '#2556F2', cursor: 'pointer' }}>- - - - - -</span>;
+          return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
         }
 
-        return <span style={{ color: '#2556F2', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>
+        return <span style={{ color: '#333', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>
           {record.feeStatusDesc}
         </span>;
       }
@@ -175,6 +199,10 @@ class OrderPage extends PureComponent<IProps, IState> {
         this.handleGetFeeDetail(record);
         break;
       case 10:
+        if (record.totalPriceCurrency !== 'CNY') {
+          message.info('资费存在外币，暂不支持支付');
+          return;
+        }
         router.push(`/control/order/my/payment/${record.id}`);
         break;
       default:
@@ -234,6 +262,8 @@ class OrderPage extends PureComponent<IProps, IState> {
       type: 'order/orderFeeConfirm',
       payload: {
         orderId: currentOrderId,
+        // 费用确认传true
+        confirmFee: true,
       },
     });
 
