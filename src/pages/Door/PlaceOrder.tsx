@@ -330,7 +330,10 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   />
                 </div>
                 <div className={styles.priceInfo}>
-                  <h5>单价:</h5>
+                  <div className={styles.leftContent}>
+                    <h5>单价:</h5>
+                    <div className={styles.desc}>体重比 : 1CBM : 400KGS</div>
+                  </div>
                   <div className={styles.priceContent}>
                     <div className={styles.info}>
                       <span>
@@ -340,14 +343,13 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                         KGS <strong>{lclOrderInfo.kgs}</strong>
                       </span>
                     </div>
-                    <p>注：费用按照1:40（KGS数值/400和体积取最大值计费）</p>
                   </div>
                 </div>
               </div>
             </Card>
-            <Form layout="vertical">
+            <Form layout="vertical" hideRequiredMark>
               <Card title="附件上传" bordered={false} style={{ marginTop: 30 }}>
-                <Form.Item>
+                <Form.Item extra="建议上传excel,word类型">
                   {getFieldDecorator('fileList', {
                     // rules: [{ required: true, message: '请上传文件' }],
                     valuePropName: 'fileList',
@@ -419,7 +421,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               <Card title="委托人信息" bordered={false} style={{ marginTop: 30 }}>
                 <Row gutter={22}>
                   <Col span={8}>
-                    <Form.Item label="公司名称">
+                    <Form.Item label="公司名称（必填）">
                       {getFieldDecorator('contactCompanyName', {
                         initialValue: GetAccountInfo().companyName,
                         rules: [{ required: true, message: '请输入公司名称' }],
@@ -434,7 +436,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item label="手机">
+                    <Form.Item label="手机（必填）">
                       {getFieldDecorator('contactTel', {
                         initialValue: GetAccountInfo().phone,
                         rules: [

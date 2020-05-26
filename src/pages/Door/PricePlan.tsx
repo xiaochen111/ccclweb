@@ -73,17 +73,17 @@ export class PricePlan extends Component<IProps, IState> {
       width: '13%',
     },
     {
-      title: 'CBM',
+      title: '公斤',
       key: 'TOSS_PRICE_STANDRD',
       width: '13%',
     },
     {
-      title: 'KGS',
+      title: '立方',
       key: 'HEAVY_PRICE_STANDRDd',
       width: '13%',
     },
     {
-      title: 'TOTAL',
+      title: '总价',
       key: 'TOTAL',
       width: '13%',
     },

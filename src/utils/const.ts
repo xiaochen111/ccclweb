@@ -2,8 +2,7 @@ export const ORDER_TATUS_DESC = {
   0: '待接单',
   1: '商家拒单',
   2: '用户取消',
-  3: '已退单',
-  4: '已接单',
+  3: '已接单',
 };
 
 export const ORDER_TATUS_COLOR = {
