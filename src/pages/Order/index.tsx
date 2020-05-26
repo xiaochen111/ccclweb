@@ -194,7 +194,7 @@ class OrderPage extends PureComponent<IProps, IState> {
     let result: any = await dispatch({
       type: 'order/getOrderFeeDetail',
       payload: {
-        orderId: record.id,
+        id: record.id,
       },
     });
 
