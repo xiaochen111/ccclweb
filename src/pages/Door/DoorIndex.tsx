@@ -34,6 +34,16 @@ export class doorIndex extends PureComponent<IProps, any> {
     });
   }
 
+  countryFilterList = value => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'global/getCountryDropList',
+      payload: { text: value }
+    });
+  }
+
+
   render() {
     const { countryDropList } = this.props;
 
@@ -44,6 +54,7 @@ export class doorIndex extends PureComponent<IProps, any> {
             <p className={styles.title}>拼箱门到门</p>
             <SearchCondition
               submit={this.handleSubmit}
+              filterList={this.countryFilterList}
               hideTitle
               isMultiRow={searchType.doorIndex}
               countryDropList={countryDropList}

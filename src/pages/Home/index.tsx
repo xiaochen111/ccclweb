@@ -66,6 +66,9 @@ const newsImg = require('../../assets/img/news.png');
   countryDropList: global.countryDropList,
 }))
 class HomePage extends Component<IProps, any> {
+
+
+
   componentDidMount() {
     const { dispatch } = this.props;
 
@@ -94,6 +97,16 @@ class HomePage extends Component<IProps, any> {
     });
   };
 
+  countryFilterList = value => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'global/getCountryDropList',
+      payload: { text: value }
+    });
+  }
+
+
   searchPanel = () => {
     const { countryDropList } = this.props;
 
@@ -105,6 +118,7 @@ class HomePage extends Component<IProps, any> {
           submit={this.handleSubmit}
           isMultiRow={searchType.index}
           countryDropList={countryDropList}
+          filterList={this.countryFilterList}
         />
       </div>
     );
