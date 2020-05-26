@@ -9,6 +9,7 @@ import {
   Upload,
   Icon,
   Input,
+  InputNumber,
   AutoComplete,
   Badge,
   Checkbox,
@@ -110,7 +111,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
   componentDidMount() {
     const { id } = this.state;
-    const { dispatch } = this.props;
+    const { dispatch, form } = this.props;
     const params = GetPageQuery();
 
     if (this.ref) {
@@ -124,6 +125,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         kgs: params.kgs,
         cbm: params.cbm,
       },
+    });
+
+    form.setFieldsValue({
+      totalKgs: params.kgs,
+      totalCbm: params.cbm
     });
 
     this.getAddressList();
@@ -237,6 +243,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             .filter(o => o.response && o.response.code === '1')
             .map(item => item.response.resMap.resMap.sysFileId)
             .join(',');
+        } else {
+          delete params['file'];
         }
 
         if (deliveryDate) {
@@ -314,8 +322,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     <span className={styles.addressText}>YIWU/义乌</span>
                   </div>
                   <span className={styles.middle}>
-                    <Icon type="clock-circle" style={{ marginRight: 5 }} />
-                    {lclOrderInfo.effectiveDays}天
+                    <span>
+                      <Icon type="clock-circle" style={{ marginRight: 5 }} />
+                      {lclOrderInfo.effectiveDays}天
+                    </span>
+                    <i className="iconfont iconicon-dao" style={{ fontSize: 6, color: '#D8D8D8FF' }}/>
                   </span>
                   <div className={styles.right}>
                     <span className={styles.addressTitle}>收货地</span>
@@ -369,7 +380,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   <Col span={24}>
                     <Form.Item label="货物品名（可填写多条）">
                       {getFieldDecorator('goodsType', {
-                        rules: [{ len: 400, message: '不能超过400字' }]
+                        rules: [{ max: 400, message: '不能超过400字' }]
                       })(
                         <TextArea placeholder="请输入货物品名" rows={4} />,
                       )}
@@ -396,7 +407,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   </Col>
                   <Col span={8}>
                     <Form.Item label="货物总件数">
-                      {getFieldDecorator('totalPiece')(<Input placeholder="请输入货物总件数" />)}
+                      {getFieldDecorator('totalPiece')(<InputNumber min={1} max={999999999} precision={0} placeholder="请输入货物总件数" style={{ width: '100%' }}/>)}
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -410,19 +421,19 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                 <Row gutter={22}>
                   <Col span={8}>
                     <Form.Item label="货物总量（KGS）">
-                      {getFieldDecorator('totalKgs')(<Input placeholder="请输入货物总量" />)}
+                      {getFieldDecorator('totalKgs')(<InputNumber placeholder="请输入货物总量" min={1} max={999999999} precision={0} style={{ width: '100%' }}/>)}
                     </Form.Item>
                   </Col>
                   <Col span={8}>
                     <Form.Item label="货物总体积（CBM）">
-                      {getFieldDecorator('totalCbm')(<Input placeholder="请输入货物总体积" />)}
+                      {getFieldDecorator('totalCbm')(<InputNumber placeholder="请输入货物总体积" min={1} max={999999999} precision={0} style={{ width: '100%' }}/>)}
                     </Form.Item>
                   </Col>
                 </Row>
               </Card>
               <Card title="委托人信息" bordered={false} style={{ marginTop: 30 }}>
                 <Row gutter={22}>
-                  <Col span={8}>
+                  <Col span={24}>
                     <Form.Item label="公司名称（必填）">
                       {getFieldDecorator('contactCompanyName', {
                         initialValue: GetAccountInfo().companyName,
@@ -505,7 +516,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             </Card>
             <Form>
               <Form.Item className={styles.agreement}>
-                {getFieldDecorator('phoneNum', {
+                {getFieldDecorator('checked', {
                   valuePropName: 'checked',
                   rules: [{ required: true, message: '请同意会员协议' }],
                 })(<Checkbox />)}

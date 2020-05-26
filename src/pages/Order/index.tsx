@@ -3,6 +3,7 @@ import { Form, PageHeader, Tabs, Card, Input, Button, Modal, Popconfirm, Popover
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 import router from 'umi/router';
+import moment from 'moment';
 import { FormComponentProps } from 'antd/lib/form';
 import { StateType } from './model';
 import StandardTable from '@/components/StandardTable';
@@ -58,8 +59,7 @@ class OrderPage extends PureComponent<IProps, IState> {
     { label: '全部', value: -1 },
     { label: '待接单', value: 0 },
     { label: '已接单', value: 3 },
-    { label: '商家拒单', value: 1 },
-    { label: '用户取消', value: 2 },
+    { label: '已退单', value: '1, 2' },
   ];
 
   private columns = [
@@ -72,7 +72,9 @@ class OrderPage extends PureComponent<IProps, IState> {
     { title: '发货地', dataIndex: 'startTruck', key: 'startTruck' },
     { title: '收货地', dataIndex: 'endTruck', key: 'endTruck' },
     { title: '品名', dataIndex: 'goodsType', key: 'goodsType', render: text =>  <p style={{ width: '300px', wordBreak: 'break-all' }}>{text ? text.substring(0, 50) : ''}</p> },
-
+    { title: '下单时间', dataIndex: 'createTime', key: 'createTime',
+      render: text => moment(text).format('YYYY-MM-DD HH:mm:ss')
+    },
     {
       title: '订单状态',
       dataIndex: 'status',
@@ -102,14 +104,10 @@ class OrderPage extends PureComponent<IProps, IState> {
         // if (record.feeStatus === 40) {
         //   return <span style={{ color: '#FF0808' }}>已支付</span>;
         // }
-        // if (text === 1 || text === 2) {
-        //   return (
-        //     <Popover content={record.statusDesc} trigger="hover">
-        //       <span style={{ color: '#FF0808' }}>已退单</span>
-        //     </Popover>
-        //   );
+        // if (record.status === 1 || record.status === 2) {
+        //   return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
         // }
-        return <span style={{ color: record.feeStatusColor }}>{record.feeStatusDesc}</span>;
+        return <span style={{ color: record.status === 1 || record.status === 2 ? '#999' : record.feeStatusColor }}>{record.feeStatusDesc}</span>;
       }
     },
     {
@@ -200,7 +198,7 @@ class OrderPage extends PureComponent<IProps, IState> {
         this.handleGetFeeDetail(record);
         break;
       case 10:
-        if (record.totalPriceCurrency !== 'CNY') {
+        if (record.unPayMoneyCurrency !== 'CNY') {
           message.info('资费存在外币，暂不支持支付');
           return;
         }
@@ -285,7 +283,7 @@ class OrderPage extends PureComponent<IProps, IState> {
   handleTabChange = key => {
     this.setState(
       {
-        status: Number(key),
+        status: key,
       },
       this.handleSearchList,
     );

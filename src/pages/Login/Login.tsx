@@ -59,7 +59,9 @@ export class LoginPage extends Component<LoginProps, any> {
       const { password: formPassword, userName: formUserName } = values;
       const { id, cbm, kgs, backUrl } = this.toOrderParmse;
 
-      let params = loginInfo && (!this.modifyLoginInfo) ? { password: cookPassword, userName: cookUserName } : { password: md5(formPassword), userName: formUserName };
+      let params = loginInfo && (!this.modifyLoginInfo) ?
+        { password: cookPassword, userName: cookUserName } :
+        { password: md5(formPassword), userName: formUserName };
 
 
       if (Object.keys(this.toOrderParmse).length && !this.toOrderParmse['backUrl']){

@@ -23,7 +23,7 @@ interface IProps extends FormComponentProps {
 class OrderPaymentPage extends PureComponent<IProps, any> {
   state = {
     id: this.props.match.params && this.props.match.params.id,
-    currentType: 1
+    currentType: -1
   }
   paymentMethods = [
     { label: '支付宝', value: 1, icon: 'alipay-icon' },
@@ -96,9 +96,13 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
               </li>
               <li>
                 <span className={styles.label}>付款码：</span>
-                <div className={styles.qrcode}>
-                  <img alt="支付二维码" src={payTypeQrcode}/>
-                </div>
+                {
+                  payTypeQrcode ? (
+                    <div className={styles.qrcode}>
+                      <img alt="支付二维码" src={payTypeQrcode}/>
+                    </div>
+                  ) : <span>请选择支付方式</span>
+                }
               </li>
             </ul>
           </Card>
