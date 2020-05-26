@@ -80,9 +80,15 @@
 
   margin-top: 24px;
 
-  h5 {
-    font-weight: normal;
-    font-size: 18px;
+  .leftContent {
+    h5 {
+      font-weight: normal;
+      font-size: 18px;
+    }
+    .desc {
+      color: #666;
+      font-size: 12px;
+    }
   }
 
   .priceContent {
@@ -91,7 +97,6 @@
     @extend [layout];
     @extend [layout='column'];
     @extend [layout-align='center center'];
-
     .info {
       width: 100%;
       color: #666;
@@ -99,8 +104,10 @@
 
       @extend [layout];
       @extend [layout='row'];
-      @extend [layout-align='space-between center'];
-
+      @extend [layout-align='end center'];
+      span:nth-child(1) {
+        margin-right: 88px;
+      }
       strong {
         color: #ff7d14;
         font-size: 22px;
@@ -116,7 +123,7 @@
 
 .instructions {
   position: fixed;
-  top: 124px;
+  // top: 124px;
   right: 40px;
   width: 478px;
 
@@ -178,8 +185,6 @@
 }
 
 .addressContainer {
-  height: 80px;
-
   .default {
     width: 24px;
     height: 14px;

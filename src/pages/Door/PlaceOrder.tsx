@@ -330,7 +330,10 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   />
                 </div>
                 <div className={styles.priceInfo}>
-                  <h5>单价:</h5>
+                  <div className={styles.leftContent}>
+                    <h5>单价:</h5>
+                    <div className={styles.desc}>体重比 : 1CBM : 400KGS</div>
+                  </div>
                   <div className={styles.priceContent}>
                     <div className={styles.info}>
                       <span>
@@ -340,7 +343,6 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                         KGS <strong>{lclOrderInfo.kgs}</strong>
                       </span>
                     </div>
-                    {/* <p>注：费用按照1:40（KGS数值/400和体积取最大值计费）</p> */}
                   </div>
                 </div>
               </div>

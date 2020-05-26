@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import { Link, router } from 'umi';
+import { Menu, Dropdown, Icon, Avatar } from 'antd';
 import H from 'history';
 import styles from './index.scss';
 import { GetGlobalFlag, GetGlobalToken, GetAccountInfo, RemoveAllStorage } from '@/utils/cache';
+import { Switch } from 'dva/router';
 
 interface GlonbalHeaderProps {
   logo: string;
@@ -16,6 +18,22 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
     router.replace('/');
   }
 
+  handleMenuClick = ({ key }) => {
+    switch (key) {
+    case 'control':
+      router.push('/control');
+      break;
+    case 'mdify':
+      router.push('/control/system/modify');
+      break;
+    case 'logout':
+      this.logout();
+      break;
+    default:
+      break;
+    }
+  }
+
   render() {
     const { logo, location, isLogin } = this.props;
     const navs = isLogin
@@ -26,6 +44,20 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
         { name: '新闻中心', link: '/news' },
         // { name: '关于我们', link: '/about' },
       ];
+
+    const menu = (
+      <Menu onClick={this.handleMenuClick}>
+        <Menu.Item key="control">
+          <span>工作台</span>
+        </Menu.Item>
+        <Menu.Item key="mdify">
+          <span>修改密码</span>
+        </Menu.Item>
+        <Menu.Item key="logout">
+          <span>退出登录</span>
+        </Menu.Item>
+      </Menu>
+    );
 
     return (
       <div className={styles.wrap}>
@@ -45,22 +77,25 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
             </Link>
           ))}
           {GetGlobalToken(GetGlobalFlag()) ? (
-            <div className={styles.loginer}>
+            <Dropdown overlay={menu} trigger={['click', 'hover']}>
               <span>{GetAccountInfo().userName}</span>
-              <div className={styles.controlNav}>
-                <ul>
-                  <li>
-                    <Link to={'/control'}>工作台</Link>
-                  </li>
-                  <li>
-                    <Link to={'/control/system/modify'}>修改密码</Link>
-                  </li>
-                  <li>
-                    <span onClick={this.logout}>退出登录</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
+            </Dropdown>
+            // <div className={styles.loginer}>
+            //   <span>{GetAccountInfo().userName}</span>
+            //   <div className={styles.controlNav}>
+            //     <ul>
+            //       <li>
+            //         <Link to={'/control'}>工作台</Link>
+            //       </li>
+            //       <li>
+            //         <Link to={'/control/system/modify'}>修改密码</Link>
+            //       </li>
+            //       <li>
+            //         <span onClick={this.logout}>退出登录</span>
+            //       </li>
+            //     </ul>
+            //   </div>
+            // </div>
           ) : (
             <>
               <Link to={'/login/index'} className={`${styles.navItem} ${styles.otherItem}`}>
