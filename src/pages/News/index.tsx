@@ -93,8 +93,6 @@ export class News extends Component<Iprops, Istate> {
 
   render() {
     const { listTotal, newsList, LimitList, newLoading } = this.props;
-
-    console.log(newLoading);
     const { pageNo, pageSize } =  this.state;
     const pagination = {
       total: listTotal,

@@ -4,7 +4,7 @@ import debounce from 'lodash/debounce';
 import styles from './index.scss';
 import RightContent, { GlobalHeaderRightProps } from './RightContent';
 import { router } from 'umi';
-import { RemoveAllStorage } from '@/utils/cache';
+import { RemoveLocalStorage } from '@/utils/storage/local';
 
 export interface GlobalControlHeaderProps extends GlobalHeaderRightProps {
   collapsed: boolean;
@@ -37,7 +37,9 @@ export default class GlobalControlHeader extends PureComponent<GlobalControlHead
       router.push('/control/system/modify');
     }
     if (key === 'logout'){
-      RemoveAllStorage();
+      RemoveLocalStorage('auth_website');
+      RemoveLocalStorage('globalFlag');
+      RemoveLocalStorage('accountInfo');
       router.push('/');
     }
   }

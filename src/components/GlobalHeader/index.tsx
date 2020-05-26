@@ -2,7 +2,8 @@ import React, { PureComponent } from 'react';
 import { Link, router } from 'umi';
 import H from 'history';
 import styles from './index.scss';
-import { GetGlobalFlag, GetGlobalToken, GetAccountInfo, RemoveAllStorage } from '@/utils/cache';
+import { GetGlobalFlag, GetGlobalToken, GetAccountInfo } from '@/utils/cache';
+import { RemoveLocalStorage } from '@/utils/storage/local';
 
 interface GlonbalHeaderProps {
   logo: string;
@@ -12,7 +13,9 @@ interface GlonbalHeaderProps {
 
 class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
   logout = () => {
-    RemoveAllStorage();
+    RemoveLocalStorage('auth_website');
+    RemoveLocalStorage('globalFlag');
+    RemoveLocalStorage('accountInfo');
     router.replace('/');
   }
 
