@@ -64,7 +64,6 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
     return (
       <div className={styles.wrap}>
         <Link to="/">
-          {/* <img className={styles.logo} src={logo} alt=""/> */}
           <i className={`${styles.logo}  iconfont iconlogo`} style={{ fontSize: '40px', color: '#fff', verticalAlign: 'middle' }}></i>
         </Link>
         <nav className={styles.navsWrap}>
@@ -81,24 +80,8 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
           ))}
           {GetGlobalToken(GetGlobalFlag()) ? (
             <Dropdown overlay={menu} trigger={['click', 'hover']}>
-              <span>{GetAccountInfo().userName}</span>
+              <span style={{ paddingBottom: '20px', cursor: 'pointer' }}>{GetAccountInfo().userName}</span>
             </Dropdown>
-            // <div className={styles.loginer}>
-            //   <span>{GetAccountInfo().userName}</span>
-            //   <div className={styles.controlNav}>
-            //     <ul>
-            //       <li>
-            //         <Link to={'/control'}>工作台</Link>
-            //       </li>
-            //       <li>
-            //         <Link to={'/control/system/modify'}>修改密码</Link>
-            //       </li>
-            //       <li>
-            //         <span onClick={this.logout}>退出登录</span>
-            //       </li>
-            //     </ul>
-            //   </div>
-            // </div>
           ) : (
             <>
               <Link to={'/login/index'} className={`${styles.navItem} ${styles.otherItem}`}>
