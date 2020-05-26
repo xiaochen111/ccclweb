@@ -134,7 +134,14 @@ export class PricePlan extends Component<IProps, IState> {
   handleLinkToOrder = info => {
     if (!GetGlobalToken(GetGlobalFlag())) {
       message.warn('下单需要登录，请先登录');
-      router.replace('/login');
+      router.push({
+        pathname: '/login/index',
+        search: stringify({
+          cbm: info.cbm,
+          kgs: info.kgs,
+          id: info.id
+        }),
+      });
       return;
     }
     if (info && info.id) {

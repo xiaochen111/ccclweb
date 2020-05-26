@@ -41,9 +41,9 @@ export class LoginPage extends Component<LoginProps, any> {
       this.setState({ password, userName });
     }
     if (Object.keys(GetPageQuery()).length){
-      const { cbm, kgs, id } =  GetPageQuery();
+      const { cbm, kgs, id, backUrl } =  GetPageQuery();
 
-      this.toOrderParmse = { cbm, kgs, id };
+      this.toOrderParmse = { cbm, kgs, id, backUrl };
     }
   }
 
@@ -61,13 +61,15 @@ export class LoginPage extends Component<LoginProps, any> {
 
       let params = loginInfo && (!this.modifyLoginInfo) ? { password: cookPassword, userName: cookUserName } : { password: md5(formPassword), userName: formUserName };
 
-      if (Object.keys(this.toOrderParmse).length && (!Object.keys(this.toOrderParmse).includes('backUrl'))){
+
+      if (Object.keys(this.toOrderParmse).length && !this.toOrderParmse['backUrl']){
         params['toOrder'] = true;
       }
       const res = await  dispatch({
         type: 'login/sendLoginInfo',
         payload: params,
       });
+
 
       if (res){
         //执行记住密码
