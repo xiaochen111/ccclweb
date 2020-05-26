@@ -82,7 +82,7 @@ export class SearchCondition extends Component<IProps, any> {
       <Option key={index} value={`${item.id}`}>
         {`${item.value}`}
       </Option>
-    )) : [<Option  value="">暂无数据</Option>];
+    )) : [<Option key={1} value="">暂无数据</Option>];
     const { isMultiRow, form, defaultValue = {} } = this.props;
 
     console.log(defaultValue);
