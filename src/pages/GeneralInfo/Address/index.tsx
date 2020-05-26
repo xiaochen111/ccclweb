@@ -213,7 +213,7 @@ export class index extends Component<IProps, IState> {
 
     return (
       <div className={styles.address}>
-        <PageHeader title="目的港送货地址" footer={this.topFormRender()}/>
+        <PageHeader title="目的地送货地址" footer={this.topFormRender()}/>
         <div className={styles.tableMain}>
           <div className={styles.btns}>
             <button

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, AutoComplete, message } from 'antd';
+import { Button, Form, Input, AutoComplete, message, Empty } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import REGEX from '@/utils/regex';
 
@@ -17,6 +17,7 @@ export enum searchType {
 interface IProps extends FormComponentProps {
   isMultiRow: searchType;
   submit: (params) => void;
+  filterList: (params) => void;
   defaultValue?: any;
   countryDropList: any[];
   hideTitle?: boolean;
@@ -28,6 +29,8 @@ interface item {
 }
 
 export class SearchCondition extends Component<IProps, any> {
+
+
   handleSubmit = () => {
     const { form, submit } = this.props;
 
@@ -43,16 +46,48 @@ export class SearchCondition extends Component<IProps, any> {
     });
   };
 
+  onChangeFilter = () => {
+    const { filterList } = this.props;
+    let timer;
+
+    return function(value){
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        this.changeValue = value.trim();
+        filterList(value.trim());
+      }, 499);
+    };
+  }
+
+  private onChangeFilterCp = this.onChangeFilter();
+  private changeValue = '';
+
+  ononBlurCb = () => {
+    const { countryDropList, form } = this.props;
+
+    const res =  countryDropList.some(item => item.value === this.changeValue);
+
+    if (!res){
+      form.setFieldsValue({ endTruck: '' });
+    }
+  }
+
+
+
   render() {
     const { countryDropList, hideTitle = false } = this.props;
 
-    const options = countryDropList.map((item: item, index) => (
+
+    const options = countryDropList && countryDropList.length ? countryDropList.map((item: item, index) => (
       <Option key={index} value={`${item.id}`}>
         {`${item.value}`}
       </Option>
-    ));
+    )) : [<Option key={1} value="">暂无数据</Option>];
     const { isMultiRow, form, defaultValue = {} } = this.props;
+
+    console.log(defaultValue);
     const { getFieldDecorator } = form;
+
 
     const formStyle = `searchMainStyle${Number(isMultiRow)}`;
 
@@ -80,6 +115,8 @@ export class SearchCondition extends Component<IProps, any> {
                     optionLabelProp="value"
                     placeholder="请输入城市"
                     defaultActiveFirstOption={false}
+                    onChange={ value =>  this.onChangeFilterCp(value) }
+                    onBlur={ this.ononBlurCb }
                   >
                     <Input
                       prefix={

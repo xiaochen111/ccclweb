@@ -196,6 +196,15 @@ export class PricePlan extends Component<IProps, IState> {
     }, this.handleGetLclList);
   };
 
+  countryFilterList = value => {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'global/getCountryDropList',
+      payload: { text: value }
+    });
+  }
+
   render() {
     const { lclList, totalCount, countryDropList, tableLoading } = this.props;
     const { sortInstance, orderBy, endTruck, kgs, cbm, routeType, pageNo, pageSize, currentExplain } = this.state;
@@ -219,6 +228,7 @@ export class PricePlan extends Component<IProps, IState> {
         <SearchCondition
           countryDropList={countryDropList}
           submit={this.handleSearchSubmit}
+          filterList={this.countryFilterList}
           isMultiRow={searchType.pricePlan}
           defaultValue={searchDefaultValue}
         />

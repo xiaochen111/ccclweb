@@ -85,7 +85,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
           {GetGlobalToken(GetGlobalFlag()) ? (
             <Dropdown overlay={menu} trigger={['click', 'hover']}>
               <div style={{ display: 'inline-block' }}>
-                <span style={{ paddingBottom: '20px', cursor: 'pointer' }}>{GetAccountInfo().userName}</span>
+                <span style={{  cursor: 'pointer' }}>{GetAccountInfo().userName}</span>
                 <Icon type="caret-down" />
               </div>
             </Dropdown>

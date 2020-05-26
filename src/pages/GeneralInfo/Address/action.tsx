@@ -105,13 +105,13 @@ export class action extends Component<Iprps, any> {
     return (
       <div className={styles.editMain}>
         <Form {...formItemLayout} hideRequiredMark>
-          <Form.Item label="目的港送货地址（必填）">
+          <Form.Item label="目的地送货地址（必填）">
             {getFieldDecorator('portEndAddress', {
               initialValue: portEndAddress,
               rules: [
                 {
                   required: true,
-                  message: '请输入目的港送货地址',
+                  message: '请输入目的地送货地址',
                 },
               ],
             })(<TextArea rows={4} />)}
@@ -140,7 +140,7 @@ export class action extends Component<Iprps, any> {
 
     return (
       <div className={styles.address}>
-        <PageHeader title={<><Link to="/control/general/adress" style={{ color: '#333' }}>目的港送货地址</Link>/{flag === '1' ? '新增' : '修改'}</>}
+        <PageHeader title={<><Link to="/control/general/adress" style={{ color: '#333' }}>目的地送货地址</Link>/{flag === '1' ? '新增' : '修改'}</>}
           footer={this.topFormRender()}/>
       </div>
     );
