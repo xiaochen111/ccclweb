@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Dispatch, AnyAction } from 'redux';
-import { Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Form, Input, Button, Checkbox } from 'antd';
 import { connect } from 'dva';
 import { StateType } from './model';
 import { FormComponentProps } from 'antd/lib/form';

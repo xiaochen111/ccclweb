@@ -36,7 +36,7 @@ export class SearchCondition extends Component<IProps, any> {
       const { kgs, cbm } = values;
 
       if (!kgs && !cbm) {
-        message.warn('体积和重量比填一个');
+        message.warn('请输入体积和重量');
         return;
       }
       submit(values);
