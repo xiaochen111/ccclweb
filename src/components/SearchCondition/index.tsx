@@ -60,7 +60,6 @@ export class SearchCondition extends Component<IProps, any> {
       <Form className={styles.container}>
         <div className={styles.title} style={{ display: hideTitle ? 'none' : 'block' }}>
           <span className={styles.text}>拼箱门到门</span>
-          <span className={styles.desc}>注 : 费用按照1:400（KGS数值/</span>
         </div>
         <div className={`${styles[formStyle]} ${styles.fromMain}`}>
           {searchType.index === isMultiRow ? (

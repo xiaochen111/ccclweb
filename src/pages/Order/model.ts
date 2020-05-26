@@ -1,7 +1,7 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
 import { queryOrderList, queryOrderDetail, queryOrderFeeDetail, sendCancelOrder, queryPaymentOrCode, sendOrderFeeConfirm } from '@/services/order';
-import { ORDER_TATUS_DESC, ORDER_TATUS_COLOR, ORDER_FEE_STATUS_DESC } from '@/utils/const';
+import { ORDER_TATUS_DESC, ORDER_TATUS_COLOR, ORDER_FEE_STATUS_DESC, ORDER__FEE_STATUS_COLOR } from '@/utils/const';
 
 export interface StateType {
   orderList: any[];
@@ -129,6 +129,7 @@ const convertList = list => {
       statusColor: ORDER_TATUS_COLOR[item.status],
       feeStatus: item.feeStatus !== undefined ? item.feeStatus : 0,
       feeStatusDesc: ORDER_FEE_STATUS_DESC[item.feeStatus ? item.feeStatus : 0],
+      feeStatusColor: ORDER__FEE_STATUS_COLOR[item.feeStatus ? item.feeStatus : 0],
     });
   }
 

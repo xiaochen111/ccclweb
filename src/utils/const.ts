@@ -8,13 +8,19 @@ export const ORDER_TATUS_DESC = {
 export const ORDER_TATUS_COLOR = {
   0: '#FE7100',
   1: '#FF0808',
-  3: '#999999',
-  4: '#00B037',
+  2: '#999999',
+  3: '#00B037',
 };
 
 export const ORDER_FEE_STATUS_DESC = {
   0: '待费用确认',
-  10: '待费用支付',
+  10: '待支付',
   30: '支付中',
   40: '已支付',
+};
+
+export const ORDER__FEE_STATUS_COLOR = {
+  0: '#FE7100',
+  10: '#FE7100',
+  40: '#2556F2',
 };

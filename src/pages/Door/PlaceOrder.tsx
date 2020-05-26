@@ -332,15 +332,15 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                 <div className={styles.priceInfo}>
                   <div className={styles.leftContent}>
                     <h5>单价:</h5>
-                    <div className={styles.desc}>体重比 : 1CBM : 400KGS</div>
+                    <div className={styles.desc}>体重比 : {lclOrderInfo.cbm}立方 : {lclOrderInfo.kgs}公斤</div>
                   </div>
                   <div className={styles.priceContent}>
                     <div className={styles.info}>
                       <span>
-                        CBM <strong>{lclOrderInfo.cbm}</strong>
+                        立方 <strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.cbm}</strong>
                       </span>
                       <span>
-                        KGS <strong>{lclOrderInfo.kgs}</strong>
+                        公斤 <strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.kgs}</strong>
                       </span>
                     </div>
                   </div>

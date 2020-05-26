@@ -73,12 +73,12 @@ export class PricePlan extends Component<IProps, IState> {
       width: '13%',
     },
     {
-      title: '公斤',
+      title: '立方',
       key: 'TOSS_PRICE_STANDRD',
       width: '13%',
     },
     {
-      title: '立方',
+      title: '公斤',
       key: 'HEAVY_PRICE_STANDRDd',
       width: '13%',
     },
@@ -199,6 +199,8 @@ export class PricePlan extends Component<IProps, IState> {
       pageSize,
     };
 
+    const convertCurrency = currency => currency === 'USD' ? '$' : '¥';
+
     return (
       <div
         style={
@@ -267,13 +269,13 @@ export class PricePlan extends Component<IProps, IState> {
                           {item.days}天
                         </div>
                         <div className={`${styles.price} ${styles.columsWidth}`}>
-                          ${item.tossStandsPrice}
+                          {convertCurrency(item.currency)}{item.tossStandsPrice}
                         </div>
                         <div className={`${styles.price} ${styles.columsWidth}`}>
-                          ${item.heavyStandsPrice}
+                          {convertCurrency(item.currency)}{item.heavyStandsPrice}
                         </div>
                         <div className={`${styles.total} ${styles.columsWidth}`}>
-                          ${item.totalPrice}
+                          {convertCurrency(item.currency)}{item.totalPrice}
                         </div>
                         <div className={`${styles.columsWidth}`}>
                           <span className={styles.btn} onClick={() => this.handleLinkToOrder(item)}>
