@@ -30,7 +30,7 @@ export default (props) => {
     return <Redirect to={{
       pathname: '/login',
       search: stringify({
-        backUrl: hash.split('#')[1]
+        backUrl: window.location.hash.split('#')[1]
       })
     }} />;
   }

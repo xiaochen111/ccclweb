@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import { Link, router } from 'umi';
-import { Menu, Dropdown } from 'antd';
+import { Menu, Dropdown, Icon } from 'antd';
 import H from 'history';
 import { stringify } from 'qs';
 import { RemoveLocalStorage } from '@/utils/storage/local';
@@ -39,6 +39,8 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
 
   render() {
     const { logo, location, isLogin } = this.props;
+
+    console.log('render -> location', window.location);
     const navs = isLogin
       ? []
       : [
@@ -65,7 +67,8 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
     return (
       <div className={styles.wrap}>
         <Link to="/">
-          <i className={`${styles.logo}  iconfont iconlogo`} style={{ fontSize: '40px', color: '#fff', verticalAlign: 'middle' }}></i>
+          <i className={`${styles.logo}  iconfont iconCCC`} style={{ fontSize: '50px', color: '#fff', verticalAlign: 'middle' }}/>
+          <i className={`${styles.logo}  iconfont iconlogo`} style={{ fontSize: '40px', color: '#fff', verticalAlign: 'middle' }}/>
         </Link>
         <nav className={styles.navsWrap}>
           {navs.map(item => (
@@ -81,14 +84,17 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
           ))}
           {GetGlobalToken(GetGlobalFlag()) ? (
             <Dropdown overlay={menu} trigger={['click', 'hover']}>
-              <span style={{ paddingBottom: '20px', cursor: 'pointer' }}>{GetAccountInfo().userName}</span>
+              <div style={{ display: 'inline-block' }}>
+                <span style={{ paddingBottom: '20px', cursor: 'pointer' }}>{GetAccountInfo().userName}</span>
+                <Icon type="caret-down" />
+              </div>
             </Dropdown>
           ) : (
             <>
               <Link to={{
                 pathname: '/login/index',
                 search: stringify({
-                  backUrl: location.hash
+                  backUrl: window.location.hash.split('#')[1]
                 })
               }} className={`${styles.navItem} ${styles.otherItem}`}>
                 登录

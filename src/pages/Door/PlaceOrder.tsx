@@ -380,7 +380,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   <Col span={24}>
                     <Form.Item label="货物品名（可填写多条）">
                       {getFieldDecorator('goodsType', {
-                        rules: [{ len: 400, message: '不能超过400字' }]
+                        rules: [{ max: 400, message: '不能超过400字' }]
                       })(
                         <TextArea placeholder="请输入货物品名" rows={4} />,
                       )}
