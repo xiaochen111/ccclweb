@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Input, Checkbox, Button } from 'antd';
+import { Row, Col, Form, Input, Checkbox, Button, Modal } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { FormComponentProps } from 'antd/lib/form';
 import { connect } from 'dva';
@@ -19,6 +19,7 @@ interface RegisterState {
   readonly selectedTab: number;
   btnTxt: string;
   clickFlag: boolean;
+  modalVisible: boolean;
 }
 
 const formItemLayout = {
@@ -45,6 +46,51 @@ const tailFormItemLayout = {
   },
 };
 
+
+// 注册协议
+const Protocols = (modalVisible, setModalVisible) => {
+  return (<Modal
+    wrapClassName={styles.wrapClassName}
+    visible={modalVisible}
+    title="注册协议"
+    width={890}
+    onCancel={() => setModalVisible(false)}
+    footer={null}
+  >
+    <h3 className={styles.mainTitle}>《环球义达会员注册协议》</h3>
+    <p className={styles.pTitle}>欢迎您进行注册成为环球义达会员，请您在注册时阅读以下交易条款：</p>
+    <p className={styles.pTitle}>一、关于会员资格</p>
+    <p className={styles.pTxt}>1、凡承认本网站会员注册条款的自然人均可成为环球义达会员。</p>
+    <p className={styles.pTxt}>2、会员须提供详尽、准确的个人资料，且经常更新注册资料以符</p>
+    <p className={styles.pTitle}>二、本网站会员注册条款的接受</p>
+    <p className={styles.pTxt}>1、本网站运作权和解释权归www.ccc-l.com所有。</p>
+    <p className={styles.pTxt}>2、用户要想成为本网站会员，享受本网站的服务，必须完全接受和严格遵守会员注册条款。如果用户注册成功，即表示用户同意接受本注册条款，成为本网站会员，享受本网站规定的服务。</p>
+    <p className={styles.pTitle}>三、会员应遵守的重要条款：</p>
+    <p className={styles.pTxt}>1、本网站提供的所有内容仅供会员个人使用。</p>
+    <p className={styles.pTxt}>2、严禁传播网上电子书籍，一经发现，将追究其相关责任。</p>
+    <p className={styles.pTxt}>(1)任何人注册成为www.ccc-l.com会员必须接受www.ccc-l.com网站使用条款，同时成为网站会员，拥有www.ccc-l.com会员所具有的权利，同时需承担www.ccc-l.com会员的义务。</p>
+    <p className={styles.pTxt}>(2)会员应当自觉遵守：爱国、守法、自律、真实、文明的原则；会员应当崇尚网上道德规范，遵守《全国人民代表大会常务委员会关于维护互联网安全的决定》以及中华人民共和国其他各项相关法律、法规。</p>
+    <p className={styles.pTxt}>(3)严禁发布任何含有违反国家法律、法规、危害国家安全、破坏民族团结及社会稳定内容的文章、言论，严禁发表任何包含种族、性别、宗教等歧视性内容，或者含有色情内容的文章、言论，不得对任何人进行侮辱、谩骂或其他任何形式的人身攻击。本站有权对会员的文章、言论进行审核，对违反上述禁止事项的文章、言论予以删除；情节严重者，本站将取消其注册用户资格。</p>
+    <p className={styles.pTxt}>(4)会员应当自行承担一切因自身行为而直接或者间接导致的民事或刑事法律责任。</p>
+    <p className={styles.pTxt}>(5)未经本站的授权或许可，任何会员不得借用本站的名义从事任何商业活动，也不得将本站作为从事商业活动的场所、平台或其他任何形式的媒介。禁止将本站用作从事各种非法活动的场所、平台或者其他任何形式的媒介。违反者若触犯法律，一切后果自负，本站不承担任何责任。</p>
+    <p className={styles.pTxt}>(6)本站将保留修改规则、删除不良言论及不定期清理版面的权力。</p>
+    <p className={styles.pTitle}>四、会员的帐号，密码和安全性</p>
+    <p className={styles.pTxt}>用户一旦注册成功，即成为本网站的会员，将得到一个会员帐号和密码。</p>
+    <p className={styles.pTitle}>五、用户隐私制度</p>
+    <p className={styles.pTxt}>尊重会员个人隐私是环球义达的基本政策。我们不会在未经会员授权时公开、编辑或透露其注册资料，或将客户名单出售、出租或租借给第三方。但为便于提供服务，我们有时会将信息提供给为我们工作的其他公司，并与该类公司签署详细的保密协议以保证会员个人隐私的安全。</p>
+    <p className={styles.pTitle}>六、会员有以下行为而导致帐户被取消，责任自负</p>
+    <p className={styles.pTxt}>1、违反本网站注册条款。</p>
+    <p className={styles.pTxt}>2、有损害他人的的行为。</p>
+    <p className={styles.pTxt}>3、违反中国的法律、法规。</p>
+    <p className={styles.pTitle}>七、知识产权与版权声明</p>
+    <p className={styles.pTxt}>1、本网站中所有内容均受著作权法、版权法及其它相关法律的保护。任何人不能擅自复制、仿造这些内容。</p>
+    <p className={styles.pTxt}>2、本网站提供的内容仅供会员个人使用，不得用于其它目的。</p>
+    <p className={styles.pTitle}>八．法律声明及其它</p>
+    <p className={styles.pTxt}>1、本服务条款受约于中华人民共和国国家法律，会员和本网站须一致同意服从中华人民共和国法院管辖。如发生会员注册条款与中华人民共和国法律相抵触时，则这些条款将完全按法律规定重新解释，而其它条款则依旧保持对会员产生法律效力和影响。</p>
+    <p className={styles.pTxt}>2、本网站中的帮助信息、栏目的相关介绍及注意事项为本条款的附件，作为解释本条款的具体依据。</p>
+  </Modal>);
+};
+
 @connect(({ login, loading }) => ({
   userLogin: login,
   pageLoading: loading.models['login'],
@@ -58,6 +104,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     selectedTab: 1,
     btnTxt: '获取验证码',
     clickFlag: true,
+    modalVisible: false
   };
 
   timer: any;
@@ -337,7 +384,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
               },
             ],
           })(
-            <Input size="large" placeholder="请输入密码" style={{ width: 370 }} type="password" />,
+            <Input size="large" placeholder="不少于六位数" style={{ width: 370 }} type="password" />,
           )}
         </Form.Item>
         <Form.Item label="再次输入密码">
@@ -358,6 +405,12 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             />,
           )}
         </Form.Item>
+        <Form.Item label="公司名称">
+          {getFieldDecorator('company', {
+            getValueFromEvent: event => event.target.value.trim(),
+            rules: [{ required: true, message: '公司名称' }],
+          })(<Input size="large" placeholder="请输入公司名称" style={{ width: 370 }} />)}
+        </Form.Item>
         {selectedTab === 1 ? (
           <Form.Item label="邮箱">
             {getFieldDecorator('email', {
@@ -373,18 +426,18 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             })(<Input size="large" placeholder="请输入手机号" style={{ width: 370 }} />)}
           </Form.Item>
         )}
-        <Form.Item label="公司名称">
-          {getFieldDecorator('company', {
-            getValueFromEvent: event => event.target.value.trim(),
-            rules: [{ required: true, message: '公司名称' }],
-          })(<Input size="large" placeholder="请输入公司名称" style={{ width: 370 }} />)}
-        </Form.Item>
       </Form>
     );
   };
 
+  setModalVisible = (b:boolean) => {
+    this.setState({
+      modalVisible: b
+    });
+  }
+
   render() {
-    const { tabs, selectedTab } = this.state;
+    const { tabs, selectedTab, modalVisible } = this.state;
     const {
       form: { getFieldDecorator },
       pageLoading,
@@ -392,6 +445,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
     return (
       <div className={styles.registerContainer} onSubmit={this.handleSubmit}>
+        {Protocols(modalVisible, this.setModalVisible)}
         <div className={styles.registerContent}>
           <ul className={styles.registerTabs}>
             {tabs.map(item => (
@@ -409,7 +463,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             <Form.Item {...tailFormItemLayout}>
               {getFieldDecorator('aa', {
                 valuePropName: 'checked',
-                initialValue: true,
+                initialValue: false,
                 rules: [
                   {
                     validator: this.readXy,
@@ -417,7 +471,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
                 ],
               })(<Checkbox>请同意会员协议</Checkbox>)}
 
-              <span className={styles.desc}>
+              <span className={styles.desc} onClick={() => this.setModalVisible(true)}>
                 <strong>《环球义达用户协议》</strong>
               </span>
             </Form.Item>

@@ -68,7 +68,7 @@ export class PricePlan extends Component<IProps, IState> {
       width: '35%',
     },
     {
-      title: '航程',
+      title: '时效',
       key: 'days',
       width: '13%',
     },
