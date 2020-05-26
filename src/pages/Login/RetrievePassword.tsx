@@ -135,9 +135,9 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { clickFlag } = this.state;
 
     if (!clickFlag) return;
-    const { form, userLogin, dispatch } = this.props;
-    const { captchaKey } = userLogin.captchaImage;
-    const values = form.getFieldsValue(['phone', 'imgValue']);
+    const { form, dispatch } = this.props;
+    // const { captchaKey } = userLogin.captchaImage;
+    const values = form.getFieldsValue(['phone']);
 
     if (!values.phone.trim()) {
       form.setFields({
@@ -157,16 +157,16 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       });
       return;
     }
-    if (!values.imgValue || !values.imgValue.trim()) {
-      form.setFields({
-        imgValue: {
-          value: values.imgValue,
-          errors: [new Error('图片不能为空')],
-        },
-      });
-      return;
-    }
-    values.imgKey = captchaKey;
+    // if (!values.imgValue || !values.imgValue.trim()) {
+    //   form.setFields({
+    //     imgValue: {
+    //       value: values.imgValue,
+    //       errors: [new Error('图片不能为空')],
+    //     },
+    //   });
+    //   return;
+    // }
+    // values.imgKey = captchaKey;
     const res = await dispatch({
       type: 'login/getPhoneRepasswordMsg',
       payload: values,
@@ -181,9 +181,8 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { clickFlag } = this.state;
 
     if (!clickFlag) return;
-    const { form, userLogin, dispatch } = this.props;
-    const { captchaKey } = userLogin.captchaImage;
-    const values = form.getFieldsValue(['email', 'imgValue']);
+    const { form, dispatch } = this.props;
+    const values = form.getFieldsValue(['email']);
 
     if (!values.email) {
       form.setFields({
@@ -203,16 +202,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       });
       return;
     }
-    if (!values.imgValue || !values.imgValue.trim()) {
-      form.setFields({
-        imgValue: {
-          value: values.imgValue,
-          errors: [new Error('图片不能为空')],
-        },
-      });
-      return;
-    }
-    values.imgKey = captchaKey;
+
     let res = await dispatch({
       type: 'login/getEmailRepasswordMsg',
       payload: values,
@@ -259,11 +249,9 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   renderHtml = selectedTab => {
     const {
       form: { getFieldDecorator },
-      userLogin,
       pageLoading,
     } = this.props;
 
-    const { captchaImage } = userLogin;
     const { btnTxt, phoneUser, emailUser } = this.state;
 
     return (
@@ -292,7 +280,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
           </Form.Item>
         )}
 
-        <Form.Item label="图形验证码">
+        {/* <Form.Item label="图形验证码">
           <Row gutter={10}>
             <Col span={15}>
               {getFieldDecorator('imgValue', {
@@ -306,7 +294,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
               </div>
             </Col>
           </Row>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item label={`${selectedTab === 1 ? '手机' : '邮箱'}验证码`}>
           <Row gutter={10}>

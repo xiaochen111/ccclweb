@@ -145,11 +145,11 @@ class HomePage extends Component<IProps, any> {
           <ul>
             <li>
               <p>CBM</p>
-              <p>{item.tossStandsPrice}</p>
+              <p>{item.currency === 'USD' ? '$' : '￥'}{item.tossStandsPrice}</p>
             </li>
             <li>
               <p>KGS</p>
-              <p>{item.heavyStandsPrice}</p>
+              <p>{item.currency === 'USD' ? '$' : '￥'}{item.heavyStandsPrice}</p>
             </li>
           </ul>
           <Button type="primary" onClick={() => this.handleLinkToOrder(item)}>

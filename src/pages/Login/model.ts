@@ -58,7 +58,7 @@ const Model: LoginModelType = {
 
     //登录
     *sendLoginInfo({ payload }, { call, put, select }) {
-      const { userName, password, toOrder } = payload;
+      const { userName, password } = payload;
 
       const response = yield call(doLogin, { userName, password });
 
@@ -70,11 +70,8 @@ const Model: LoginModelType = {
         SetGlobalFlag(response.resMap.user.head);
         SetGlobalToken(response.resMap.user.head, response.resMap.user.token);
         SetAccountInfo(response.resMap.user);
-        if (toOrder){
-          return true;
-        } else {
-          yield put(routerRedux.push('/home'));
-        }
+
+        return true;
       }
     },
 

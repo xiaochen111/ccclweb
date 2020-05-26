@@ -173,8 +173,9 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
     if (!clickFlag) return;
     const { form, userLogin, dispatch } = this.props;
-    const { captchaKey } = userLogin.captchaImage;
-    const values = form.getFieldsValue(['phone', 'imgValue']);
+    // const { captchaKey } = userLogin.captchaImage;
+    const values = form.getFieldsValue(['phone']);
+    // const values = form.getFieldsValue(['phone', 'imgValue']);
 
     if (!values.phone.trim()) {
       form.setFields({
@@ -194,16 +195,16 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       });
       return;
     }
-    if (!values.imgValue || !values.imgValue.trim()) {
-      form.setFields({
-        imgValue: {
-          value: values.imgValue,
-          errors: [new Error('图片不能为空')],
-        },
-      });
-      return;
-    }
-    values.imgKey = captchaKey;
+    // if (!values.imgValue || !values.imgValue.trim()) {
+    //   form.setFields({
+    //     imgValue: {
+    //       value: values.imgValue,
+    //       errors: [new Error('图片不能为空')],
+    //     },
+    //   });
+    //   return;
+    // }
+    // values.imgKey = captchaKey;
     let res = await dispatch({
       type: 'login/getPhoneRegiseMsg',
       payload: values,
@@ -240,16 +241,16 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       });
       return;
     }
-    if (!values.imgValue || !values.imgValue.trim()) {
-      form.setFields({
-        imgValue: {
-          value: values.imgValue,
-          errors: [new Error('图片不能为空')],
-        },
-      });
-      return;
-    }
-    values.imgKey = captchaKey;
+    // if (!values.imgValue || !values.imgValue.trim()) {
+    //   form.setFields({
+    //     imgValue: {
+    //       value: values.imgValue,
+    //       errors: [new Error('图片不能为空')],
+    //     },
+    //   });
+    //   return;
+    // }
+    // values.imgKey = captchaKey;
     let res = await dispatch({
       type: 'login/getEmailRegiseMsg',
       payload: values,
@@ -335,7 +336,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
           </Form.Item>
         )}
 
-        <Form.Item label="图形验证码">
+        {/* <Form.Item label="图形验证码">
           <Row gutter={10}>
             <Col span={15}>
               {getFieldDecorator('imgValue', {
@@ -349,7 +350,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
               </div>
             </Col>
           </Row>
-        </Form.Item>
+        </Form.Item> */}
 
         <Form.Item label={`${selectedTab === 1 ? '手机' : '邮箱'}验证码`}>
           <Row gutter={10}>
