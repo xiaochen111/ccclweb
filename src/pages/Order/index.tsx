@@ -102,14 +102,10 @@ class OrderPage extends PureComponent<IProps, IState> {
         // if (record.feeStatus === 40) {
         //   return <span style={{ color: '#FF0808' }}>已支付</span>;
         // }
-        // if (text === 1 || text === 2) {
-        //   return (
-        //     <Popover content={record.statusDesc} trigger="hover">
-        //       <span style={{ color: '#FF0808' }}>已退单</span>
-        //     </Popover>
-        //   );
+        // if (record.status === 1 || record.status === 2) {
+        //   return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
         // }
-        return <span style={{ color: record.feeStatusColor }}>{record.feeStatusDesc}</span>;
+        return <span style={{ color: record.status === 1 || record.status === 2 ? '#999' : record.feeStatusColor }}>{record.feeStatusDesc}</span>;
       }
     },
     {

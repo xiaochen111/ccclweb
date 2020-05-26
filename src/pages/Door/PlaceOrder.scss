@@ -47,6 +47,9 @@
     }
 
     .middle {
+      @extend [layout];
+      @extend [layout='column'];
+      @extend [layout-align='center center'];
       width: 154px;
       margin: 0 10px;
       color: #999;

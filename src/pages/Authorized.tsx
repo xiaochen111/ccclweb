@@ -5,7 +5,9 @@ import { GetPageQuery } from '@/utils/utils';
 import { stringify } from 'qs';
 
 export default (props) => {
-  const { location: { pathname }, children } = props;
+  const { location: { pathname, hash }, children } = props;
+
+  console.log('pathname', pathname);
 
   const token = GetGlobalToken(GetGlobalFlag());
   const pageQuery = GetPageQuery();
@@ -28,7 +30,7 @@ export default (props) => {
     return <Redirect to={{
       pathname: '/login',
       search: stringify({
-        backUrl: pathname
+        backUrl: hash.split('#')[1]
       })
     }} />;
   }
