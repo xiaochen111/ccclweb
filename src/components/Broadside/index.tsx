@@ -17,11 +17,11 @@ class Broadside extends PureComponent {
         <ul className={styles.broadSide}>
           <li onClick={() => this.setModal1Visible(true)}>
             {/* <div className={styles.point}></div> */}
-            <i className="icongonggao iconfont"></i>
+            <i className="icon24pxicon_gonggao iconfont"></i>
             <span>公告</span>
           </li>
           <li>
-            <i className="iconqq iconfont"></i>
+            <i className="icon24pxicon-qq iconfont"></i>
             <span>客服</span>
           </li>
         </ul>

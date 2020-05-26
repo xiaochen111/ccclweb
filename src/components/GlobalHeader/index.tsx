@@ -64,7 +64,8 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
     return (
       <div className={styles.wrap}>
         <Link to="/">
-          <img className={styles.logo} src={logo} alt=""/>
+          {/* <img className={styles.logo} src={logo} alt=""/> */}
+          <i className={`${styles.logo}  iconfont iconlogo`} style={{ fontSize: '40px', color: '#fff', verticalAlign: 'middle' }}></i>
         </Link>
         <nav className={styles.navsWrap}>
           {navs.map(item => (
