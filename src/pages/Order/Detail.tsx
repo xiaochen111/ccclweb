@@ -5,6 +5,7 @@ import { connect } from 'dva';
 import { router } from 'umi';
 import { StateType } from './model';
 import PageLoading from '@/components/PageLoading';
+import StandardTable from '@/components/StandardTable';
 import FooterToolbar from '@/components/FooterToolbar';
 import styles from './index.scss';
 interface IProps extends StateType {
@@ -15,6 +16,7 @@ interface IProps extends StateType {
 
 interface IState {
   id: string;
+  detailInfo: any
 }
 
 @connect(({ order }) => ({
@@ -23,7 +25,28 @@ interface IState {
 class orderDetailPage extends PureComponent<IProps, IState> {
   state = {
     id: this.props.match.params && this.props.match.params.id,
+    detailInfo: {}
   }
+
+
+  private detailColumns = [
+    { title: '费用名称', dataIndex: 'feeName', key: 'feeName' },
+    {
+      title: '单价',
+      dataIndex: 'unitPrice',
+      key: 'unitPrice',
+      render: text => <span>${text}</span>,
+    },
+    { title: '数量', dataIndex: 'count', key: 'count' },
+    {
+      title: '应付金额',
+      dataIndex: 'amount',
+      key: 'amount',
+      render: text => <span style={{ color: '#FE7100' }}>${text}</span>,
+    },
+    { title: '币种', dataIndex: 'currency', key: 'currency' },
+    { title: '汇率', dataIndex: 'rate', key: 'rate' },
+  ];
 
   componentDidMount() {
     const { id } = this.state;
@@ -33,9 +56,28 @@ class orderDetailPage extends PureComponent<IProps, IState> {
       type: 'order/getOrderDetail',
       payload: { id }
     });
+
+    this.handleGetFeeDetail();
   }
 
+  handleGetFeeDetail = async() => {
+    const { id } = this.state;
+    const { dispatch } = this.props;
+
+    let result: any = await dispatch({
+      type: 'order/getOrderFeeDetail',
+      payload: { id },
+    });
+
+    this.setState({
+      detailInfo: result,
+    });
+  };
+
   render() {
+    const { detailInfo } = this.state;
+
+    console.log('orderDetailPage -> render -> detailInfo', detailInfo);
     const { orderDetail } = this.props;
 
     if (!orderDetail) return <PageLoading/>;
@@ -52,6 +94,23 @@ class orderDetailPage extends PureComponent<IProps, IState> {
               <Descriptions.Item label="运输专线">
                 {orderDetail.startTruck}--{orderDetail.endTruck}
               </Descriptions.Item>
+            </Descriptions>
+            <Divider/>
+            <Descriptions title="费用明细">
+              <div>
+                <StandardTable rowKey={'feeId'} columns={this.detailColumns} dataSource={detailInfo['orderPayfeeList']} />
+                <div className={styles.modalFooter} style={{ justifyContent: 'flex-start' }}>
+                  <div className={styles.footerContent}>
+                    <div className={styles.text}>
+                    总金额
+                      <span className={styles.price}>
+                        <strong>{detailInfo['unPayMoney']}</strong>
+                        <i>{detailInfo['unPayMoneyCurrency']}</i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </Descriptions>
             <Divider/>
             <Descriptions title="附件">

@@ -19,16 +19,15 @@ interface IProps extends FormComponentProps, StateType {
 interface IState {
   pageNo: number;
   pageSize: number;
-  status: number;
+  orderStatus: number;
   searchValues: {
     orderNo: string;
     startTruck: string;
     endTruck: string;
   };
   visible: boolean;
-  currentOrderId: string;
-  detailList: any[];
-  detailPriceInfo: any;
+  current: any;
+  detailInfo: any;
 }
 @connect(({ loading, order, global }) => ({
   orderList: order.orderList,
@@ -40,26 +39,22 @@ class OrderPage extends PureComponent<IProps, IState> {
   state = {
     pageNo: 1,
     pageSize: 10,
-    status: -1,
+    orderStatus: -1,
     searchValues: {
       orderNo: '',
       startTruck: '',
       endTruck: '',
     },
     visible: false,
-    detailList: [],
-    currentOrderId: '',
-    detailPriceInfo: {
-      unPayMoney: 0,
-      unPayMoneyCurrency: ''
-    },
+    current: {},
+    detailInfo: {},
   };
 
   tabs = [
     { label: '全部', value: -1 },
     { label: '待接单', value: 0 },
     { label: '已接单', value: 3 },
-    { label: '已退单', value: '1, 2' },
+    { label: '已退单', value: 4 },
   ];
 
   private columns = [
@@ -161,7 +156,7 @@ class OrderPage extends PureComponent<IProps, IState> {
     const {
       pageNo,
       pageSize,
-      status,
+      orderStatus,
       searchValues: { orderNo, startTruck, endTruck },
     } = this.state;
     const { dispatch } = this.props;
@@ -171,8 +166,12 @@ class OrderPage extends PureComponent<IProps, IState> {
       pageSize,
     };
 
-    if (status !== -1) {
-      params['status'] = status;
+    if (orderStatus !== -1) {
+      if (orderStatus === 4) {
+        params['orderStatus'] = '1,2';
+      } else {
+        params['orderStatus'] = orderStatus;
+      }
     }
     if (orderNo) {
       params['orderNo'] = orderNo;
@@ -199,7 +198,7 @@ class OrderPage extends PureComponent<IProps, IState> {
         break;
       case 10:
         if (record.unPayMoneyCurrency !== 'CNY') {
-          message.info('资费存在外币，暂不支持支付');
+          this.handleGetFeeDetail(record);
           return;
         }
         router.push(`/control/order/my/payment/${record.id}`);
@@ -226,12 +225,8 @@ class OrderPage extends PureComponent<IProps, IState> {
     });
 
     this.setState({
-      detailList: result.orderPayfeeList,
-      currentOrderId: record.id,
-      detailPriceInfo: {
-        unPayMoney: result.unPayMoney || 0,
-        unPayMoneyCurrency: result.unPayMoneyCurrency || ''
-      },
+      detailInfo: result,
+      current: record,
       visible: true,
     });
   };
@@ -254,13 +249,18 @@ class OrderPage extends PureComponent<IProps, IState> {
 
   // 订单费用确认
   handleFeeConfirm = async() => {
-    const { currentOrderId } = this.state;
+    const { current } = this.state;
     const { dispatch } = this.props;
 
+    // 如果币种是cny就只是单纯查看，点击确认后关闭详情，其他非cny币种，确认就是费用确认事件
+    if (current['unPayMoneyCurrency'] === 'CNY') {
+      this.handleModalCancel();
+      return;
+    }
     let result: any = await dispatch({
       type: 'order/orderFeeConfirm',
       payload: {
-        orderId: currentOrderId,
+        orderId: current['id'],
         // 费用确认传true
         confirmFee: true,
       },
@@ -274,8 +274,7 @@ class OrderPage extends PureComponent<IProps, IState> {
 
   handleModalCancel = () => {
     this.setState({
-      currentOrderId: '',
-      detailList: [],
+      detailInfo: {},
       visible: false,
     });
   };
@@ -283,7 +282,7 @@ class OrderPage extends PureComponent<IProps, IState> {
   handleTabChange = key => {
     this.setState(
       {
-        status: key,
+        orderStatus: Number(key),
       },
       this.handleSearchList,
     );
@@ -311,7 +310,7 @@ class OrderPage extends PureComponent<IProps, IState> {
   };
 
   render() {
-    const { status, pageNo, pageSize, detailList, detailPriceInfo, visible } = this.state;
+    const { orderStatus, pageNo, pageSize, detailInfo, current, visible } = this.state;
     const {
       form: { getFieldDecorator },
       orderList,
@@ -330,7 +329,7 @@ class OrderPage extends PureComponent<IProps, IState> {
         <PageHeader
           title="我的订单"
           footer={
-            <Tabs activeKey={status.toString()} size="small" onChange={this.handleTabChange}>
+            <Tabs activeKey={orderStatus.toString()} size="small" onChange={this.handleTabChange}>
               {this.tabs.map(item => (
                 <TabPane tab={item.label} key={item.value.toString()} />
               ))}
@@ -369,7 +368,7 @@ class OrderPage extends PureComponent<IProps, IState> {
         </div>
 
         <Modal
-          title="费用明细"
+          title={<div>费用明细  <span style={{ color: '#2556F2FF', fontSize: 14, display: current['unPayMoneyCurrency'] === 'CNY' ? 'none' : 'inline-block' }}>(费用存在外币，暂不支持支付)</span></div>}
           visible={visible}
           width={800}
           destroyOnClose
@@ -377,14 +376,14 @@ class OrderPage extends PureComponent<IProps, IState> {
           onCancel={this.handleModalCancel}
         >
           <>
-            <StandardTable rowKey={'feeId'} columns={this.detailColumns} dataSource={detailList} />
+            <StandardTable rowKey={'feeId'} columns={this.detailColumns} dataSource={detailInfo['orderPayfeeList']} />
             <div className={styles.modalFooter}>
               <div className={styles.footerContent}>
                 <div className={styles.text}>
                   总金额
                   <span className={styles.price}>
-                    <strong>{detailPriceInfo.unPayMoney}</strong>
-                    <i>{detailPriceInfo.unPayMoneyCurrency}</i>
+                    <strong>{detailInfo['unPayMoney']}</strong>
+                    <i>{detailInfo['unPayMoneyCurrency']}</i>
                   </span>
                 </div>
                 <Button type="primary" onClick={this.handleFeeConfirm}>确认</Button>
