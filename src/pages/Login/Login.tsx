@@ -18,7 +18,7 @@ interface LoginProps extends FormComponentProps {
   submitLoading: boolean;
 }
 
-@connect(({ login, loading }) => ({
+@connect(({ login, loading, global }) => ({
   userLogin: login,
   submitLoading: loading.effects['login/sendLoginInfo'],
 }))
@@ -35,11 +35,9 @@ export class LoginPage extends Component<LoginProps, any> {
   componentDidMount(){
     const loginInfo = GetLocalStorage('loginInfo') || '';
 
-    console.log(loginInfo);
     if (loginInfo){
       const { password, userName } = loginInfo;
 
-      console.log(password, userName);
       this.setState({ password, userName });
     }
     if (Object.keys(GetPageQuery()).length){
@@ -59,9 +57,11 @@ export class LoginPage extends Component<LoginProps, any> {
       const loginInfo = GetLocalStorage('loginInfo') || '';
       const { password: cookPassword, userName: cookUserName } = loginInfo;
       const { password: formPassword, userName: formUserName } = values;
+      const { id, cbm, kgs, backUrl } = this.toOrderParmse;
+
       let params = loginInfo && (!this.modifyLoginInfo) ? { password: cookPassword, userName: cookUserName } : { password: md5(formPassword), userName: formUserName };
 
-      if (Object.keys(this.toOrderParmse).length){
+      if (Object.keys(this.toOrderParmse).length && (!Object.keys(this.toOrderParmse).includes('backUrl'))){
         params['toOrder'] = true;
       }
       const res = await  dispatch({
@@ -70,18 +70,25 @@ export class LoginPage extends Component<LoginProps, any> {
       });
 
       if (res){
-        const { id, cbm, kgs } = this.toOrderParmse;
-
+        //执行记住密码
         this.rememberPw();
-        if (params['toOrder']){
-          router.push({
-            pathname: `/door/place-order/${id}`,
-            search: stringify({
-              cbm, kgs
-            }),
-          });
-        } else {
-          router.push('/home');
+
+        //获取个人信息
+        const res = await  dispatch({
+          type: 'global/getGlobalUserInfo',
+        });
+
+        if (res){
+          if (params['toOrder']){
+            router.push({
+              pathname: `/door/place-order/${id}`,
+              search: stringify({
+                cbm, kgs
+              }),
+            });
+          } else {
+            router.push(backUrl || '/home');
+          }
         }
       }
     });
@@ -117,6 +124,7 @@ export class LoginPage extends Component<LoginProps, any> {
 
 
   changeLoginInfo = e => {
+    console.log(e.target.value.trim());
     if (e.target.value.trim()){
       this.modifyLoginInfo = true;
     }
@@ -126,8 +134,6 @@ export class LoginPage extends Component<LoginProps, any> {
     const { submitLoading, form } = this.props;
     const { password, userName } = this.state;
     const { getFieldDecorator } = form;
-
-    console.log(password, userName);
 
     return (
       <Form>
@@ -153,6 +159,7 @@ export class LoginPage extends Component<LoginProps, any> {
           })(
             <Input
               size="large"
+              onChange={ e => this.changeLoginInfo(e) }
               prefix={<i className="iconfont iconicon_mima" style={{ color: 'rgba(0,0,0,.25)' }} />}
               type="password"
               placeholder="密码"

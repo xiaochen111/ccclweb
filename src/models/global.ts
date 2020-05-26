@@ -68,7 +68,8 @@ const model: GlobalModelType = {
       const response = yield call(queryUserBaseInfomation);
 
       if (response && response.code === '1') {
-        yield SetAccountInfo(response.resMap.loginUser);
+        SetAccountInfo(response.resMap.loginUser);
+        return true;
       }
     },
     *uuidLogin({ payload }, { call, put }) {
