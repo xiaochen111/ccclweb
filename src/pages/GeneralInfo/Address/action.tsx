@@ -110,6 +110,10 @@ export class action extends Component<Iprps, any> {
               initialValue: portEndAddress,
               rules: [
                 {
+                  max: 250,
+                  message: '文字不能超过250字',
+                },
+                {
                   required: true,
                   message: '请输入目的地送货地址',
                 },

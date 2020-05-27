@@ -167,7 +167,9 @@
     text-align: center;
 
     .desc {
+      cursor: pointer;
       margin-left: 4px;
+      color: #2556f2;
     }
   }
 
@@ -198,5 +200,27 @@
     line-height: 14px;
     border: 1px solid rgba(37, 86, 242, 1);
     border-radius: 3px;
+  }
+}
+
+.protocolWrapper {
+  .title {
+    font-size: 20px; 
+    text-align: center;
+    line-height: 2;
+  }
+  h5 {
+    font-size: 16px;
+    line-height: 1.8;
+    margin: 15px 0;
+  }
+  h6 {
+    font-size: 14px;
+    margin: 10px 0;
+  }
+  p {
+    font-size: 14px;
+    line-height: 1.6;
+    // text-indent: 2em;
   }
 }

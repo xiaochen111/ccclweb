@@ -74,7 +74,7 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
 
   render() {
     const { currentType } = this.state;
-    const { orderDetail, payTypeQrcode, submitLoading } = this.props;
+    const { orderDetail, payTypeQrcode } = this.props;
 
     if (!orderDetail) return <PageLoading/>;
 

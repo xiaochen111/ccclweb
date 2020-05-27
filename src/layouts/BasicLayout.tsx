@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Layout } from 'antd';
+import { ConfigProvider, Layout } from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import H from 'history';
 import GlobalHeader from '@/components/GlobalHeader';
 
@@ -18,12 +19,14 @@ class BasicLayout extends Component<BasicLayoutProps, any> {
     const isLogin = location.pathname.includes('login');
 
     return (
-      <Layout style={{ minHeight: '100vh' }}>
-        <Header className={styles.header}>
-          <GlobalHeader {...this.props} logo={logo} isLogin={isLogin} />
-        </Header>
-        <Content>{children}</Content>
-      </Layout>
+      <ConfigProvider locale={zh_CN}>
+        <Layout style={{ minHeight: '100vh' }}>
+          <Header className={styles.header}>
+            <GlobalHeader {...this.props} logo={logo} isLogin={isLogin} />
+          </Header>
+          <Content>{children}</Content>
+        </Layout>
+      </ConfigProvider>
     );
   }
 }

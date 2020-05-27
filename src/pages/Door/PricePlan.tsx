@@ -303,7 +303,7 @@ export class PricePlan extends Component<IProps, IState> {
                       <div className={styles.expandeContent}>
                         <span>{item.supplierName}</span>
                         <span style={{ marginRight: 50 }} className={styles.validityTime}>
-                          {`体重比 : ${item.cbm}CBM : ${item.kgs}KGS`}
+                          {`体重比 : ${item.cbm}立方 : ${item.kgs}公斤`}
                         </span>
                         <span style={{ marginRight: 50 }} className={styles.validityTime}>
                           有效船期 : {item.startTime} 至 {item.endTime}
