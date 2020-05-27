@@ -600,7 +600,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             style={{ right: routeType ? 40 : fixedRight }}
           >
             <Card title="专线说明" bordered={false}>
-              <p>
+              <p style={{ maxHeight: 400, overflow: 'auto' }}>
                 {lclOrderInfo.remarkOut}
               </p>
               <div className={styles.price}>

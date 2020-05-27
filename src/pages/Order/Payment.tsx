@@ -102,7 +102,7 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
               <li>
                 <span className={styles.label}>支付金额：</span>
                 <span className={styles.price}>
-                  <strong>{orderDetail.totalPrice}</strong>元
+                  <strong>{orderDetail.unPayMoney}</strong>元
                 </span>
               </li>
               <li>
