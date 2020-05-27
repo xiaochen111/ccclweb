@@ -149,7 +149,7 @@ class OrderPage extends PureComponent<IProps, IState> {
       title: '应付金额',
       dataIndex: 'amount',
       key: 'amount',
-      render: text => <span style={{ color: '#FE7100' }}>${text}</span>,
+      render: (text, record) => <span style={{ color: '#FE7100' }}>${record.currency === 'CNY' ? '¥' : '$'}{text}</span>,
     },
     { title: '币种', dataIndex: 'currency', key: 'currency' },
     { title: '汇率', dataIndex: 'rate', key: 'rate' },
@@ -273,28 +273,29 @@ class OrderPage extends PureComponent<IProps, IState> {
 
   // 订单费用确认
   handleFeeConfirm = async() => {
-    const { current, detailInfo } = this.state;
+    const { current } = this.state;
     const { dispatch } = this.props;
 
-    // 如果没有待支付总金额并且如果币种是cny就只是单纯查看，点击确认后关闭详情，其他非cny币种或者有待支付金额，确认就是费用确认事件
-    if (!detailInfo['unPayMoney'] || detailInfo['unPayMoneyCurrency'] === 'CNY') {
-      this.handleModalCancel();
+    if (current['feeStatus'] === 0) {
+      let result: any = await dispatch({
+        type: 'order/orderFeeConfirm',
+        payload: {
+          orderId: current['id'],
+          // 费用确认传true
+          confirmFee: true,
+        },
+      });
+
+      if (result) {
+        this.handleSearchList();
+        this.handleModalCancel();
+      }
+
       return;
     }
 
-    let result: any = await dispatch({
-      type: 'order/orderFeeConfirm',
-      payload: {
-        orderId: current['id'],
-        // 费用确认传true
-        confirmFee: true,
-      },
-    });
+    this.handleModalCancel();
 
-    if (result) {
-      this.handleSearchList();
-      this.handleModalCancel();
-    }
   }
 
   handleModalCancel = () => {
