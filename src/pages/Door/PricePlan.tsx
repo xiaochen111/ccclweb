@@ -139,8 +139,8 @@ export class PricePlan extends Component<IProps, IState> {
       router.push({
         pathname: '/login/index',
         search: stringify({
-          cbm: info.cbm,
-          kgs: info.kgs,
+          cbm,
+          kgs,
           id: info.id
         }),
       });

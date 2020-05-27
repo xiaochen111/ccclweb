@@ -130,8 +130,7 @@ class HomePage extends Component<IProps, any> {
       router.push({
         pathname: '/login/index',
         search: stringify({
-          cbm: info.cbm,
-          kgs: info.kgs,
+          cbm: 1,
           id: info.id
         }),
       });
@@ -141,8 +140,7 @@ class HomePage extends Component<IProps, any> {
       router.push({
         pathname: `/door/place-order/${info.id}`,
         search: stringify({
-          cbm: info.cbm,
-          kgs: info.kgs,
+          cbm: 1,
         }),
       });
     }
