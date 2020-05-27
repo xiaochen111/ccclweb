@@ -94,7 +94,7 @@ export class PricePlan extends Component<IProps, IState> {
 
     this.setState(
       {
-        endTruck: params.endTruck || '',
+        endTruck: params.country || '',
         kgs: params.kgs || '',
         cbm: params.cbm || '1',
       },

@@ -100,7 +100,7 @@ export class SearchCondition extends Component<IProps, any> {
           {searchType.index === isMultiRow ? (
             <div className={styles.formItemOne}>
               <Form.Item>
-                {getFieldDecorator('endTruck', {
+                {getFieldDecorator('country', {
                   initialValue: defaultValue.endTruck,
                   rules: [{ max: 20, message: '长度不能超过20位', }, { pattern: REGEX.SPACE, message: '不能输入空格' }, { pattern: REGEX.SPECIALCHART, message: '请输入中文或英文' } ]
                 })(
@@ -141,7 +141,7 @@ export class SearchCondition extends Component<IProps, any> {
               </div>
               <div className={styles.formItemTwo}>
                 <Form.Item>
-                  {getFieldDecorator('endTruck', {
+                  {getFieldDecorator('country', {
                     initialValue: defaultValue.endTruck,
                     rules: [{ max: 20, message: '长度不能超过20位', }, { pattern: REGEX.SPACE, message: '不能输入空格' }, { pattern: REGEX.SPECIALCHART, message: '请输入中文或英文' }  ]
                   })(
