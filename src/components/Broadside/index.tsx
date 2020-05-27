@@ -11,7 +11,7 @@ class Broadside extends PureComponent {
   }
 
   openQQ = () => {
-    const qq = '323345454';
+    const qq = '1414509971';
 
     window.open('http://wpa.qq.com/msgrd?v=3&site=qq&menu=yes&uin=' + qq);
   }

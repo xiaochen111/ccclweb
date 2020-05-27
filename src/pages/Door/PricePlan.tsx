@@ -96,7 +96,7 @@ export class PricePlan extends Component<IProps, IState> {
       {
         endTruck: params.endTruck || '',
         kgs: params.kgs || '',
-        cbm: params.cbm || 1,
+        cbm: params.cbm || '1',
       },
       this.handleGetLclList,
     );
