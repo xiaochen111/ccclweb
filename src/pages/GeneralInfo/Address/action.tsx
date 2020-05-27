@@ -107,6 +107,7 @@ export class action extends Component<Iprps, any> {
         <Form {...formItemLayout} hideRequiredMark>
           <Form.Item label="目的地送货地址（必填）">
             {getFieldDecorator('portEndAddress', {
+              getValueFromEvent: event => event.target.value.trim(),
               initialValue: portEndAddress,
               rules: [
                 {

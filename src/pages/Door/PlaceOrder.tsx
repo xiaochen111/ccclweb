@@ -48,6 +48,7 @@ interface IState {
   visible: boolean;
   addressPageNo: number;
   addressPageSize: number;
+  addressSearchValue: string;
   selectedRowKeys: any[];
   selectedRows: any[];
   defaultAddress: string;
@@ -93,10 +94,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     visible: false,
     addressPageNo: 1,
     addressPageSize: 10,
+    addressSearchValue: '',
     selectedRowKeys: [],
     selectedRows: [],
     defaultAddress: '',
-    protocolVisible: false
+    protocolVisible: false,
   };
 
   private ref: any;
@@ -147,7 +149,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     window.removeEventListener('scroll', this.handlePageScroll);
   }
 
-  handleGetTotalPrice = (type, value) => {
+  handleGetTotalPrice = debounce((type, value) => {
     const { id } = this.state;
     const { dispatch, form: { getFieldsValue } } = this.props;
     const { totalCbm, totalKgs } = getFieldsValue(['totalCbm', 'totalKgs']);
@@ -160,7 +162,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         kgs: type === 'kgs' ? value : totalKgs
       }
     });
-  }
+  }, 500)
 
   handleGetDefaultAddress = async() => {
     const { dispatch } = this.props;
@@ -176,12 +178,16 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
   getAddressList = () => {
     const { dispatch } = this.props;
-    const { addressPageNo, addressPageSize } = this.state;
+    const { addressPageNo, addressPageSize, addressSearchValue } = this.state;
 
     const params = {
       pageNo: addressPageNo,
       pageSize: addressPageSize,
     };
+
+    if (addressSearchValue) {
+      params['portEndAddress'] = addressSearchValue;
+    }
 
     dispatch({
       type: 'address/getContactAddress',
@@ -334,6 +340,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       visible,
       addressPageNo,
       addressPageSize,
+      addressSearchValue,
       selectedRowKeys,
       defaultAddress,
       protocolVisible,
@@ -639,12 +646,16 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
           <div className={styles.modalSearch}>
             <Row gutter={20}>
               <Col span={20}>
-                <TextArea rows={2} />
+                <TextArea
+                  allowClear
+                  rows={2}
+                  value={addressSearchValue}
+                  onChange={(e) => this.setState({ addressSearchValue: e.target.value })}
+                />
               </Col>
-
               <Col span={2}>
                 <div style={{ textAlign: 'right' }}>
-                  <Button type="primary">搜索</Button>
+                  <Button type="primary" onClick={this.getAddressList}>搜索</Button>
                 </div>
               </Col>
             </Row>
@@ -666,6 +677,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         <Modal
           title="委托协议"
           visible={protocolVisible}
+          maskClosable={false}
           onCancel={() => this.setState({ protocolVisible: false })}
           width={890}
           footer={null}

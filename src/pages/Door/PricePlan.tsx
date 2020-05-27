@@ -132,6 +132,8 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleLinkToOrder = info => {
+    const { cbm, kgs } = this.state;
+
     if (!GetGlobalToken(GetGlobalFlag())) {
       message.warn('下单需要登录，请先登录');
       router.push({
@@ -150,8 +152,8 @@ export class PricePlan extends Component<IProps, IState> {
       router.push({
         pathname: routeType ? `/control/mdoor-order/${info.id}` : `/door/place-order/${info.id}`,
         search: stringify({
-          cbm: info.cbm,
-          kgs: info.kgs,
+          cbm,
+          kgs,
         }),
       });
     }
