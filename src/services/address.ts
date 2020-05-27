@@ -14,7 +14,19 @@ export async function contactAddress(params = {}) {
   });
 }
 
-//
+/**
+ * 获取默认送货地址
+ *
+ * @export
+ * @param {*} params
+ * @returns
+ */
+export async function queryDefaultAddress(params) {
+  return request('/api/web/lcl/contact/defaultContact.do', {
+    method: 'POST',
+    data: params
+  });
+}
 
 /**
  * 新增目的地送货地址

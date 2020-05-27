@@ -161,6 +161,9 @@ class orderDetailPage extends PureComponent<IProps, IState> {
               <Descriptions.Item label="手机">
                 {orderDetail.contactTel}
               </Descriptions.Item>
+              <Descriptions.Item label="邮箱">
+                {orderDetail.contactEmail}
+              </Descriptions.Item>
             </Descriptions>
             <Divider/>
             <Descriptions title="备注">

@@ -8,6 +8,7 @@ import {
   updateContactAddress,
   setContactDefaultAddress,
   cancelContactDefaultAddress,
+  queryDefaultAddress
 } from '@/services/address';
 
 export interface StateType {
@@ -24,6 +25,7 @@ export interface AddressModelType {
     doUpdateContactAddress: Effect;
     doSetContactDefaultAddress: Effect;
     doCancelContactDefaultAddress: Effect;
+    getDefaultAddress: Effect;
   };
   reducers: {};
 }
@@ -44,6 +46,13 @@ const Modal: AddressModelType = {
           payload: respone.resMap.contactListByPage,
         });
         return true;
+      }
+    },
+    *getDefaultAddress({ payload }, { call, put }) {
+      const respone = yield call(queryDefaultAddress, payload);
+
+      if (respone && respone.code === '1') {
+        return respone.resMap;
       }
     },
     *doSaveContactAddress({ payload }, { call }) {

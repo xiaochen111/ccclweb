@@ -50,6 +50,7 @@ interface IState {
   addressPageSize: number;
   selectedRowKeys: any[];
   selectedRows: any[];
+  defaultAddress: string;
 }
 
 interface ParamsState {
@@ -93,6 +94,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     addressPageSize: 10,
     selectedRowKeys: [],
     selectedRows: [],
+    defaultAddress: ''
   };
 
   private ref: any;
@@ -134,6 +136,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       type: 'door/getTotalPrice',
       payload: data,
     });
+    this.handleGetDefaultAddress();
     this.getAddressList();
   }
 
@@ -154,6 +157,18 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         cbm: type === 'cbm' ? value : totalCbm,
         kgs: type === 'kgs' ? value : totalKgs
       }
+    });
+  }
+
+  handleGetDefaultAddress = async() => {
+    const { dispatch } = this.props;
+
+    let result = await dispatch({
+      type: 'address/getDefaultAddress',
+    });
+
+    this.setState({
+      defaultAddress: result['defaultContact'].portEndAddress
     });
   }
 
@@ -318,6 +333,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       addressPageNo,
       addressPageSize,
       selectedRowKeys,
+      defaultAddress,
     } = this.state;
 
     const {
@@ -560,6 +576,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                       }
                     >
                       {getFieldDecorator('portEndAddress', {
+                        initialValue: defaultAddress,
                         rules: [{ max: 250, message: '不能超过250字' }]
                       })(
                         <TextArea placeholder="请输入目的地送货地址" rows={4} />,
