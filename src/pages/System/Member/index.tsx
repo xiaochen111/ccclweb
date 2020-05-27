@@ -62,7 +62,7 @@ class SystemMemberPage extends PureComponent<IProps, any> {
 
     return (
       <div>
-        <PageHeader title="会员信息1" />
+        <PageHeader title="会员信息" />
         <div className={styles.main}>
           <Form {...formItemLayout}>
             <Form.Item label="用户名">

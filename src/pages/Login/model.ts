@@ -12,8 +12,7 @@ import {
   doPhoneSendRepasswordMsg,
   doSendRepasswordEmail,
 } from '@/services/login';
-import { SetGlobalFlag, SetGlobalToken, SetAccountInfo } from '@/utils/cache';
-import md5 from 'js-md5';
+import { SetGlobalFlag, SetGlobalToken } from '@/utils/cache';
 import { RemoveLocalStorage } from '../../utils/storage/local';
 
 export interface StateType {
@@ -115,14 +114,9 @@ const Model: LoginModelType = {
     // 手机、邮箱注册
     *register({ payload }, { call, put, select }) {
       const response = yield call(doRegister, payload);
-      // const { userName, password } = payload;
 
       if (response && response.code === '1') {
         message.success('注册成功');
-        // yield put({
-        //   type: 'sendLoginInfo',
-        //   payload: { userName, password: md5(password) }
-        // });
         return true;
       }
     },

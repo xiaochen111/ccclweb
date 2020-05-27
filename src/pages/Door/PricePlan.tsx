@@ -222,7 +222,7 @@ export class PricePlan extends Component<IProps, IState> {
         style={
           routeType
             ? { width: '100%', padding: '20px' }
-            : { width: 1200, margin: '0 auto', padding: 20 }
+            : { width: 1200, margin: '0 auto', padding: '40px 20px 20px 20px' }
         }
       >
         <SearchCondition

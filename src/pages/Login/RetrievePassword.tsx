@@ -245,9 +245,9 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { btnTxt, phoneUser, emailUser } = this.state;
 
     return (
-      <Form {...formItemLayout}>
+      <Form {...formItemLayout} hideRequiredMark>
         {selectedTab === 1 ? (
-          <Form.Item label="手机号">
+          <Form.Item label="手机号(必填)">
             {getFieldDecorator('phone', {
               getValueFromEvent: event => event.target.value.trim(),
               initialValue: phoneUser,
@@ -258,7 +258,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             })(<Input size="large" placeholder="请输入手机号" style={{ width: 370 }} />)}
           </Form.Item>
         ) : (
-          <Form.Item label="邮箱">
+          <Form.Item label="邮箱(必填)">
             {getFieldDecorator('email', {
               initialValue: emailUser,
               getValueFromEvent: event => event.target.value.trim(),
@@ -272,7 +272,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
 
 
-        <Form.Item label={`${selectedTab === 1 ? '手机' : '邮箱'}验证码`}>
+        <Form.Item label={`${selectedTab === 1 ? '手机' : '邮箱'}验证码(必填)`}>
           <Row gutter={10}>
             <Col span={15}>
               {getFieldDecorator('veriyCode', {
@@ -294,7 +294,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
           </Row>
         </Form.Item>
 
-        <Form.Item label="密码">
+        <Form.Item label="密码(必填)">
           {getFieldDecorator('password', {
             getValueFromEvent: event => event.target.value.trim(),
             rules: [
@@ -308,7 +308,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             <Input size="large" placeholder="请输入密码" style={{ width: 370 }} type="password" />,
           )}
         </Form.Item>
-        <Form.Item label="再次输入密码">
+        <Form.Item label="再次输入密码(必填)">
           {getFieldDecorator('password1', {
             getValueFromEvent: event => event.target.value.trim(),
             rules: [

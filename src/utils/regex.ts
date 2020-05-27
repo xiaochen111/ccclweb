@@ -13,4 +13,6 @@ export default {
   NAME: /^[\u4e00-\u9fa5]{2,4}$/,
   NUMBER: /^\d+$/,
   BIGNUM: /^([1-9])(\d+)?$/,
+  SPACE: /[^\s+]/,
+  SPECIALCHART: /[\a-\z\A-\Z\u4E00-\u9FA5]/, //只匹配字母 中文
 };

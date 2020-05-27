@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Form, Input, AutoComplete, message, Empty } from 'antd';
+import { Button, Form, Input, AutoComplete, message } from 'antd';
 import { FormComponentProps } from 'antd/lib/form';
 import REGEX from '@/utils/regex';
 
@@ -102,7 +102,7 @@ export class SearchCondition extends Component<IProps, any> {
               <Form.Item>
                 {getFieldDecorator('endTruck', {
                   initialValue: defaultValue.endTruck,
-                  rules: [{ max: 20, message: '长度不能超过20位', } ]
+                  rules: [{ max: 20, message: '长度不能超过20位', }, { pattern: REGEX.SPACE, message: '不能输入空格' }, { pattern: REGEX.SPECIALCHART, message: '请输入中文或英文' } ]
                 })(
                   <AutoComplete
                     className="certain-category-search"
@@ -143,7 +143,7 @@ export class SearchCondition extends Component<IProps, any> {
                 <Form.Item>
                   {getFieldDecorator('endTruck', {
                     initialValue: defaultValue.endTruck,
-                    rules: [{ max: 20, message: '长度不能超过20位', } ]
+                    rules: [{ max: 20, message: '长度不能超过20位', }, { pattern: REGEX.SPACE, message: '不能输入空格' }, { pattern: REGEX.SPECIALCHART, message: '请输入中文或英文' }  ]
                   })(
                     <AutoComplete
                       className="certain-category-search"

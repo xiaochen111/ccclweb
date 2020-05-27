@@ -4,7 +4,6 @@ import { Dispatch, AnyAction } from 'redux';
 import { FormComponentProps } from 'antd/lib/form';
 import { connect } from 'dva';
 import { StateType } from './model';
-// import { formItemLayout } from '@/utills/config';
 import REGEX from '@/utils/regex';
 import styles from './index.scss';
 import md5 from 'js-md5';
@@ -193,10 +192,8 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { clickFlag } = this.state;
 
     if (!clickFlag) return;
-    const { form, userLogin, dispatch } = this.props;
-    // const { captchaKey } = userLogin.captchaImage;
+    const { form, dispatch } = this.props;
     const values = form.getFieldsValue(['phone']);
-    // const values = form.getFieldsValue(['phone', 'imgValue']);
 
     if (!values.phone.trim()) {
       form.setFields({
@@ -216,16 +213,6 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       });
       return;
     }
-    // if (!values.imgValue || !values.imgValue.trim()) {
-    //   form.setFields({
-    //     imgValue: {
-    //       value: values.imgValue,
-    //       errors: [new Error('图片不能为空')],
-    //     },
-    //   });
-    //   return;
-    // }
-    // values.imgKey = captchaKey;
     let res = await dispatch({
       type: 'login/getPhoneRegiseMsg',
       payload: values,
@@ -240,8 +227,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { clickFlag } = this.state;
 
     if (!clickFlag) return;
-    const { form, userLogin, dispatch } = this.props;
-    const { captchaKey } = userLogin.captchaImage;
+    const { form, dispatch } = this.props;
     const values = form.getFieldsValue(['email', 'imgValue']);
 
     if (!values.email) {
@@ -262,16 +248,6 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
       });
       return;
     }
-    // if (!values.imgValue || !values.imgValue.trim()) {
-    //   form.setFields({
-    //     imgValue: {
-    //       value: values.imgValue,
-    //       errors: [new Error('图片不能为空')],
-    //     },
-    //   });
-    //   return;
-    // }
-    // values.imgKey = captchaKey;
     let res = await dispatch({
       type: 'login/getEmailRegiseMsg',
       payload: values,
@@ -331,9 +307,9 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     const { btnTxt } = this.state;
 
     return (
-      <Form {...formItemLayout}>
+      <Form {...formItemLayout} hideRequiredMark>
         {selectedTab === 1 ? (
-          <Form.Item label="手机号">
+          <Form.Item label="手机号(必填)">
             {getFieldDecorator('phone', {
               getValueFromEvent: event => event.target.value.trim(),
               initialValue: '',
@@ -344,7 +320,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             })(<Input size="large" placeholder="请输入手机号" style={{ width: 370 }} />)}
           </Form.Item>
         ) : (
-          <Form.Item label="邮箱">
+          <Form.Item label="邮箱(必填)">
             {getFieldDecorator('email', {
               getValueFromEvent: event => event.target.value.trim(),
               rules: [
@@ -355,23 +331,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
           </Form.Item>
         )}
 
-        {/* <Form.Item label="图形验证码">
-          <Row gutter={10}>
-            <Col span={15}>
-              {getFieldDecorator('imgValue', {
-                rules: [{ required: true, message: '请输入图形验证码' }],
-              })(<Input size="large" placeholder="请输入验证码" width={234} />)}
-            </Col>
-            <Col span={9}>
-              <div className={styles.imgCode}>
-                <img src={captchaImage.imgBase64} alt="" width="80" />
-                <span onClick={this.changeCodeImg}>换一张</span>
-              </div>
-            </Col>
-          </Row>
-        </Form.Item> */}
-
-        <Form.Item label={`${selectedTab === 1 ? '手机' : '邮箱'}验证码`}>
+        <Form.Item label={`${selectedTab === 1 ? '手机' : '邮箱'}验证码(必填)`}>
           <Row gutter={10}>
             <Col span={15}>
               {getFieldDecorator('veriyCode', {
@@ -393,7 +353,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
           </Row>
         </Form.Item>
 
-        <Form.Item label="密码">
+        <Form.Item label="密码(必填)">
           {getFieldDecorator('password', {
             getValueFromEvent: event => event.target.value.trim(),
             rules: [
@@ -407,7 +367,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             <Input size="large" placeholder="不少于六位数" style={{ width: 370 }} type="password" />,
           )}
         </Form.Item>
-        <Form.Item label="再次输入密码">
+        <Form.Item label="再次输入密码(必填)">
           {getFieldDecorator('password1', {
             getValueFromEvent: event => event.target.value.trim(),
             rules: [
@@ -425,7 +385,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
             />,
           )}
         </Form.Item>
-        <Form.Item label="公司名称">
+        <Form.Item label="公司名称(必填)">
           {getFieldDecorator('company', {
             getValueFromEvent: event => event.target.value.trim(),
             rules: [{ required: true, message: '公司名称' }],

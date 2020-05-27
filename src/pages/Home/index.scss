@@ -140,7 +140,8 @@
 
   @extend [layout];
   @extend [layout='row'];
-  @extend [layout-align='center center'];
+  justify-content: space-between;
+  align-items: center;
 
   ul {
     li {
