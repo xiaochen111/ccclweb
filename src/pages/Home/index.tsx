@@ -158,11 +158,11 @@ class HomePage extends Component<IProps, any> {
         <div className={styles.bottomPart}>
           <ul>
             <li>
-              <p>公斤</p>
+              <p>立方</p>
               <p>{item.currency === 'USD' ? '$' : '￥'}{item.tossStandsPrice}</p>
             </li>
             <li>
-              <p>立方</p>
+              <p>公斤</p>
               <p>{item.currency === 'USD' ? '$' : '￥'}{item.heavyStandsPrice}</p>
             </li>
           </ul>
