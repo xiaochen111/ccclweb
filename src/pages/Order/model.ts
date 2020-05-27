@@ -86,7 +86,7 @@ const Model: LoginModelType = {
       if (response && response.code === '1') {
         yield put({
           type: 'saveQrcode',
-          payload: response.resMap.order,
+          payload: response.resMap.qrCodeUrl,
         });
       }
     }

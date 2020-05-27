@@ -444,7 +444,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   <Col span={8}>
                     <Form.Item label="联系人">
                       {getFieldDecorator('contact', {
-                        initialValue: GetAccountInfo().userName,
+                        initialValue: GetAccountInfo().name || GetAccountInfo().userName,
                       })(<Input placeholder="请输入联系人姓名" />)}
                     </Form.Item>
                   </Col>

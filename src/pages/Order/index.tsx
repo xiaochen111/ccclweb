@@ -63,6 +63,7 @@ class OrderPage extends PureComponent<IProps, IState> {
       dataIndex: 'orderNo',
       key: 'orderNo',
       render: (text, record) => <span style={{ color: '#2556F2', cursor: 'pointer' }} onClick={() => this.handleActions('detail', record)}>{text}</span>,
+      fixed: 'left', width: 200,
     },
     { title: '发货地', dataIndex: 'startTruck', key: 'startTruck' },
     { title: '收货地', dataIndex: 'endTruck', key: 'endTruck' },
@@ -74,6 +75,8 @@ class OrderPage extends PureComponent<IProps, IState> {
       title: '订单状态',
       dataIndex: 'status',
       key: 'status',
+      fixed: 'right',
+      width: 100,
       render: (text, record) => {
         // if (record.feeStatus === 40) {
         //   return <span style={{ color: '#FF0808' }}>已支付</span>;
@@ -92,6 +95,8 @@ class OrderPage extends PureComponent<IProps, IState> {
       title: '支付状态',
       dataIndex: 'feeStatus',
       key: 'feeStatus',
+      fixed: 'right',
+      width: 120,
       render: (text, record) => {
         if (record.status === 0) {
           return <span style={{ color: '#FE7100' }}>- - - - -</span>;
@@ -107,6 +112,8 @@ class OrderPage extends PureComponent<IProps, IState> {
     },
     {
       title: '操作',
+      fixed: 'right',
+      width: 120,
       render: (text, record) => {
         if (record.status === 0) {
           return (
@@ -194,15 +201,16 @@ class OrderPage extends PureComponent<IProps, IState> {
     if (column === 'action') {
       switch (record.feeStatus) {
       case 0:
+      case 10:
         this.handleGetFeeDetail(record);
         break;
-      case 10:
-        if (record.unPayMoneyCurrency !== 'CNY') {
-          this.handleGetFeeDetail(record);
-          return;
-        }
-        router.push(`/control/order/my/payment/${record.id}`);
-        break;
+      // case 10:
+      //   if (record.unPayMoneyCurrency !== 'CNY') {
+      //     this.handleGetFeeDetail(record);
+      //     return;
+      //   }
+        // router.push(`/control/order/my/payment/${record.id}`);
+        // break;
       default:
         break;
       }
@@ -227,8 +235,18 @@ class OrderPage extends PureComponent<IProps, IState> {
     this.setState({
       detailInfo: result,
       current: record,
-      visible: true,
+      // visible: true,
     });
+
+
+    // 如果费用详情有待支付总金额，并且是cny就跳转到支付页，否则展示详情
+    if (result.unPayMoney && result.unPayMoneyCurrency === 'CNY') {
+      router.push(`/control/order/my/payment/${record.id}`);
+    } else {
+      this.setState({
+        visible: true
+      });
+    }
   };
 
   // 取消订单
@@ -249,14 +267,15 @@ class OrderPage extends PureComponent<IProps, IState> {
 
   // 订单费用确认
   handleFeeConfirm = async() => {
-    const { current } = this.state;
+    const { current, detailInfo } = this.state;
     const { dispatch } = this.props;
 
-    // 如果币种是cny就只是单纯查看，点击确认后关闭详情，其他非cny币种，确认就是费用确认事件
-    if (current['unPayMoneyCurrency'] === 'CNY') {
+    // 如果没有待支付总金额并且如果币种是cny就只是单纯查看，点击确认后关闭详情，其他非cny币种或者有待支付金额，确认就是费用确认事件
+    if (!detailInfo['unPayMoney'] || detailInfo['unPayMoneyCurrency'] === 'CNY') {
       this.handleModalCancel();
       return;
     }
+
     let result: any = await dispatch({
       type: 'order/orderFeeConfirm',
       payload: {
@@ -363,6 +382,7 @@ class OrderPage extends PureComponent<IProps, IState> {
               loading={tableLoading}
               pagination={pagination}
               onChange={this.handleTabelChange}
+              scroll={{ x: 1500 }}
             />
           </Card>
         </div>
@@ -379,13 +399,16 @@ class OrderPage extends PureComponent<IProps, IState> {
             <StandardTable rowKey={'feeId'} columns={this.detailColumns} dataSource={detailInfo['orderPayfeeList']} />
             <div className={styles.modalFooter}>
               <div className={styles.footerContent}>
-                <div className={styles.text}>
-                  总金额
-                  <span className={styles.price}>
-                    <strong>{detailInfo['unPayMoney']}</strong>
-                    <i>{detailInfo['unPayMoneyCurrency']}</i>
-                  </span>
-                </div>
+                {
+                  detailInfo['unPayMoney'] ?
+                    <div className={styles.text}>
+                      总金额
+                      <span className={styles.price}>
+                        <strong>{detailInfo['unPayMoney']}</strong>
+                        <i>{detailInfo['unPayMoneyCurrency']}</i>
+                      </span>
+                    </div> : null
+                }
                 <Button type="primary" onClick={this.handleFeeConfirm}>确认</Button>
               </div>
             </div>
