@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import { PageHeader, Card } from 'antd';
+import QRCode  from 'qrcode.react';
 import { FormComponentProps } from 'antd/lib/form';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
@@ -99,7 +100,11 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
                 {
                   payTypeQrcode ? (
                     <div className={styles.qrcode}>
-                      <img alt="支付二维码" src={payTypeQrcode}/>
+                      <QRCode
+                        value={payTypeQrcode}  //value参数为生成二维码的链接
+                        size={200} //二维码的宽高尺寸
+                        fgColor="#000000"  //二维码的颜色
+                      />
                     </div>
                   ) : <span>请选择支付方式</span>
                 }
