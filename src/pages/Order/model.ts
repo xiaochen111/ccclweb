@@ -107,6 +107,7 @@ const Model: LoginModelType = {
       };
     },
     saveQrcode(state, { payload }) {
+      console.log('saveQrcode -> payload', payload);
       return {
         ...state,
         payTypeQrcode: payload
@@ -127,8 +128,8 @@ const convertList = list => {
       ...item,
       statusDesc: ORDER_TATUS_DESC[item.status],
       statusColor: ORDER_TATUS_COLOR[item.status],
-      feeStatus: item.feeStatus !== undefined ? item.feeStatus : 0,
-      feeStatusDesc: ORDER_FEE_STATUS_DESC[item.feeStatus ? item.feeStatus : 0],
+      feeStatus: item.feeStatus !== undefined ? item.feeStatus : -1,
+      feeStatusDesc: item.feeStatus ? ORDER_FEE_STATUS_DESC[item.feeStatus] : '- - - - -',
       feeStatusColor: ORDER__FEE_STATUS_COLOR[item.feeStatus ? item.feeStatus : 0],
     });
   }
