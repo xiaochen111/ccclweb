@@ -88,16 +88,6 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     // this.setCountdown();
   };
 
-  // 换图片验证码
-  changeCodeImg = () => {
-    const { dispatch } = this.props;
-
-    console.log(this.props);
-    dispatch({
-      type: 'login/getCaptchImage',
-    });
-  };
-
   handleChangeTab = (tab: any) => {
     this.setState({
       selectedTab: tab,
@@ -280,21 +270,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
           </Form.Item>
         )}
 
-        {/* <Form.Item label="图形验证码">
-          <Row gutter={10}>
-            <Col span={15}>
-              {getFieldDecorator('imgValue', {
-                rules: [{ required: true, message: '请输入图形验证码' }],
-              })(<Input size="large" placeholder="请输入验证码" width={234} />)}
-            </Col>
-            <Col span={9}>
-              <div className={styles.imgCode}>
-                <img src={captchaImage.imgBase64} alt="" width="80" />
-                <span onClick={this.changeCodeImg}>换一张</span>
-              </div>
-            </Col>
-          </Row>
-        </Form.Item> */}
+
 
         <Form.Item label={`${selectedTab === 1 ? '手机' : '邮箱'}验证码`}>
           <Row gutter={10}>
