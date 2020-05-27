@@ -156,6 +156,8 @@ export class SearchCondition extends Component<IProps, any> {
                       dataSource={options}
                       optionLabelProp="value"
                       defaultActiveFirstOption={false}
+                      onChange={ value =>  this.onChangeFilterCp(value) }
+                      onBlur={ this.ononBlurCb }
                     >
                       <Input prefix={<img src={endPartIcon} alt=""/>} />
                     </AutoComplete>,
