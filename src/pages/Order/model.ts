@@ -57,6 +57,8 @@ const Model: LoginModelType = {
           type: 'saveOrderListDetail',
           payload: response.resMap.order,
         });
+
+        return response.resMap.order;
       }
     },
     *getOrderFeeDetail({ payload }, { call, put }) {
@@ -107,7 +109,6 @@ const Model: LoginModelType = {
       };
     },
     saveQrcode(state, { payload }) {
-      console.log('saveQrcode -> payload', payload);
       return {
         ...state,
         payTypeQrcode: payload
