@@ -38,3 +38,18 @@ export async function doOrderSubmit(data) {
     data,
   });
 }
+
+
+/**
+ * 计算总金额参考价
+ *
+ * @export
+ * @param {*} data
+ * @returns
+ */
+export async function queryLclTotalPrice(data) {
+  return request('/api/web/lcl/getTotalPrice.do', {
+    method: 'POST',
+    data,
+  });
+}

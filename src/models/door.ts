@@ -3,12 +3,13 @@ import { Reducer } from 'redux';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import moment from 'moment';
-import { queryLclList, queryLclDetail, doOrderSubmit } from '@/services/lcl';
+import { queryLclList, queryLclDetail, doOrderSubmit, queryLclTotalPrice } from '@/services/lcl';
 
 export interface StateType {
   lclList: any[];
   totalCount: number;
   lclOrderInfo: any;
+  lclTotalPrice: number;
 }
 
 export interface DoorModelType {
@@ -18,10 +19,12 @@ export interface DoorModelType {
     getLclList: Effect;
     getLclDetail: Effect;
     orderSubmit: Effect;
+    getTotalPrice: Effect;
   };
   reducers: {
     setLclList: Reducer<StateType>;
     saveLclOrderInfo: Reducer<StateType>;
+    saveLclTotalPrice: Reducer<StateType>;
   };
 }
 
@@ -31,6 +34,7 @@ const model: DoorModelType = {
     lclList: [],
     totalCount: 0,
     lclOrderInfo: null,
+    lclTotalPrice: 0,
   },
   effects: {
     *getLclList({ payload }, { call, put }) {
@@ -62,6 +66,16 @@ const model: DoorModelType = {
         yield put(routerRedux.push('/control/order/my'));
       }
     },
+    *getTotalPrice({ payload }, { call, put }) {
+      const response = yield call(queryLclTotalPrice, payload);
+
+      if (response && response.code === '1') {
+        yield put({
+          type: 'saveLclTotalPrice',
+          payload: response.resMap.totalPrice,
+        });
+      }
+    },
   },
   reducers: {
     setLclList(state, { payload }) {
@@ -75,6 +89,12 @@ const model: DoorModelType = {
       return {
         ...state,
         lclOrderInfo: convertOrderInfo(payload),
+      };
+    },
+    saveLclTotalPrice(state, { payload }) {
+      return {
+        ...state,
+        lclTotalPrice: payload,
       };
     },
   },

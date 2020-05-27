@@ -10,7 +10,7 @@ import {
   Icon,
   Input,
   InputNumber,
-  AutoComplete,
+  message,
   Badge,
   Checkbox,
   Button,
@@ -39,6 +39,7 @@ interface IProps extends FormComponentProps {
   addressList: any[];
   addressTotal: number;
   submitLoading: boolean;
+  lclTotalPrice: number;
 }
 interface IState {
   id: string;
@@ -77,6 +78,7 @@ interface ParamsState {
   addressList: address.addressList,
   addressTotal: address.addressTotal,
   lclOrderInfo: door.lclOrderInfo,
+  lclTotalPrice: door.lclTotalPrice,
   globalPackageTypeList: global.globalPackageTypeList,
   submitLoading: loading.models['door/orderSubmit']
 }))
@@ -111,33 +113,48 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
   componentDidMount() {
     const { id } = this.state;
-    const { dispatch, form } = this.props;
+    const { dispatch } = this.props;
     const params = GetPageQuery();
 
     if (this.ref) {
       window.addEventListener('scroll', this.handlePageScroll);
     }
 
+    const data  = {
+      freightLclId: id,
+      kgs: params.kgs,
+      cbm: params.cbm,
+    };
+
     dispatch({
       type: 'door/getLclDetail',
-      payload: {
-        freightLclId: id,
-        kgs: params.kgs,
-        cbm: params.cbm,
-      },
+      payload: data,
     });
-
-    form.setFieldsValue({
-      totalKgs: params.kgs,
-      totalCbm: params.cbm
+    dispatch({
+      type: 'door/getTotalPrice',
+      payload: data,
     });
-
     this.getAddressList();
   }
 
   componentWillUnmount() {
     this.ref = null;
     window.removeEventListener('scroll', this.handlePageScroll);
+  }
+
+  handleGetTotalPrice = (type, value) => {
+    const { id } = this.state;
+    const { dispatch, form: { getFieldsValue } } = this.props;
+    const { totalCbm, totalKgs } = getFieldsValue(['totalCbm', 'totalKgs']);
+
+    dispatch({
+      type: 'door/getTotalPrice',
+      payload: {
+        freightLclId: id,
+        cbm: type === 'cbm' ? value : totalCbm,
+        kgs: type === 'kgs' ? value : totalKgs
+      }
+    });
   }
 
   getAddressList = () => {
@@ -205,6 +222,29 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       visible: false,
     });
   };
+
+  handleBeforeUpload = file => {
+    const { form } = this.props;
+    const { name, size } = file;
+    const MAX_UPLOAD_SIZE = 1024 * 1024 * 10;
+    const fileList = form.getFieldValue('file');
+
+    if (fileList && fileList.length >= 10) {
+      message.warning('上传的图片数量大于10张');
+      return false;
+    }
+
+    // if (!REGEX.PHOTO_TYPES.test(name)) {
+    //   message.warning('上传的图片格式不正确');
+    //   return false;
+    // }
+    if (size >= MAX_UPLOAD_SIZE) {
+      message.warning('上传的图片大于10M');
+      return false;
+    }
+
+    return true;
+  }
 
   handleSubmit = () => {
     const { id } = this.state;
@@ -286,8 +326,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       form: { getFieldDecorator },
       addressList,
       addressTotal,
-      submitLoading
+      submitLoading,
+      lclTotalPrice
     } = this.props;
+
+    const params = GetPageQuery();
 
     if (!lclOrderInfo) return <PageLoading />;
 
@@ -366,7 +409,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     valuePropName: 'fileList',
                     getValueFromEvent: this.normFile,
                   })(
-                    <Upload.Dragger action="/api/web/lcl/upload.do" accept={`image/*, ${accepts}`}>
+                    <Upload.Dragger
+                      action="/api/web/lcl/upload.do"
+                      beforeUpload={this.handleBeforeUpload}
+                      accept={`image/*, ${accepts}`}
+                    >
                       <p className="ant-upload-drag-icon">
                         <Icon type="cloud-download" />
                       </p>
@@ -380,7 +427,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   <Col span={24}>
                     <Form.Item label="货物品名（可填写多条）">
                       {getFieldDecorator('goodsType', {
-                        rules: [{ max: 400, message: '不能超过400字' }]
+                        rules: [{ max: 600, message: '不能超过600字' }]
                       })(
                         <TextArea placeholder="请输入货物品名" rows={4} />,
                       )}
@@ -407,7 +454,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   </Col>
                   <Col span={8}>
                     <Form.Item label="货物总件数">
-                      {getFieldDecorator('totalPiece')(<InputNumber min={1} max={999999999} precision={0} placeholder="请输入货物总件数" style={{ width: '100%' }}/>)}
+                      {getFieldDecorator('totalPiece')(<InputNumber min={1} max={999999} precision={0} placeholder="请输入货物总件数" style={{ width: '100%' }}/>)}
                     </Form.Item>
                   </Col>
                   <Col span={8}>
@@ -420,13 +467,33 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                 </Row>
                 <Row gutter={22}>
                   <Col span={8}>
-                    <Form.Item label="货物总量（KGS）">
-                      {getFieldDecorator('totalKgs')(<InputNumber placeholder="请输入货物总量" min={1} max={999999999} precision={0} style={{ width: '100%' }}/>)}
+                    <Form.Item label="货物总量（公斤）">
+                      {getFieldDecorator('totalKgs', {
+                        initialValue: params.kgs
+                      })(
+                        <InputNumber
+                          placeholder="请输入货物总量"
+                          min={1}
+                          max={999999}
+                          precision={0}
+                          style={{ width: '100%' }}
+                          onChange={(value) => this.handleGetTotalPrice('kgs', value)}
+                        />)}
                     </Form.Item>
                   </Col>
                   <Col span={8}>
-                    <Form.Item label="货物总体积（CBM）">
-                      {getFieldDecorator('totalCbm')(<InputNumber placeholder="请输入货物总体积" min={1} max={999999999} precision={0} style={{ width: '100%' }}/>)}
+                    <Form.Item label="货物总体积（立方）">
+                      {getFieldDecorator('totalCbm', {
+                        initialValue: params.cbm
+                      })(
+                        <InputNumber
+                          placeholder="请输入货物总体积"
+                          min={1}
+                          max={999999}
+                          precision={0}
+                          style={{ width: '100%' }}
+                          onChange={(value) => this.handleGetTotalPrice('cbm', value)}
+                        />)}
                     </Form.Item>
                   </Col>
                 </Row>
@@ -437,7 +504,10 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     <Form.Item label="公司名称（必填）">
                       {getFieldDecorator('contactCompanyName', {
                         initialValue: GetAccountInfo().companyName,
-                        rules: [{ required: true, message: '请输入公司名称' }],
+                        rules: [
+                          { required: true, message: '请输入公司名称' },
+                          {  max: 200, message: '不能超过200字' }
+                        ],
                       })(<Input placeholder="请输入公司名称" />)}
                     </Form.Item>
                   </Col>
@@ -445,6 +515,9 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     <Form.Item label="联系人">
                       {getFieldDecorator('contact', {
                         initialValue: GetAccountInfo().name || GetAccountInfo().userName,
+                        rules: [
+                          { max: 120, message: '不能超过120字' }
+                        ],
                       })(<Input placeholder="请输入联系人姓名" />)}
                     </Form.Item>
                   </Col>
@@ -463,6 +536,9 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     <Form.Item label="邮箱">
                       {getFieldDecorator('contactEmail', {
                         initialValue: GetAccountInfo().email,
+                        rules: [
+                          { max: 120, message: '不能超过120字' }
+                        ],
                       })(<Input placeholder="请输入邮箱" />)}
                     </Form.Item>
                   </Col>
@@ -484,7 +560,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                       }
                     >
                       {getFieldDecorator('portEndAddress', {
-                        rules: [{ max: 400, message: '不能超过400字' }]
+                        rules: [{ max: 250, message: '不能超过250字' }]
                       })(
                         <TextArea placeholder="请输入目的地送货地址" rows={4} />,
                       )}
@@ -495,7 +571,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               <Card title="备注" bordered={false} style={{ marginTop: 30 }}>
                 <Form.Item>
                   {getFieldDecorator('remark', {
-                    rules: [{ max: 200, message: '不能超过200字' }]
+                    rules: [{ max: 500, message: '不能超过500字' }]
                   })(<TextArea placeholder="请输入备注" rows={4} />)}
                 </Form.Item>
               </Card>
@@ -513,7 +589,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               <div className={styles.price}>
                 <span className={styles.text}>总价</span>
                 <span className={styles.num}>
-                  <span>{lclOrderInfo.totalPrice}</span>
+                  <span>{lclTotalPrice}</span>
                   <span className={styles.symbol}>{lclOrderInfo.currency}</span>
                 </span>
               </div>

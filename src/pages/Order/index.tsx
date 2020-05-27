@@ -115,6 +115,9 @@ class OrderPage extends PureComponent<IProps, IState> {
       fixed: 'right',
       width: 120,
       render: (text, record) => {
+        if (record.feeStatus === -1) {
+          return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
+        }
         if (record.status === 0) {
           return (
             <Popconfirm onConfirm={() => this.handleActions('cancel', record)} title="是否确认取消订单">
@@ -125,13 +128,30 @@ class OrderPage extends PureComponent<IProps, IState> {
         if (record.status === 1 || record.status === 2) {
           return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
         }
+        if (record.feeStatus === 0) {
+          return (
+            <span style={{ color: '#333', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>费用确认</span>
+          );
+        }
+        if (record.feeStatus === 10) {
+          return (
+            <span style={{ color: '#333', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>确认支付</span>
+          );
+        }
+        if (record.status === 0) {
+          return (
+            <Popconfirm onConfirm={() => this.handleActions('cancel', record)} title="是否确认取消订单">
+              <span style={{ color: '#333', cursor: 'pointer' }}>取消订单</span>
+            </Popconfirm>
+          );
+        }
         if (record.feeStatus === 30 || record.feeStatus === 40) {
           return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
         }
 
-        return <span style={{ color: '#333', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>
-          {record.feeStatusDesc}
-        </span>;
+        // return <span style={{ color: '#333', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>
+        //   {record.feeStatusDesc}
+        // </span>;
       }
     },
   ];
@@ -142,14 +162,14 @@ class OrderPage extends PureComponent<IProps, IState> {
       title: '单价',
       dataIndex: 'unitPrice',
       key: 'unitPrice',
-      render: text => <span>${text}</span>,
+      render: (text, record) => <span>{record.currency === 'CNY' ? '¥' : '$'}{text}</span>
     },
     { title: '数量', dataIndex: 'count', key: 'count' },
     {
       title: '应付金额',
       dataIndex: 'amount',
       key: 'amount',
-      render: (text, record) => <span style={{ color: '#FE7100' }}>${record.currency === 'CNY' ? '¥' : '$'}{text}</span>,
+      render: (text, record) => <span style={{ color: '#FE7100' }}>{record.currency === 'CNY' ? '¥' : '$'}{text}</span>,
     },
     { title: '币种', dataIndex: 'currency', key: 'currency' },
     { title: '汇率', dataIndex: 'rate', key: 'rate' },
@@ -309,6 +329,7 @@ class OrderPage extends PureComponent<IProps, IState> {
     this.setState(
       {
         orderStatus: Number(key),
+        pageNo: 1,
       },
       this.handleSearchList,
     );

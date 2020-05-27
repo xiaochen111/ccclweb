@@ -35,6 +35,15 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
     this.handleGetDetial();
   }
 
+  componentWillUnmount() {
+    const { dispatch } = this.props;
+
+    dispatch({
+      type: 'order/saveQrcode',
+      payload: null
+    });
+  }
+
   handleGetDetial = () => {
     const { id } = this.state;
     const { dispatch } = this.props;
@@ -46,9 +55,10 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
   };
 
   handleGetQrcode = type => {
-    const { id } = this.state;
+    const { id, currentType } = this.state;
     const { dispatch } = this.props;
 
+    if (currentType === type) return;
     dispatch({
       type: 'order/getQrcode',
       payload: {

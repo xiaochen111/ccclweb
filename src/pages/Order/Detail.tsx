@@ -35,14 +35,14 @@ class orderDetailPage extends PureComponent<IProps, IState> {
       title: '单价',
       dataIndex: 'unitPrice',
       key: 'unitPrice',
-      render: text => <span>${text}</span>,
+      render: (text, record) => <span>{record.currency === 'CNY' ? '¥' : '$'}{text}</span>
     },
     { title: '数量', dataIndex: 'count', key: 'count' },
     {
       title: '应付金额',
       dataIndex: 'amount',
       key: 'amount',
-      render: text => <span style={{ color: '#FE7100' }}>${text}</span>,
+      render: (text, record) => <span style={{ color: '#FE7100' }}>{record.currency === 'CNY' ? '¥' : '$'}{text}</span>,
     },
     { title: '币种', dataIndex: 'currency', key: 'currency' },
     { title: '汇率', dataIndex: 'rate', key: 'rate' },
