@@ -168,7 +168,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     });
 
     this.setState({
-      defaultAddress: result['defaultContact'].portEndAddress
+      defaultAddress: result['defaultContact'] && result['defaultContact'].portEndAddress
     });
   }
 

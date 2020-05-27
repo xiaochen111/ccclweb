@@ -38,7 +38,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
   }
 
   render() {
-    const { logo, location, isLogin } = this.props;
+    const { location, isLogin } = this.props;
 
     console.log('render -> location', window.location);
     const navs = isLogin

@@ -128,7 +128,6 @@ export class LoginPage extends Component<LoginProps, any> {
 
 
   changeLoginInfo = e => {
-    console.log(e.target.value.trim());
     if (e.target.value.trim()){
       this.modifyLoginInfo = true;
     }

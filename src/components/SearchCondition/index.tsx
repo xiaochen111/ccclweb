@@ -136,7 +136,7 @@ export class SearchCondition extends Component<IProps, any> {
                 <Form.Item>
                   {getFieldDecorator('start', {
                     initialValue: '义乌',
-                  })(<Input size="large" prefix={<img src={startPartIcon} alt=""/>} />)}
+                  })(<Input size="large" disabled prefix={<img src={startPartIcon} alt="" />} />)}
                 </Form.Item>
               </div>
               <div className={styles.formItemTwo}>
