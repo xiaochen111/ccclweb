@@ -53,6 +53,7 @@ const Protocols = (modalVisible, setModalVisible) => {
   return (<Modal
     wrapClassName={styles.wrapClassName}
     visible={modalVisible}
+    maskClosable={false}
     title="注册协议"
     width={890}
     onCancel={() => setModalVisible(false)}
