@@ -74,7 +74,7 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
 
   render() {
     const { currentType } = this.state;
-    const { orderDetail, payTypeQrcode, submitLoading } = this.props;
+    const { orderDetail, payTypeQrcode } = this.props;
 
     if (!orderDetail) return <PageLoading/>;
 
@@ -102,7 +102,7 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
               <li>
                 <span className={styles.label}>支付金额：</span>
                 <span className={styles.price}>
-                  <strong>{orderDetail.totalPrice}</strong>元
+                  <strong>{orderDetail.unPayMoney}</strong>元
                 </span>
               </li>
               <li>

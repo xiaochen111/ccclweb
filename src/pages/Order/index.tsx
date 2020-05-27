@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, PageHeader, Tabs, Card, Input, Button, Modal, Popconfirm, Popover, message } from 'antd';
+import { Form, PageHeader, Tabs, Card, Input, Button, Modal, Popconfirm, Popover } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 import router from 'umi/router';
