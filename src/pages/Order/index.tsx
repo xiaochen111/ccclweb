@@ -238,14 +238,20 @@ class OrderPage extends PureComponent<IProps, IState> {
       // visible: true,
     });
 
-
-    // 如果费用详情有待支付总金额，并且是cny就跳转到支付页，否则展示详情
-    if (result.unPayMoney && result.unPayMoneyCurrency === 'CNY') {
-      router.push(`/control/order/my/payment/${record.id}`);
-    } else {
+    // 如果是待费用确认直接展示详情弹窗
+    if (record.feeStatus === 0) {
       this.setState({
         visible: true
       });
+    } else if (record.feeStatus === 10) {
+      // 如果费用详情有待支付总金额，并且是cny就跳转到支付页，否则展示详情
+      if (result.unPayMoney && result.unPayMoneyCurrency === 'CNY') {
+        router.push(`/control/order/my/payment/${record.id}`);
+      } else {
+        this.setState({
+          visible: true
+        });
+      }
     }
   };
 
