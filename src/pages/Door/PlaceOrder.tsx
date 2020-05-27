@@ -418,102 +418,6 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               </div>
             </Card>
             <Form layout="vertical" hideRequiredMark>
-              <Card title="附件上传" bordered={false} style={{ marginTop: 30 }}>
-                <Form.Item extra="建议上传excel,word类型">
-                  {getFieldDecorator('file', {
-                    // rules: [{ required: true, message: '请上传文件' }],
-                    valuePropName: 'fileList',
-                    getValueFromEvent: this.normFile,
-                  })(
-                    <Upload.Dragger
-                      action="/api/web/lcl/upload.do"
-                      beforeUpload={this.handleBeforeUpload}
-                      accept={`image/*, ${accepts}`}
-                    >
-                      <p className="ant-upload-drag-icon">
-                        <Icon type="cloud-download" />
-                      </p>
-                      <p className="ant-upload-text">将文件拖到此处或点击上传</p>
-                    </Upload.Dragger>,
-                  )}
-                </Form.Item>
-              </Card>
-              <Card title="货物信息委托区" bordered={false} style={{ marginTop: 30 }}>
-                <Row>
-                  <Col span={24}>
-                    <Form.Item label="货物品名（可填写多条）">
-                      {getFieldDecorator('goodsType', {
-                        rules: [{ max: 600, message: '不能超过600字' }]
-                      })(
-                        <TextArea placeholder="请输入货物品名" rows={4} />,
-                      )}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={22}>
-                  <Col span={8}>
-                    <Form.Item label="包装类型">
-                      {getFieldDecorator('packageType')(
-                        <Select
-                          showSearch
-                          placeholder="请选择包装类型"
-                          onSearch={this.handlePackageTypeSearch}
-                        >
-                          {globalPackageTypeList.map(d => (
-                            <Option key={d.id} value={d.nameCn}>
-                              {d.nameCn}
-                            </Option>
-                          ))}
-                        </Select>,
-                      )}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="货物总件数">
-                      {getFieldDecorator('totalPiece')(<InputNumber min={1} max={999999} precision={0} placeholder="请输入货物总件数" style={{ width: '100%' }}/>)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="预计送货日">
-                      {getFieldDecorator('deliveryDate')(
-                        <DatePicker placeholder="请输入预计送货日" />,
-                      )}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={22}>
-                  <Col span={8}>
-                    <Form.Item label="货物总量（公斤）">
-                      {getFieldDecorator('totalKgs', {
-                        initialValue: params.kgs
-                      })(
-                        <InputNumber
-                          placeholder="请输入货物总量"
-                          min={1}
-                          max={999999}
-                          precision={0}
-                          style={{ width: '100%' }}
-                          onChange={(value) => this.handleGetTotalPrice('kgs', value)}
-                        />)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="货物总体积（立方）">
-                      {getFieldDecorator('totalCbm', {
-                        initialValue: params.cbm
-                      })(
-                        <InputNumber
-                          placeholder="请输入货物总体积"
-                          min={1}
-                          max={999999}
-                          precision={0}
-                          style={{ width: '100%' }}
-                          onChange={(value) => this.handleGetTotalPrice('cbm', value)}
-                        />)}
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Card>
               <Card title="委托人信息" bordered={false} style={{ marginTop: 30 }}>
                 <Row gutter={22}>
                   <Col span={24}>
@@ -584,6 +488,102 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     </Form.Item>
                   </Col>
                 </Row>
+              </Card>
+              <Card title="货物信息委托区" bordered={false} style={{ marginTop: 30 }}>
+                <Row>
+                  <Col span={24}>
+                    <Form.Item label="货物品名（可填写多条）">
+                      {getFieldDecorator('goodsType', {
+                        rules: [{ max: 600, message: '不能超过600字' }]
+                      })(
+                        <TextArea placeholder="请输入货物品名" rows={4} />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={22}>
+                  <Col span={8}>
+                    <Form.Item label="包装类型">
+                      {getFieldDecorator('packageType')(
+                        <Select
+                          showSearch
+                          placeholder="请选择包装类型"
+                          onSearch={this.handlePackageTypeSearch}
+                        >
+                          {globalPackageTypeList.map(d => (
+                            <Option key={d.id} value={d.nameCn}>
+                              {d.nameCn}
+                            </Option>
+                          ))}
+                        </Select>,
+                      )}
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item label="货物总件数">
+                      {getFieldDecorator('totalPiece')(<InputNumber min={1} max={999999} precision={0} placeholder="请输入货物总件数" style={{ width: '100%' }}/>)}
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item label="预计送货日">
+                      {getFieldDecorator('deliveryDate')(
+                        <DatePicker placeholder="请输入预计送货日" />,
+                      )}
+                    </Form.Item>
+                  </Col>
+                </Row>
+                <Row gutter={22}>
+                  <Col span={8}>
+                    <Form.Item label="货物总体积（立方）">
+                      {getFieldDecorator('totalCbm', {
+                        initialValue: params.cbm
+                      })(
+                        <InputNumber
+                          placeholder="请输入货物总体积"
+                          min={1}
+                          max={999999}
+                          precision={0}
+                          style={{ width: '100%' }}
+                          onChange={(value) => this.handleGetTotalPrice('cbm', value)}
+                        />)}
+                    </Form.Item>
+                  </Col>
+                  <Col span={8}>
+                    <Form.Item label="货物总量（公斤）">
+                      {getFieldDecorator('totalKgs', {
+                        initialValue: params.kgs
+                      })(
+                        <InputNumber
+                          placeholder="请输入货物总量"
+                          min={1}
+                          max={999999}
+                          precision={0}
+                          style={{ width: '100%' }}
+                          onChange={(value) => this.handleGetTotalPrice('kgs', value)}
+                        />)}
+                    </Form.Item>
+                  </Col>
+                </Row>
+              </Card>
+              <Card title="附件上传" bordered={false} style={{ marginTop: 30 }}>
+                <Form.Item extra="建议上传excel,word类型">
+                  {getFieldDecorator('file', {
+                    // rules: [{ required: true, message: '请上传文件' }],
+                    valuePropName: 'fileList',
+                    getValueFromEvent: this.normFile,
+                  })(
+                    <Upload.Dragger
+                      action="/api/web/lcl/upload.do"
+                      beforeUpload={this.handleBeforeUpload}
+                      accept={`image/*, ${accepts}`}
+                    >
+                      <p className="ant-upload-drag-icon">
+                        <Icon type="cloud-download" />
+                      </p>
+                      <p className="ant-upload-text">将文件拖到此处或点击上传</p>
+                    </Upload.Dragger>,
+                  )}
+                </Form.Item>
               </Card>
               <Card title="备注" bordered={false} style={{ marginTop: 30 }}>
                 <Form.Item>
