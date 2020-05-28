@@ -38,9 +38,12 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
   ]
 
   componentDidMount() {
-    this.startCountDown();
+    this.handleGetDetail();
     this.handleGetQrcodes();
 
+    this.timer = setInterval(() => {
+      this.handleGetDetail();
+    }, 1000);
     // 每4分钟重新获取最新的支付码
     this.timer2 = setInterval(() => {
       this.handleGetQrcodes();
@@ -48,17 +51,16 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
   }
 
   componentWillUnmount() {
+    this.clearTimer();
+  }
+
+  clearTimer = () => {
     clearInterval(this.timer);
     clearInterval(this.timer2);
   }
 
-  startCountDown = () => {
-    this.timer = setInterval(() => {
-      this.handleGetDetial();
-    }, 1000);
-  }
 
-  handleGetDetial = async() => {
+  handleGetDetail = async() => {
     const { id } = this.state;
     const { dispatch } = this.props;
 
@@ -68,6 +70,7 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
     });
 
     if (result['feeStatus'] === 40) {
+      this.clearTimer();
       this.setState({
         flag: true,
       });
@@ -94,9 +97,15 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
         }
       })
     ]);
+    const qrcodes = result.filter(o => o);
+
+    if (!qrcodes.length) {
+      clearInterval(this.timer);
+      return;
+    }
 
     this.setState({
-      qrcodes: result.filter(o => o)
+      qrcodes
     });
   }
 
@@ -147,7 +156,7 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
   render() {
     const { currentType, flag, qrcodes } = this.state;
 
-    console.log('OrderPaymentPage -> render -> qrcodes', qrcodes);
+    console.log('OrderPaymentPage -> render -> qrcodes', qrcodes[2]);
     const { orderDetail, qrLoading } = this.props;
 
     if (!orderDetail) return <PageLoading/>;

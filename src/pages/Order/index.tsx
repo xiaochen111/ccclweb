@@ -65,8 +65,8 @@ class OrderPage extends PureComponent<IProps, IState> {
       render: (text, record) => <span style={{ color: '#2556F2', cursor: 'pointer' }} onClick={() => this.handleActions('detail', record)}>{text}</span>,
       fixed: 'left', width: 200,
     },
-    { title: '发货地', dataIndex: 'startTruck', key: 'startTruck' },
-    { title: '收货地', dataIndex: 'endTruck', key: 'endTruck' },
+    { title: '收货地', dataIndex: 'startTruck', key: 'startTruck' },
+    { title: '交货地', dataIndex: 'endTruck', key: 'endTruck' },
     { title: '品名', dataIndex: 'goodsType', key: 'goodsType', render: text =>  <span>{text ? text.substring(0, 50) : ''}</span> },
     { title: '下单时间', dataIndex: 'createTime', key: 'createTime',
       render: text => moment(text).format('YYYY-MM-DD HH:mm:ss')
@@ -387,11 +387,11 @@ class OrderPage extends PureComponent<IProps, IState> {
               <Form.Item label="CCCL NO">
                 {getFieldDecorator('orderNo')(<Input placeholder="请输入CCCL NO" allowClear />)}
               </Form.Item>
-              <Form.Item label="发货地">
-                {getFieldDecorator('startTruck')(<Input placeholder="请输入发货地" allowClear />)}
-              </Form.Item>
               <Form.Item label="收货地">
-                {getFieldDecorator('endTruck')(<Input placeholder="请输入收货地" allowClear />)}
+                {getFieldDecorator('startTruck')(<Input placeholder="请输入收货地" allowClear />)}
+              </Form.Item>
+              <Form.Item label="交货地">
+                {getFieldDecorator('endTruck')(<Input placeholder="请输入交货地" allowClear />)}
               </Form.Item>
               <Form.Item>
                 <Button type="primary" onClick={this.handleSearch}>
