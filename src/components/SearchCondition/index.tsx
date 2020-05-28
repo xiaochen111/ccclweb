@@ -85,7 +85,7 @@ export class SearchCondition extends Component<IProps, any> {
     )) : [<Option key={1} value="">暂无数据</Option>];
     const { isMultiRow, form, defaultValue = {} } = this.props;
 
-    console.log(defaultValue);
+    // console.log(defaultValue);
     const { getFieldDecorator } = form;
 
 
@@ -101,7 +101,7 @@ export class SearchCondition extends Component<IProps, any> {
             <div className={styles.formItemOne}>
               <Form.Item>
                 {getFieldDecorator('country', {
-                  initialValue: defaultValue.endTruck,
+                  initialValue: defaultValue.country,
                   rules: [{ max: 20, message: '长度不能超过20位', }, { pattern: REGEX.SPACE, message: '不能输入空格' }, { pattern: REGEX.SPECIALCHART, message: '请输入中文或英文' } ]
                 })(
                   <AutoComplete
@@ -142,7 +142,7 @@ export class SearchCondition extends Component<IProps, any> {
               <div className={styles.formItemTwo}>
                 <Form.Item>
                   {getFieldDecorator('country', {
-                    initialValue: defaultValue.endTruck,
+                    initialValue: defaultValue.country,
                     rules: [{ max: 20, message: '长度不能超过20位', }, { pattern: REGEX.SPACE, message: '不能输入空格' }, { pattern: REGEX.SPECIALCHART, message: '请输入中文或英文' }  ]
                   })(
                     <AutoComplete

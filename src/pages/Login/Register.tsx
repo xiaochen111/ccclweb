@@ -110,7 +110,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   };
 
   timer: any;
-  prvTabValue:any;
+  prvTabValue:any = {};
 
   componentDidMount() {
     this.init();
@@ -128,19 +128,18 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
 
 
   handleChangeTab = (tab: any) => {
+    const { form } = this.props;
+
     this.setState({
       selectedTab: tab,
       btnTxt: '获取验证码',
       clickFlag: true,
+    }, () => {
+      clearInterval(this.timer);
+      this.prvTabValue[tab] = form.getFieldsValue();
+      form.setFieldsValue(this.prvTabValue[tab]);
     });
-    const { form } = this.props;
 
-    // this.prvTabValue = form.getFieldsValue();
-    // console.log(this.prvTabValue);
-    // return;
-
-    clearInterval(this.timer);
-    form.resetFields();
   };
 
   handleSubmit = (e: any) => {

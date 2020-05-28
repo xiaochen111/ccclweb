@@ -26,7 +26,7 @@ interface IProps extends StateType {
 }
 
 interface IState {
-  endTruck: string;
+  country: string;
   kgs: string;
   cbm: string;
   orderByClause: string;
@@ -46,7 +46,7 @@ interface IState {
 }))
 export class PricePlan extends Component<IProps, IState> {
   state = {
-    endTruck: '',
+    country: '',
     kgs: '',
     cbm: '',
     orderByClause: '',
@@ -94,7 +94,7 @@ export class PricePlan extends Component<IProps, IState> {
 
     this.setState(
       {
-        endTruck: params.country || '',
+        country: params.country || '',
         kgs: params.kgs || '',
         cbm: params.cbm || '1',
       },
@@ -114,10 +114,10 @@ export class PricePlan extends Component<IProps, IState> {
 
   handleGetLclList = () => {
     const { dispatch } = this.props;
-    const { endTruck, kgs, cbm, orderByClause, pageNo, pageSize } = this.state;
+    const { country, kgs, cbm, orderByClause, pageNo, pageSize } = this.state;
 
     const params = {
-      endTruck,
+      country,
       kgs,
       cbm,
       orderByClause,
@@ -160,10 +160,10 @@ export class PricePlan extends Component<IProps, IState> {
   };
 
   handleSearchSubmit = params => {
-    const { endTruck, kgs, cbm } = params;
+    const { country, kgs, cbm } = params;
 
     this.setState({
-      endTruck,
+      country,
       kgs,
       cbm,
     }, this.handleGetLclList);
@@ -209,8 +209,8 @@ export class PricePlan extends Component<IProps, IState> {
 
   render() {
     const { lclList, totalCount, countryDropList, tableLoading } = this.props;
-    const { sortInstance, orderBy, endTruck, kgs, cbm, routeType, pageNo, pageSize, currentExplain } = this.state;
-    const searchDefaultValue = { endTruck, kgs, cbm };
+    const { sortInstance, orderBy, country, kgs, cbm, routeType, pageNo, pageSize, currentExplain } = this.state;
+    const searchDefaultValue = { country, kgs, cbm };
     const pagination = {
       total: totalCount,
       current: pageNo,
