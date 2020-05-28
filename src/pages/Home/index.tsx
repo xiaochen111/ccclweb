@@ -267,10 +267,34 @@ class HomePage extends Component<IProps, any> {
                 </div>
               </div>
             ))}
-
           </Carousel> */}
           <div className={styles.bannerInner}>
-            {/* <img src={banner} alt="" style={{ width: '100%' }} /> */}
+
+            <div className={styles.bannerMain}>
+              <svg width="1200" height="600">
+                {/* <!-- 北美 --> */}
+                <path d="M920,200 Q770,-90, 200,200" stroke="#0060e2" stroke-width="3px" fill="none" className="path1"></path>
+                {/* <!-- 西欧 --> */}
+                <path d="M920,200 Q790,22, 550,160" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
+                {/* <!-- 西非 --> */}
+                <path d="M920,200 Q750,40, 510,240" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
+                {/* <!-- 东非 --> */}
+                <path d="M920,200 Q700,80, 620,320" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
+                {/* <!-- 阿联酋 --> */}
+                <path d="M920,200 Q800,150, 710,240" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
+                {/* <!-- 印巴 --> */}
+                <path d="M920,200 Q800,150, 810,240" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
+                {/* <!-- 中东 --> */}
+                <path d="M920,200 Q780,300, 760,420" stroke="#0060e2" stroke-width="1px" fill="none" className="path3"></path>
+                {/* <!-- 地中海 --> */}
+                <path d="M920,200 Q780,250, 720,350" stroke="#0060e2" stroke-width="1px" fill="none" className="path3"></path>
+                {/* <!-- 东南亚 --> */}
+                <path d="M920,200 Q980,450, 990,470" stroke="#0060e2" stroke-width="1px" fill="none" className="path3"></path>
+                {/* <!-- 非洲 --> */}
+                <path d="M920,200 Q920,750, 700,550" stroke="#0060e2" stroke-width="1px" fill="none" className="path3"></path>
+              </svg>
+            </div>
+
           </div>
           {this.searchPanel()}
         </div>

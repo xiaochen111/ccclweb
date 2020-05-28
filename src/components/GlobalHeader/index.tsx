@@ -93,7 +93,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
             <>
               <Link to={{
                 pathname: '/login/index',
-                search: stringify(window.location.hash.indexOf('register') === -1 ? { backUrl: window.location.hash.split('#')[1] } : {})
+                search: stringify(window.location.hash.search(/retrievePassword|register/) === -1 ? { backUrl: window.location.hash.split('#')[1] } : {})
               }} className={`${styles.navItem} ${styles.otherItem}`}>
                 登录
               </Link>
