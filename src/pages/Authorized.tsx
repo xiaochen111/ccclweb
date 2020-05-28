@@ -7,21 +7,19 @@ import { stringify } from 'qs';
 export default (props) => {
   const { location: { pathname, hash }, children } = props;
 
-  console.log('pathname', pathname);
-
   const token = GetGlobalToken(GetGlobalFlag());
-  const pageQuery = GetPageQuery();
+  // const pageQuery = GetPageQuery();
   const loginRoute = ['/control', '/door/place-order'];
 
-  if (pageQuery && pageQuery.uuid) {
-    return <Redirect to={{
-      pathname: '/check-auth',
-      search: stringify({
-        loginUuid: pageQuery.uuid,
-        backUrl: pathname
-      })
-    }} />;
-  }
+  // if (pageQuery && pageQuery.uuid) {
+  //   return <Redirect to={{
+  //     pathname: '/check-auth',
+  //     search: stringify({
+  //       loginUuid: pageQuery.uuid,
+  //       backUrl: pathname
+  //     })
+  //   }} />;
+  // }
 
   if (loginRoute.includes(pathname)) {
     if (token) {

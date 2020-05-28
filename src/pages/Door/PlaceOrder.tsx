@@ -269,6 +269,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     return true;
   }
 
+  handleUploadChange = file => {
+    console.log('DoorPlaceOrderPage -> file', file);
+
+  }
+
   handleSubmit = () => {
     const { id } = this.state;
 
@@ -586,6 +591,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                       action="/api/web/lcl/upload.do"
                       beforeUpload={this.handleBeforeUpload}
                       accept={`image/*, ${accepts}`}
+                      onChange={this.handleUploadChange}
                     >
                       <p className="ant-upload-drag-icon">
                         <Icon type="cloud-download" />
