@@ -113,7 +113,7 @@ export class SearchCondition extends Component<IProps, any> {
                     style={{ width: '100%' }}
                     dataSource={options}
                     optionLabelProp="value"
-                    placeholder="请输入城市"
+                    placeholder="请输入交货地"
                     defaultActiveFirstOption={false}
                     onChange={ value =>  this.onChangeFilterCp(value) }
                     onBlur={ this.ononBlurCb }
@@ -151,7 +151,7 @@ export class SearchCondition extends Component<IProps, any> {
                       dropdownMatchSelectWidth={false}
                       dropdownStyle={{ width: 300 }}
                       size="large"
-                      placeholder="请输入城市"
+                      placeholder="请输入交货地"
                       style={{ width: '100%' }}
                       dataSource={options}
                       optionLabelProp="value"
