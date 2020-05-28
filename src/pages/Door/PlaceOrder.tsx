@@ -249,7 +249,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   handleBeforeUpload = file => {
     const { form } = this.props;
     const { size } = file;
-    const MAX_UPLOAD_SIZE = 1024 * 1024 * 1;
+    const MAX_UPLOAD_SIZE = 1024 * 1024 * 10;
     const fileList = form.getFieldValue('file');
 
     if (fileList && fileList.length >= 10) {
