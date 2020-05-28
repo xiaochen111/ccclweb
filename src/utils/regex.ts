@@ -13,6 +13,10 @@ export default {
   NAME: /^[\u4e00-\u9fa5]{2,4}$/,
   NUMBER: /^\d+$/,
   BIGNUM: /^([1-9])(\d+)?$/,
+  // BIGNUM_TOW: /^(\d+\.\d{1,2})|([1-9](\d+)?(\.\d{1,2}))$/,
+  // BIGNUM_TOW: /^\d+\.\d{1,2}|[1-9](\d+)?(\.\d{1,2})?$/,
+  BIGNUM_TOW: /^0\.\d{1,2}$|^[1-9](\d+)?(\.\d{1,2})?$/,
+  BIGNUM_ONE: /^0\.\d$|^[1-9](\d+)?(\.\d)?$/,
   SPACE: /[^\s+]/,
   SPECIALCHART: /[\a-\z\A-\Z\u4E00-\u9FA5]/, //只匹配字母 中文
 };
