@@ -259,7 +259,7 @@ class HomePage extends Component<IProps, any> {
       <main className={styles.conatiner}>
         <Broadside />
         <div className={styles.banner}>
-          <Carousel autoplay>
+          {/* <Carousel autoplay>
             {bannerListPic.map((item, index) => (
               <div key={index}>
                 <div style={{ background: `url(${item}) center` }}>
@@ -267,7 +267,11 @@ class HomePage extends Component<IProps, any> {
                 </div>
               </div>
             ))}
-          </Carousel>
+
+          </Carousel> */}
+          <div className={styles.bannerInner}>
+            {/* <img src={banner} alt="" style={{ width: '100%' }} /> */}
+          </div>
           {this.searchPanel()}
         </div>
 
