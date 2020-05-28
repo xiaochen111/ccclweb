@@ -273,7 +273,7 @@ export class PricePlan extends Component<IProps, IState> {
                           <div className={styles.lineMain}>
                             {/* {item.startTruck} */}
                             <div className={styles.startTruck}>
-                              义乌&nbsp;
+                              {item.startTruck}&nbsp;
                               <img src={arrow} alt="" />
                               &nbsp;
                             </div>
