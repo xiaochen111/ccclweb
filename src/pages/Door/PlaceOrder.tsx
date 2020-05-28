@@ -396,7 +396,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               <div className={styles.shippingInformation}>
                 <div className={styles.routes}>
                   <div className={styles.left}>
-                    <span className={styles.addressTitle}>发货地</span>
+                    <span className={styles.addressTitle}>收货地</span>
                     <span className={styles.addressText}>YIWU/义乌</span>
                   </div>
                   <span className={styles.middle}>
@@ -407,7 +407,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     <i className="iconfont iconicon-dao" style={{ fontSize: 6, color: '#D8D8D8FF' }}/>
                   </span>
                   <div className={styles.right}>
-                    <span className={styles.addressTitle}>收货地</span>
+                    <span className={styles.addressTitle}>交货地</span>
                     <span className={styles.addressText}>{lclOrderInfo.endTruck}</span>
                   </div>
                 </div>
