@@ -3,6 +3,9 @@
     .ant-input-lg {
       font-size: 14px;
     }
+    .ant-input[disabled] {
+      background-color: #fff !important;
+    }
   }
 }
 

@@ -117,7 +117,12 @@ class OrderPage extends PureComponent<IProps, IState> {
       render: (text, record) => {
         if (record.status === 0) {
           return (
-            <Popconfirm onConfirm={() => this.handleActions('cancel', record)} title="是否确认取消订单">
+            <Popconfirm
+              onConfirm={() => this.handleActions('cancel', record)}
+              title="是否确认取消订单"
+              okText="是"
+              cancelText="否"
+            >
               <Button type="danger" size="small">取消订单</Button>
             </Popconfirm>
           );

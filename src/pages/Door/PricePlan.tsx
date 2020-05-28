@@ -117,6 +117,7 @@ export class PricePlan extends Component<IProps, IState> {
     const { country, kgs, cbm, orderByClause, pageNo, pageSize } = this.state;
 
     const params = {
+      startTruck: '义务',
       country,
       kgs,
       cbm,

@@ -27,9 +27,10 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
     id: this.props.match.params && this.props.match.params.id,
     currentType: 1,
     flag: false,
-    loading: false
+    qrcodes: []
   }
   private timer;
+  private timer2;
 
   paymentMethods = [
     { label: '支付宝', value: 1, icon: 'alipay-icon' },
@@ -37,17 +38,24 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
   ]
 
   componentDidMount() {
-    this.handleGetDetial();
+    this.startCountDown();
+    this.handleGetQrcodes();
+
+    // 每4分钟重新获取最新的支付码
+    this.timer2 = setInterval(() => {
+      this.handleGetQrcodes();
+    }, 240000);
   }
 
   componentWillUnmount() {
-    const { dispatch } = this.props;
-
     clearInterval(this.timer);
-    dispatch({
-      type: 'order/saveQrcode',
-      payload: null
-    });
+    clearInterval(this.timer2);
+  }
+
+  startCountDown = () => {
+    this.timer = setInterval(() => {
+      this.handleGetDetial();
+    }, 1000);
   }
 
   handleGetDetial = async() => {
@@ -62,65 +70,85 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
     if (result['feeStatus'] === 40) {
       this.setState({
         flag: true,
-        loading: false
       });
     }
   };
 
-  // handleGetQrcodes = () => {
-  //   const { id, currentType, loading } = this.state;
-  //   const { dispatch } = this.props;
-
-
-  // }
-
-  handleGetQrcode = type => {
-    const { id, currentType, loading } = this.state;
+  handleGetQrcodes = async() => {
+    const { id } = this.state;
     const { dispatch } = this.props;
 
-    if (currentType === type || loading) return;
+    let result = await Promise.all([
+      dispatch({
+        type: 'order/getQrcode',
+        payload: {
+          orderId: id,
+          payType: 1
+        }
+      }),
+      dispatch({
+        type: 'order/getQrcode',
+        payload: {
+          orderId: id,
+          payType: 2
+        }
+      })
+    ]);
 
-    dispatch({
-      type: 'order/saveQrcode',
-      payload: null
+    this.setState({
+      qrcodes: result.filter(o => o)
     });
-    dispatch({
-      type: 'order/getQrcode',
-      payload: {
-        orderId: id,
-        payType: type
-      }
-    });
+  }
+
+  handleGetQrcode = type => {
+    // const { id, currentType, loading } = this.state;
+    // const { dispatch } = this.props;
+
+    // if (currentType === type || loading) return;
+
+    // dispatch({
+    //   type: 'order/saveQrcode',
+    //   payload: null
+    // });
+    // dispatch({
+    //   type: 'order/getQrcode',
+    //   payload: {
+    //     orderId: id,
+    //     payType: type
+    //   }
+    // });
 
     this.setState({
       currentType: type
     });
   }
 
-  handlePay = () => {
-    let num = 0;
+  // handlePay = () => {
+  //   let num = 0;
 
-    this.setState({
-      loading: true
-    });
+  //   this.setState({
+  //     loading: true
+  //   });
 
-    this.timer = setInterval(() => {
-      num = num + 5;
-      if (num >= 12) {
-        clearInterval(this.timer);
-        return;
-      }
-      this.handleGetDetial();
-    }, 5000);
-  }
+  //   this.timer = setInterval(() => {
+  //     num = num + 5;
+  //     if (num >= 12) {
+  //       clearInterval(this.timer);
+  //       return;
+  //     }
+  //     this.handleGetDetial();
+  //   }, 5000);
+  // }
 
   handleBack = () => {
     router.goBack();
   }
 
   render() {
-    const { currentType, flag, loading } = this.state;
-    const { orderDetail, payTypeQrcode, qrLoading } = this.props;
+    const { currentType, flag, qrcodes } = this.state;
+
+    console.log('OrderPaymentPage -> render -> qrcodes', qrcodes);
+    const { orderDetail, qrLoading } = this.props;
 
     if (!orderDetail) return <PageLoading/>;
 
@@ -156,21 +184,37 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
                   <li>
                     <span className={styles.label}>付款码：</span>
                     {
-                      payTypeQrcode ? (
-                        <div className={styles.qrcode}>
-                          <QRCode
-                            value={payTypeQrcode}  //value参数为生成二维码的链接
-                            size={200} //二维码的宽高尺寸
-                            fgColor="#000000"  //二维码的颜色
-                          />
-                        </div>
-                      ) : qrLoading ? <Icon type="loading"/> : <span>请选择支付方式</span>
+                      qrLoading ? <Icon type="loading"/> :
+                        qrcodes && qrcodes.length >= 1 ?
+                          (
+                            <div className={styles.qrcode}>
+                              <QRCode
+                                value={qrcodes[currentType - 1]}  //value参数为生成二维码的链接
+                                size={200} //二维码的宽高尺寸
+                                fgColor="#000000"  //二维码的颜色
+                              />
+                            </div>
+                          ) :
+                          (
+                            <div className={styles.waringQrcode}>
+                              <Result
+                                status="warning"
+                                title={<span style={{ fontSize: 16 }}>生成二维码失败，请联系客服</span>}
+                                // extra={
+                                //   <Button type="primary" key="console">
+                                //     Go Console
+                                //   </Button>
+                                // }
+                              />
+                            </div>
+                          )
                     }
+
                   </li>
                 </ul>
               </Card>
               <div className={styles.payBtn}>
-                <Button type="primary" size="large" onClick={this.handlePay} loading={loading}>返回</Button>
+                <Button type="primary" size="large" onClick={this.handleBack}>返回</Button>
               </div>
             </div>
           ) : (

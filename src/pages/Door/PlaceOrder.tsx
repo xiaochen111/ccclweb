@@ -500,7 +500,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     >
                       {getFieldDecorator('portEndAddress', {
                         initialValue: defaultAddress,
-                        rules: [{ max: 250, message: '不能超过250字' }]
+                        rules: [{ max: 200, message: '不能超过200字' }]
                       })(
                         <TextArea placeholder="请输入目的地送货地址" rows={4} />,
                       )}
@@ -607,7 +607,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               <Card title="备注" bordered={false} style={{ marginTop: 30 }}>
                 <Form.Item>
                   {getFieldDecorator('remark', {
-                    rules: [{ max: 500, message: '不能超过500字' }]
+                    rules: [{ max: 200, message: '不能超过200字' }]
                   })(<TextArea placeholder="请输入备注" rows={4} />)}
                 </Form.Item>
               </Card>
