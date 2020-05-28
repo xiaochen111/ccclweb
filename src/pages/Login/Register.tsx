@@ -110,6 +110,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   };
 
   timer: any;
+  prvTabValue:any;
 
   componentDidMount() {
     this.init();
@@ -125,6 +126,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   };
 
 
+
   handleChangeTab = (tab: any) => {
     this.setState({
       selectedTab: tab,
@@ -133,6 +135,11 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
     });
     const { form } = this.props;
 
+    // this.prvTabValue = form.getFieldsValue();
+    // console.log(this.prvTabValue);
+    // return;
+
+    clearInterval(this.timer);
     form.resetFields();
   };
 
