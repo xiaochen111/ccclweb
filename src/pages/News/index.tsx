@@ -65,13 +65,19 @@ export class News extends Component<Iprops, Istate> {
     });
   }
 
-  handleTabelChange = pagination => {
+  handleTabelChange = current => {
     this.setState(
       {
-        pageNo: pagination,
+        pageNo: current,
       },
       this.handleSearchList,
     );
+  };
+
+  handleTableSizeChange = (current, pageSize) => {
+    this.setState({
+      pageSize: pageSize,
+    }, this.handleSearchList);
   };
 
   setTitleSearch = title => {
@@ -135,7 +141,7 @@ export class News extends Component<Iprops, Istate> {
             <span className={styles.total}>
                 共<strong>{listTotal}</strong>条
             </span>
-            <Pagination onChange={this.handleTabelChange} {...pagination} showQuickJumper showSizeChanger />
+            <Pagination onChange={this.handleTabelChange}  onShowSizeChange={this.handleTableSizeChange} {...pagination} showQuickJumper showSizeChanger />
           </div> : ''
         }
       </PageWrapper>
