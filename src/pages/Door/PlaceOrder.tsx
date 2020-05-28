@@ -249,7 +249,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   handleBeforeUpload = file => {
     const { form } = this.props;
     const { size } = file;
-    const MAX_UPLOAD_SIZE = 1024 * 1024 * 10;
+    const MAX_UPLOAD_SIZE = 1024 * 1024 * 1;
     const fileList = form.getFieldValue('file');
 
     if (fileList && fileList.length >= 10) {
@@ -267,6 +267,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     }
 
     return true;
+  }
+
+  handleUploadChange = file => {
+    console.log('DoorPlaceOrderPage -> file', file);
+
   }
 
   handleSubmit = () => {
@@ -586,6 +591,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                       action="/api/web/lcl/upload.do"
                       beforeUpload={this.handleBeforeUpload}
                       accept={`image/*, ${accepts}`}
+                      onChange={this.handleUploadChange}
                     >
                       <p className="ant-upload-drag-icon">
                         <Icon type="cloud-download" />

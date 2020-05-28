@@ -9,14 +9,15 @@ class CheckAuth extends React.PureComponent<any, any> {
   componentDidMount() {
     const { dispatch } = this.props;
     const pageQuery = GetPageQuery();
-    const { loginUuid, backUrl } = pageQuery;
+    const { uuid, backUrl } = pageQuery;
 
     dispatch({
       type: 'global/uuidLogin',
-      payload: { uuid: loginUuid },
+      payload: { uuid },
     }).then(result => {
+      console.log('CheckAuth -> componentDidMount -> result', result);
       if (result) {
-        router.replace(backUrl);
+        router.replace('/home');
       }
     });
 
