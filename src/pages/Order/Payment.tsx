@@ -67,6 +67,13 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
     }
   };
 
+  // handleGetQrcodes = () => {
+  //   const { id, currentType, loading } = this.state;
+  //   const { dispatch } = this.props;
+
+
+  // }
+
   handleGetQrcode = type => {
     const { id, currentType, loading } = this.state;
     const { dispatch } = this.props;

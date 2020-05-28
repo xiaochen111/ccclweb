@@ -118,24 +118,24 @@ class OrderPage extends PureComponent<IProps, IState> {
         if (record.status === 0) {
           return (
             <Popconfirm onConfirm={() => this.handleActions('cancel', record)} title="是否确认取消订单">
-              <span style={{ color: '#333', cursor: 'pointer' }}>取消订单</span>
+              <Button type="danger" size="small">取消订单</Button>
             </Popconfirm>
           );
         }
         if (record.status === 1 || record.status === 2) {
-          return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
+          return <span style={{ color: '#333' }}>- - - - -</span>;
         }
         if (record.feeStatus === -1) {
-          return <span style={{ color: '#333', cursor: 'pointer' }}>- - - - -</span>;
+          return <span style={{ color: '#333' }}>- - - - -</span>;
         }
         if (record.feeStatus === 0) {
           return (
-            <span style={{ color: '#333', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>费用确认</span>
+            <Button type="primary" size="small" onClick={() => this.handleActions('action', record)}>费用确认</Button>
           );
         }
         if (record.feeStatus === 10) {
           return (
-            <span style={{ color: '#333', cursor: 'pointer' }} onClick={() => this.handleActions('action', record)}>确认支付</span>
+            <Button type="primary" size="small" onClick={() => this.handleActions('action', record)}>确认支付</Button>
           );
         }
         if (record.feeStatus === 30 || record.feeStatus === 40) {

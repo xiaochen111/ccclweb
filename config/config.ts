@@ -41,7 +41,7 @@ const config: IConfig = {
     'text-color': '#333',
     'text-color-secondary': '#999',
     'border-color-base': '#ccc',
-    'btn-default-bg': 'linear-gradient(46deg,rgba(13,70,239,1) 0%,rgba(22,165,255,1) 100%)',
+    // 'btn-default-bg': 'linear-gradient(46deg,rgba(13,70,239,1) 0%,rgba(22,165,255,1) 100%)',
   },
   targets: {
     ie: 10,
