@@ -38,8 +38,16 @@ export class SearchCondition extends Component<IProps, any> {
       if (err) return;
       const { kgs, cbm } = values;
 
-      if (!kgs && !cbm) {
+      if (!kgs || !cbm) {
         message.warn('请输入体积和重量');
+        return;
+      }
+      if (!kgs) {
+        message.warn('请输入体积');
+        return;
+      }
+      if (!cbm) {
+        message.warn('请输入重量');
         return;
       }
       submit(values);

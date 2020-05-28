@@ -77,3 +77,17 @@ export async function queryPaymentOrCode(data) {
     data,
   });
 }
+
+/**
+ * 同时获取支付二维码
+ *
+ * @export
+ * @param {*} data
+ * @returns
+ */
+export async function queryAllPaymentOrCode(data) {
+  return request('/api/web/lcl/order/getPaymentQRCodeAll.do', {
+    method: 'POST',
+    data,
+  });
+}
