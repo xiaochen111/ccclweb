@@ -23,6 +23,7 @@ import PageLoading from '@/components/PageLoading';
 import StandardTable from '@/components/StandardTable';
 import { GetPageQuery } from '@/utils/utils';
 import { GetAccountInfo } from '@/utils/cache';
+import { router } from 'umi';
 import REGEX from '@/utils/regex';
 import { debounce } from 'lodash';
 import styles from './PlaceOrder.scss';
@@ -142,6 +143,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     });
     this.handleGetDefaultAddress();
     this.getAddressList();
+    this.handlePackageTypeSearch('');
   }
 
   componentWillUnmount() {
@@ -172,7 +174,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     });
 
     this.setState({
-      defaultAddress: result['defaultContact'] && result['defaultContact'].portEndAddress
+      defaultAddress: result && result['defaultContact'] && result['defaultContact'].portEndAddress
     });
   }
 
@@ -249,29 +251,21 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   handleBeforeUpload = file => {
     const { form } = this.props;
     const { size } = file;
-    const MAX_UPLOAD_SIZE = 1024 * 1024 * 10;
+    const MAX_UPLOAD_SIZE = 1024 * 1024 * 1;
     const fileList = form.getFieldValue('file');
 
-    if (fileList && fileList.length >= 10) {
-      message.warning('上传的图片数量大于10张');
-      return false;
-    }
+    return new Promise<any>((resolve, reject) => {
+      if (fileList && fileList.length >= 10) {
+        message.warning('上传的图片数量大于10张');
+        return reject(false);
+      }
+      if (size >= MAX_UPLOAD_SIZE) {
+        message.warning('上传的图片大于10M');
+        return reject(false);
+      }
 
-    // if (!REGEX.PHOTO_TYPES.test(name)) {
-    //   message.warning('上传的图片格式不正确');
-    //   return false;
-    // }
-    if (size >= MAX_UPLOAD_SIZE) {
-      message.warning('上传的图片大于10M');
-      return false;
-    }
-
-    return true;
-  }
-
-  handleUploadChange = file => {
-    console.log('DoorPlaceOrderPage -> file', file);
-
+      return resolve(true);
+    });
   }
 
   handleSubmit = () => {
@@ -283,7 +277,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       form: { validateFields },
     } = this.props;
 
-    validateFields((err, values) => {
+    validateFields(async(err, values) => {
       if (!err) {
         const { startTruck, endTruck, totalPrice, currency } = lclOrderInfo;
         const {
@@ -319,13 +313,23 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
           params['deliveryDate'] = deliveryDate.format('YYYY-MM-DD');
         }
 
-        dispatch({
+        let result =  await dispatch({
           type: 'door/orderSubmit',
           payload: {
             ...params,
             freightLclId: id,
           },
         });
+
+        if (result) {
+          Modal.success({
+            title: '委托成功',
+            okText: '知道了',
+            onOk: () => {
+              router.push('/control/order/my');
+            }
+          });
+        }
       }
     });
   };
@@ -591,7 +595,6 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                       action="/api/web/lcl/upload.do"
                       beforeUpload={this.handleBeforeUpload}
                       accept={`image/*, ${accepts}`}
-                      onChange={this.handleUploadChange}
                     >
                       <p className="ant-upload-drag-icon">
                         <Icon type="cloud-download" />
@@ -631,7 +634,19 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               <Form.Item className={styles.agreement}>
                 {getFieldDecorator('checked', {
                   valuePropName: 'checked',
-                  rules: [{ required: true, message: '请同意委托协议' }],
+                  rules: [
+                    {
+                      required: true,
+                      validator: (_, value, callback) => {
+                        if (value) {
+                          callback();
+                        } else {
+                          callback('请勾选委托协议');
+                        }
+                      }
+
+                    }
+                  ],
                 })(<Checkbox />)}
                 <span className={styles.desc} onClick={() => this.setState({ protocolVisible: true })}>《环球义达委托协议》</span>
               </Form.Item>
@@ -697,7 +712,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
               本协议由在环球义达物流信息平台成功入驻的物流服务商（下称“物流商”）与登录环球义达平台 （http://cccl.ngroo.cn下称“环球义达网站”或“网站”）签署协议、下单并使用海运综合服务（下称“服务”）的用户（下称“用户”）共同订立。</strong><br/>
               2. 本协议所称“承运人”，是指物流商按照本协议约定代理用户选定、并委托其运输货物的第三方，包括但不限于依据提单及其他运输单据承担运输责任的人。<br/>
               3. 本协议所称“物流辅助服务方”，是指物流商按照本协议约定代理用户选定、并委托其提供物流辅助服务的第三方，包括但不限于提供货物仓储、拖车运输、报关服务、快递服务的人。<br/>
-              4. 本协议所称“环球义达”，指http://cccl.ngroo.cn的网站运营方及\或技术支持方，具体以用户签订的相关协议为准。
+              4. 本协议所称“环球义达”，指<a href="http://www.ccc-l.com" target="_blank" rel="noopener noreferrer">http://www.ccc-l.com</a>的网站运营方及\或技术支持方，具体以用户签订的相关协议为准。
             </p>
             <h5>第二条 协议签署及服务前提</h5>
             <p>

@@ -25,7 +25,7 @@ interface IProps extends FormComponentProps {
 class OrderPaymentPage extends PureComponent<IProps, any> {
   state = {
     id: this.props.match.params && this.props.match.params.id,
-    currentType: -1,
+    currentType: 1,
     flag: false,
     loading: false
   }
@@ -68,10 +68,10 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
   };
 
   handleGetQrcode = type => {
-    const { id, currentType } = this.state;
+    const { id, currentType, loading } = this.state;
     const { dispatch } = this.props;
 
-    if (currentType === type) return;
+    if (currentType === type || loading) return;
 
     dispatch({
       type: 'order/saveQrcode',
@@ -91,11 +91,18 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
   }
 
   handlePay = () => {
+    let num = 0;
+
     this.setState({
       loading: true
     });
 
     this.timer = setInterval(() => {
+      num = num + 5;
+      if (num >= 12) {
+        clearInterval(this.timer);
+        return;
+      }
       this.handleGetDetial();
     }, 5000);
   }
@@ -155,12 +162,9 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
                   </li>
                 </ul>
               </Card>
-              {
-                payTypeQrcode &&
-                <div className={styles.payBtn}>
-                  <Button type="primary" size="large" onClick={this.handlePay} loading={loading}>已支付</Button>
-                </div>
-              }
+              <div className={styles.payBtn}>
+                <Button type="primary" size="large" onClick={this.handlePay} loading={loading}>返回</Button>
+              </div>
             </div>
           ) : (
             <Card>

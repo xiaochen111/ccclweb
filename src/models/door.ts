@@ -61,9 +61,9 @@ const model: DoorModelType = {
       const response = yield call(doOrderSubmit, payload);
 
       if (response && response.code === '1') {
-        message.success('委托成功');
-
-        yield put(routerRedux.push('/control/order/my'));
+        // message.success('委托成功');
+        return true;
+        // yield put(routerRedux.push('/control/order/my'));
       }
     },
     *getTotalPrice({ payload }, { call, put }) {

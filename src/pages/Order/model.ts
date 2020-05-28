@@ -86,10 +86,11 @@ const Model: LoginModelType = {
       const response = yield call(queryPaymentOrCode, payload);
 
       if (response && response.code === '1') {
-        yield put({
-          type: 'saveQrcode',
-          payload: response.resMap.qrCodeUrl,
-        });
+        // yield put({
+        //   type: 'saveQrcode',
+        //   payload: response.resMap.qrCodeUrl,
+        // });
+        return response.resMap.qrCodeUrl;
       }
     }
   },

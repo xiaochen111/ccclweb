@@ -28,6 +28,9 @@ export const RemoveAccountInfo = () => RemoveLocalStorage('webAccountInfo');
 
 // 清空所有storage
 export const RemoveAllStorage = () => {
-  RemoveAllLocalStorage();
-  RemoveAllSessionStorage();
+  // RemoveAllLocalStorage();
+  // RemoveAllSessionStorage();
+  RemoveGlobalFlag();
+  RemoveGlobalToken(GetGlobalFlag());
+  RemoveAccountInfo();
 };
