@@ -5,6 +5,7 @@ export const BlobToBase64 = (blob: Blob) => {
 
   return new Promise(resolve => {
     const reader = new FileReader();
+
     reader.readAsDataURL(blob);
     reader.onload = () => {
       resolve(reader.result);
@@ -44,6 +45,14 @@ export const IsUrl = (path: string): boolean => {
 export const GetPageQuery = (): any => {
   return parse(window.location.href.split('?')[1]);
 };
+
+// /userinfo/2144/id => ['/userinfo','/useinfo/2144,'/userindo/2144/id']
+export const urlToList = (url: string) => {
+  const urllist = url.split('/').filter(i => i);
+
+  return urllist.map((urlItem, index) => `/${urllist.slice(0, index + 1).join('/')}`);
+};
+
 
 export const spliceDownloadUrl = (url: any, params: object) => {
   return `${url}${

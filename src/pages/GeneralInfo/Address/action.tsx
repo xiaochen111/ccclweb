@@ -5,8 +5,7 @@ import { Dispatch, AnyAction } from 'redux';
 import { StateType } from '@/models/address';
 import { connect } from 'dva';
 import styles from './index.scss';
-import { Link } from 'umi';
-import router from 'umi/router';
+import { Link, router } from 'umi';
 import { GetPageQuery } from '@/utils/utils';
 
 const { TextArea } = Input;
@@ -73,7 +72,6 @@ export class action extends Component<Iprps, any> {
 
     form.validateFields(async (err, values) => {
       if (err) return;
-      console.log(values);
       values.contactDefault = Number(values.contactDefault);
       values.lclContactId = id;
 
@@ -86,13 +84,13 @@ export class action extends Component<Iprps, any> {
       });
 
       if (res) {
-        router.push('/control/general/adress');
+        router.push('/control/general/address');
       }
     });
   };
 
   goback = () => {
-    window.history.go(-1);
+    router.goBack();
   };
 
 
@@ -111,8 +109,8 @@ export class action extends Component<Iprps, any> {
               initialValue: portEndAddress,
               rules: [
                 {
-                  max: 250,
-                  message: '文字不能超过250字',
+                  max: 200,
+                  message: '文字不能超过200字',
                 },
                 {
                   required: true,
@@ -145,7 +143,7 @@ export class action extends Component<Iprps, any> {
 
     return (
       <div className={styles.address}>
-        <PageHeader title={<><Link to="/control/general/adress" style={{ color: '#333' }}>目的地送货地址</Link>/{flag === '1' ? '新增' : '修改'}</>}
+        <PageHeader title={<><Link to="/control/general/address" style={{ color: '#333' }}>目的地送货地址</Link>/{flag === '1' ? '新增' : '修改'}</>}
           footer={this.topFormRender()}/>
       </div>
     );

@@ -34,7 +34,7 @@ export default class GlobalControlHeader extends PureComponent<GlobalControlHead
     const { key } = type;
 
     if (key === 'mdify'){
-      router.push('/control/system/modify');
+      router.push('/control/system/security-setting/modify');
     }
     if (key === 'logout'){
       RemoveLocalStorage('auth_website');

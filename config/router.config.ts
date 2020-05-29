@@ -16,13 +16,13 @@ export default [
           },
           {
             path: '/control/mdoor',
-            icon: 'area-chart',
+            icon: 'build',
             name: '门到门专区',
             component: './Door/PricePlan',
             type: 'backend',
           },
           {
-            path: '/control/mdoor-order/:id',
+            path: '/control/mdoor/order/:id',
             hideInMenu: true,
             component: './Door/PlaceOrder',
             type: 'backend',
@@ -53,16 +53,16 @@ export default [
           },
           {
             path: '/control/general',
-            icon: 'area-chart',
+            icon: 'team',
             name: '常用信息',
             routes: [
               {
-                path: '/control/general/adress',
+                path: '/control/general/address',
                 name: '目的地送货地址',
                 component: './GeneralInfo/Address/index',
               },
               {
-                path: '/control/general/action:id?',
+                path: '/control/general/address/action:id?',
                 hideInMenu: true,
                 name: '目的地送货地址',
                 component: './GeneralInfo/Address/action',
@@ -85,8 +85,8 @@ export default [
                 component: './System/SecuritySetting',
               },
               {
-                path: '/control/system/modify',
-                name: '安全设置',
+                path: '/control/system/security-setting/modify',
+                name: '修改密码',
                 hideInMenu: true,
                 component: './System/SecuritySetting/modify',
               },

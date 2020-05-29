@@ -60,7 +60,7 @@ export class index extends Component<IProps, IState> {
 
     if (type === 'add') {
       router.push({
-        pathname: '/control/general/action',
+        pathname: '/control/general/address/action',
         search: stringify({ flag: '1' }),
       });
     }
@@ -74,7 +74,7 @@ export class index extends Component<IProps, IState> {
         return;
       }
       router.push({
-        pathname: `/control/general/action${selectedRows[0].lclContactId}`,
+        pathname: `/control/general/address/action${selectedRows[0].lclContactId}`,
         search: stringify({
           portEndAddress: selectedRows[0].portEndAddress,
           contactDefault: selectedRows[0].contactDefault,
