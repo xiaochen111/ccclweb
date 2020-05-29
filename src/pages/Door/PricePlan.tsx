@@ -195,6 +195,7 @@ export class PricePlan extends Component<IProps, IState> {
 
   handleTableSizeChange = (current, pageSize) => {
     this.setState({
+      pageNo: 1,
       pageSize: pageSize,
     }, this.handleGetLclList);
   };

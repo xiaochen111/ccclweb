@@ -274,12 +274,13 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     const {
       dispatch,
       lclOrderInfo,
+      lclTotalPrice,
       form: { validateFields },
     } = this.props;
 
     validateFields(async(err, values) => {
       if (!err) {
-        const { startTruck, endTruck, totalPrice, currency } = lclOrderInfo;
+        const { startTruck, endTruck, currency } = lclOrderInfo;
         const {
           file,
           deliveryDate,
@@ -288,7 +289,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         let params: ParamsState = {
           startTruck,
           endTruck,
-          totalPrice,
+          totalPrice: lclTotalPrice,
           totalPriceCurrency: currency,
           contactCompanyName: values.contactCompanyName,
           contactTel: values.contactTel,
@@ -392,6 +393,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       >
         <div className={styles.container} onScroll={this.handlePageScroll}>
           <div className={styles.mainContent}>
+            <h2>重要信息区（建议填写）</h2>
             <Card title="航运信息" bordered={false} style={{ height: 358 }}>
               <div className={styles.shippingInformation}>
                 <div className={styles.routes}>
@@ -561,7 +563,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                           placeholder="请输入货物总体积"
                           min={1}
                           max={999999}
-                          precision={0}
+                          precision={2}
                           style={{ width: '100%' }}
                           onChange={(value) => this.handleGetTotalPrice('cbm', value)}
                         />)}
@@ -576,7 +578,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                           placeholder="请输入货物总量"
                           min={1}
                           max={999999}
-                          precision={0}
+                          precision={1}
                           style={{ width: '100%' }}
                           onChange={(value) => this.handleGetTotalPrice('kgs', value)}
                         />)}
@@ -709,10 +711,10 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             <h5>第一条 签约主体及定义</h5>
             <p>
               1. <strong>
-              本协议由在环球义达物流信息平台成功入驻的物流服务商（下称“物流商”）与登录环球义达平台 （http://cccl.ngroo.cn下称“环球义达网站”或“网站”）签署协议、下单并使用海运综合服务（下称“服务”）的用户（下称“用户”）共同订立。</strong><br/>
+              本协议由在环球义达物流信息平台成功入驻的物流服务商（下称“物流商”）与登录环球义达平台 （<a href="http://www.ccc-l.com" target="_blank" rel="noopener noreferrer">http://www.ccc-l.com</a>下称“环球义达网站”或“网站”）签署协议、下单并使用海运综合服务（下称“服务”）的用户（下称“用户”）共同订立。</strong><br/>
               2. 本协议所称“承运人”，是指物流商按照本协议约定代理用户选定、并委托其运输货物的第三方，包括但不限于依据提单及其他运输单据承担运输责任的人。<br/>
               3. 本协议所称“物流辅助服务方”，是指物流商按照本协议约定代理用户选定、并委托其提供物流辅助服务的第三方，包括但不限于提供货物仓储、拖车运输、报关服务、快递服务的人。<br/>
-              4. 本协议所称“环球义达”，指<a href="http://www.ccc-l.com" target="_blank" rel="noopener noreferrer">http://www.ccc-l.com</a>的网站运营方及\或技术支持方，具体以用户签订的相关协议为准。
+              4. 本协议所称“环球义达”，指 <a href="http://www.ccc-l.com" target="_blank" rel="noopener noreferrer">http://www.ccc-l.com</a> 的网站运营方及\或技术支持方，具体以用户签订的相关协议为准。
             </p>
             <h5>第二条 协议签署及服务前提</h5>
             <p>
