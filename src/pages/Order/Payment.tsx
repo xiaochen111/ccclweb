@@ -117,6 +117,10 @@ class OrderPaymentPage extends PureComponent<IProps, any> {
   }
 
   handleTypeChange = type => {
+    const { currentType } = this.state;
+
+    if (currentType === type) return;
+
     this.setState({
       currentType: type
     }, () => {
