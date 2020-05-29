@@ -235,44 +235,49 @@ class HomePage extends Component<IProps, any> {
   lineDraw = () => {
     const pathArr = document.querySelectorAll('path');
 
-    for (let i = 0; i < pathArr.length; i = i + 2) {
-      const path = pathArr[i];
-      const len = path.getTotalLength();
+    for (let i = 0; i < pathArr.length; i++) {
+      if (pathArr[i].getAttribute('class')){
+        const path = pathArr[i];
+        const len = path.getTotalLength();
 
-      path.style.strokeDasharray = (len + 10) + '';
-      path.style.strokeDashoffset = (len + 10) + '';
+        path.style.strokeDasharray = (len + 10) + '';
+        path.style.strokeDashoffset = (len + 10) + '';
+      }
     }
   }
 
 
   svgRender = () => {
     return (
-      <svg width="1200" height="600">
-        {/* <!-- 北美 --> */}
-        <path d="M920,200 Q770,-90, 200,200" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
-        <path d="M920,200 Q770,-90, 200,200"  fill="none" className={styles.drawLine}></path>
-        {/* <!-- 西欧 --> */}
-        <path d="M920,200 Q790,22, 550,160" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
-        <path d="M920,200 Q790,22, 550,160" fill="none" className={styles.drawLine}></path>
-        {/* <!-- 西非 --> */}
-        <path d="M920,200 Q750,40, 510,240" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
-        <path d="M920,200 Q750,40, 510,240" fill="none" className={styles.drawLine}></path>
-        {/* <!-- 东非 --> */}
-        <path d="M920,200 Q700,80, 620,320" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
-        <path d="M920,200 Q700,80, 620,320" fill="none" className={styles.drawLine}></path>
-        {/* <!-- 阿联酋 --> */}
-        <path d="M920,200 Q800,150, 710,240" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
-        <path d="M920,200 Q800,150, 710,240" fill="none" className={styles.drawLine}></path>
-        {/* <!-- 印巴 --> */}
-        <path d="M920,200 Q850,180, 770,220" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
-        <path d="M920,200 Q850,180, 770,220" fill="none" className={styles.drawLine}></path>
-        {/* <!-- 俄罗斯 --> */}
-        <path d="M920,200 Q950,150, 900,110" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
-        <path d="M920,200 Q950,150, 900,110" fill="none" className={styles.drawLine}></path>
-        {/* <!-- 东南亚 --> */}
-        <path d="M920,200 Q940,250, 910,310" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
-        <path d="M920,200 Q940,250, 910,310" fill="none" className={styles.drawLine}></path>
-      </svg>
+      <div className={styles.bannerMain}>
+        <span className={`${styles.startPoint} ${styles.pointer}`}></span>
+        <svg width="1200" height="600">
+          {/* <!-- 北美 --> */}
+          <path d="M930,217 Q770,-90, 200,200" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+          <path d="M930,217 Q770,-90, 200,200"  fill="none" className={styles.drawLine}></path>
+          {/* <!-- 西欧 --> */}
+          <path d="M930,217 Q790,22, 550,160" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+          <path d="M930,217 Q790,22, 550,160" fill="none" className={styles.drawLine}></path>
+          {/* <!-- 西非 --> */}
+          <path d="M930,217 Q750,40, 510,240" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+          <path d="M930,217 Q750,40, 510,240" fill="none" className={styles.drawLine}></path>
+          {/* <!-- 东非 --> */}
+          <path d="M930,217 Q700,80, 620,320" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+          <path d="M930,217 Q700,80, 620,320" fill="none" className={styles.drawLine}></path>
+          {/* <!-- 阿联酋 --> */}
+          <path d="M930,217 Q800,150, 710,240" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+          <path d="M930,217 Q800,150, 710,240" fill="none" className={styles.drawLine}></path>
+          {/* <!-- 印巴 --> */}
+          <path d="M930,217 Q850,180, 770,220" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+          <path d="M930,217 Q850,180, 770,220" fill="none" className={styles.drawLine}></path>
+          {/* <!-- 俄罗斯 --> */}
+          <path d="M930,217 Q950,150, 900,110" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+          <path d="M930,217 Q950,150, 900,110" fill="none" className={styles.drawLine}></path>
+          {/* <!-- 东南亚 --> */}
+          <path d="M930,217 Q940,250, 910,310" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+          <path d="M930,217 Q940,250, 910,310" fill="none" className={styles.drawLine}></path>
+        </svg>
+      </div>
     );
   }
 
@@ -298,9 +303,7 @@ class HomePage extends Component<IProps, any> {
             ))}
           </Carousel> */}
           <div className={styles.bannerInner}>
-            <div className={styles.bannerMain}>
-              {this.svgRender()}
-            </div>
+            {this.svgRender()}
           </div>
           {this.searchPanel()}
         </div>
