@@ -29,7 +29,7 @@ export default [
           },
           {
             path: '/control/order',
-            icon: 'area-chart',
+            icon: 'file-text',
             name: '订单中心',
             routes: [
               {

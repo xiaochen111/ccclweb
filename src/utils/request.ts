@@ -6,6 +6,7 @@ import request, { extend } from 'umi-request';
 import router from 'umi/router';
 import { notification, message } from 'antd';
 import { IsEmptyObject, ObjectToUrl } from './utils';
+import { stringify } from 'qs';
 // import { GetGlobalToken, RemoveAllStorage } from './cache';
 import { GetGlobalFlag, GetGlobalToken, RemoveAllStorage } from '@/utils/cache';
 
@@ -42,7 +43,12 @@ const errorHandler = (error: { response: Response }): Response => {
       message.info('请重新登录');
       RemoveAllStorage();
 
-      router.push('/login');
+      router.replace({
+        pathname: '/login',
+        search: stringify({
+          backUrl: window.location.hash.split('#')[1]
+        })
+      });
     } else {
       notification.error({
         message: `请求错误 ${status}: ${url}`,

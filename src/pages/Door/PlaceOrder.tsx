@@ -591,8 +591,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                 <div className={styles.priceInfo}>
                   <span className={styles.label}>单价</span>
                   <div className={styles.value}>
-                    <div>立方<strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.cbm}</strong></div>
-                    <div>公斤<strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.kgs}</strong></div>
+                    <div>立方<strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.tossPriceStandrd}</strong></div>
+                    <div>公斤<strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.heavyPriceStandrd}</strong></div>
                   </div>
                 </div>
               </div>
