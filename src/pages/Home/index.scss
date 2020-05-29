@@ -3,6 +3,12 @@
 .conatiner {
   width: 100%;
   background-color: #fff;
+  :global{
+    path{
+      stroke-linejoin:round;
+      stroke-linecap:round;
+    }
+  }
 }
 
 .banner {
@@ -328,3 +334,15 @@
   }
 }
 
+.drawLine{
+  stroke-width:3;
+  stroke:#ff7700;
+  animation: dash 5s linear infinite;
+}
+
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}

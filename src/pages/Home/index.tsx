@@ -67,27 +67,12 @@ const newsImg = require('../../assets/img/news.png');
 }))
 class HomePage extends Component<IProps, any> {
 
-
-
   componentDidMount() {
     const { dispatch } = this.props;
+    const actionList = ['global/getCountryDropList', 'home/getBargainPrice', 'news/getWebNewsListPage', 'news/getQueryLimit'];
 
-    dispatch({
-      type: 'global/getCountryDropList',
-    });
-
-    dispatch({
-      type: 'home/getBargainPrice',
-    });
-
-    dispatch({
-      type: 'news/getWebNewsListPage',
-      payload: {}
-    });
-
-    dispatch({
-      type: 'news/getQueryLimit'
-    });
+    this.lineDraw();
+    actionList.forEach(type => dispatch({ type }));
   }
 
   handleSubmit = params => {
@@ -105,7 +90,6 @@ class HomePage extends Component<IProps, any> {
       payload: { text: value }
     });
   }
-
 
   searchPanel = () => {
     const { countryDropList } = this.props;
@@ -248,12 +232,57 @@ class HomePage extends Component<IProps, any> {
     );
   };
 
+  lineDraw = () => {
+    const pathArr = document.querySelectorAll('path');
+
+    for (let i = 0; i < pathArr.length; i = i + 2) {
+      const path = pathArr[i];
+      const len = path.getTotalLength();
+
+      path.style.strokeDasharray = (len + 10) + '';
+      path.style.strokeDashoffset = (len + 10) + '';
+    }
+  }
+
+
+  svgRender = () => {
+    return (
+      <svg width="1200" height="600">
+        {/* <!-- 北美 --> */}
+        <path d="M920,200 Q770,-90, 200,200" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+        <path d="M920,200 Q770,-90, 200,200"  fill="none" className={styles.drawLine}></path>
+        {/* <!-- 西欧 --> */}
+        <path d="M920,200 Q790,22, 550,160" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+        <path d="M920,200 Q790,22, 550,160" fill="none" className={styles.drawLine}></path>
+        {/* <!-- 西非 --> */}
+        <path d="M920,200 Q750,40, 510,240" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+        <path d="M920,200 Q750,40, 510,240" fill="none" className={styles.drawLine}></path>
+        {/* <!-- 东非 --> */}
+        <path d="M920,200 Q700,80, 620,320" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+        <path d="M920,200 Q700,80, 620,320" fill="none" className={styles.drawLine}></path>
+        {/* <!-- 阿联酋 --> */}
+        <path d="M920,200 Q800,150, 710,240" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+        <path d="M920,200 Q800,150, 710,240" fill="none" className={styles.drawLine}></path>
+        {/* <!-- 印巴 --> */}
+        <path d="M920,200 Q850,180, 770,220" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+        <path d="M920,200 Q850,180, 770,220" fill="none" className={styles.drawLine}></path>
+        {/* <!-- 俄罗斯 --> */}
+        <path d="M920,200 Q950,150, 900,110" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+        <path d="M920,200 Q950,150, 900,110" fill="none" className={styles.drawLine}></path>
+        {/* <!-- 东南亚 --> */}
+        <path d="M920,200 Q940,250, 910,310" stroke="#0060e2" strokeWidth="3px" fill="none"></path>
+        <path d="M920,200 Q940,250, 910,310" fill="none" className={styles.drawLine}></path>
+      </svg>
+    );
+  }
+
+
   render() {
     const {
       homeModelState: { priceList },
     } = this.props;
-    const bannerList = [1, 2, 3, 4];
-    const bannerListPic = bannerList.map(item => require(`../../assets/img/banner${item}.jpg`));
+    // const bannerList = [1, 2, 3, 4];
+    // const bannerListPic = bannerList.map(item => require(`../../assets/img/banner${item}.jpg`));
 
     return (
       <main className={styles.conatiner}>
@@ -269,32 +298,9 @@ class HomePage extends Component<IProps, any> {
             ))}
           </Carousel> */}
           <div className={styles.bannerInner}>
-
             <div className={styles.bannerMain}>
-              <svg width="1200" height="600">
-                {/* <!-- 北美 --> */}
-                <path d="M920,200 Q770,-90, 200,200" stroke="#0060e2" stroke-width="3px" fill="none" className="path1"></path>
-                {/* <!-- 西欧 --> */}
-                <path d="M920,200 Q790,22, 550,160" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
-                {/* <!-- 西非 --> */}
-                <path d="M920,200 Q750,40, 510,240" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
-                {/* <!-- 东非 --> */}
-                <path d="M920,200 Q700,80, 620,320" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
-                {/* <!-- 阿联酋 --> */}
-                <path d="M920,200 Q800,150, 710,240" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
-                {/* <!-- 印巴 --> */}
-                <path d="M920,200 Q800,150, 810,240" stroke="#0060e2" stroke-width="3px" fill="none" className="path2"></path>
-                {/* <!-- 中东 --> */}
-                <path d="M920,200 Q780,300, 760,420" stroke="#0060e2" stroke-width="1px" fill="none" className="path3"></path>
-                {/* <!-- 地中海 --> */}
-                <path d="M920,200 Q780,250, 720,350" stroke="#0060e2" stroke-width="1px" fill="none" className="path3"></path>
-                {/* <!-- 东南亚 --> */}
-                <path d="M920,200 Q980,450, 990,470" stroke="#0060e2" stroke-width="1px" fill="none" className="path3"></path>
-                {/* <!-- 非洲 --> */}
-                <path d="M920,200 Q920,750, 700,550" stroke="#0060e2" stroke-width="1px" fill="none" className="path3"></path>
-              </svg>
+              {this.svgRender()}
             </div>
-
           </div>
           {this.searchPanel()}
         </div>

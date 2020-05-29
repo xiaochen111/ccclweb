@@ -77,6 +77,7 @@ export class News extends Component<Iprops, Istate> {
   handleTableSizeChange = (current, pageSize) => {
     this.setState({
       pageSize: pageSize,
+      pageNo: 1,
     }, this.handleSearchList);
   };
 
