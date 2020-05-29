@@ -1,6 +1,6 @@
 import { Effect } from 'dva';
 import { Reducer } from 'redux';
-import { queryOrderList, queryOrderDetail, queryOrderFeeDetail, sendCancelOrder, queryAllPaymentOrCode, sendOrderFeeConfirm } from '@/services/order';
+import { queryOrderList, queryOrderDetail, queryOrderFeeDetail, sendCancelOrder, queryPaymentOrCode, queryAllPaymentOrCode, sendOrderFeeConfirm } from '@/services/order';
 import { ORDER_TATUS_DESC, ORDER_TATUS_COLOR, ORDER_FEE_STATUS_DESC, ORDER__FEE_STATUS_COLOR } from '@/utils/const';
 
 export interface StateType {
@@ -82,17 +82,16 @@ const Model: LoginModelType = {
         return true;
       }
     },
-    *getQrcode({ payload }, { call, put }) {
-      const response = yield call(queryAllPaymentOrCode, payload);
+    *getQrcode({ payload, failCallback }, { call, put }) {
+      const response = yield call(queryPaymentOrCode, payload);
 
       if (response && response.code === '1') {
-        // yield put({
-        //   type: 'saveQrcode',
-        //   payload: response.resMap.qrCodeUrl,
-        // });
-        return response.resMap.qrCodeUrl;
+        yield put({
+          type: 'saveQrcode',
+          payload: response.resMap.qrCodeUrl,
+        });
       } else {
-        return false;
+        failCallback && failCallback();
       }
     }
   },

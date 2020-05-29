@@ -18,6 +18,10 @@
 .mainContent {
   width: calc(100% - 518px);
   margin-right: 40px;
+  h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
 }
 
 .shippingInformation {
