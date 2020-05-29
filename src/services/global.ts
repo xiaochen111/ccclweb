@@ -7,7 +7,7 @@ import request from '@/utils/request';
  * @returns
  */
 export async function queryUserBaseInfomation() {
-  return request('/api/web/webuser/webuser_info.do', {
+  return request('/web/webuser/webuser_info.do', {
     method: 'POST',
   });
 }
@@ -19,7 +19,7 @@ export async function queryUserBaseInfomation() {
  * @returns
  */
 export async function sendUuidLogin(data = {}) {
-  return request('/api/web/webuser/auto_login.do', {
+  return request('/web/webuser/auto_login.do', {
     method: 'POST',
     data,
   });
@@ -30,7 +30,7 @@ export async function sendUuidLogin(data = {}) {
  * @param data
  */
 export async function queryCountryDropList(data = {}) {
-  return request('/api/web/lcl/country_drop.do', {
+  return request('/web/lcl/country_drop.do', {
     method: 'POST',
     data,
   });
@@ -41,7 +41,7 @@ export async function queryCountryDropList(data = {}) {
  * @param data
  */
 export async function queryGlobalPackageTypeList(data = {}) {
-  return request('/api/web/lcl/packageType.do', {
+  return request('/web/lcl/packageType.do', {
     method: 'POST',
     data,
   });
@@ -52,7 +52,7 @@ export async function queryGlobalPackageTypeList(data = {}) {
  * @param data
  */
 export async function bargainPrice(data = {}) {
-  return request('/api/web/lcl/special_list.do', {
+  return request('/web/lcl/special_list.do', {
     method: 'POST',
     data,
   });

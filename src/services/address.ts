@@ -8,7 +8,7 @@ import request from '@/utils/request';
  * @returns
  */
 export async function contactAddress(params = {}) {
-  return request('/api/web/lcl/contact/contactAddressByPage.do', {
+  return request('/web/lcl/contact/contactAddressByPage.do', {
     method: 'POST',
     data: params,
   });
@@ -22,7 +22,7 @@ export async function contactAddress(params = {}) {
  * @returns
  */
 export async function queryDefaultAddress(params) {
-  return request('/api/web/lcl/contact/defaultContact.do', {
+  return request('/web/lcl/contact/defaultContact.do', {
     method: 'POST',
     data: params
   });
@@ -36,7 +36,7 @@ export async function queryDefaultAddress(params) {
  * @returns
  */
 export async function saveContactAddress(params = {}) {
-  return request('/api/web/lcl/contact/saveContactAddress.do', {
+  return request('/web/lcl/contact/saveContactAddress.do', {
     method: 'POST',
     data: params,
   });
@@ -48,7 +48,7 @@ export async function saveContactAddress(params = {}) {
  */
 
 export async function updateContactAddress(params = {}) {
-  return request('/api/web/lcl/contact/updateContactAddress.do', {
+  return request('/web/lcl/contact/updateContactAddress.do', {
     method: 'POST',
     data: params,
   });
@@ -60,7 +60,7 @@ export async function updateContactAddress(params = {}) {
  */
 
 export async function setContactDefaultAddress(params = {}) {
-  return request('/api/web/lcl/contact/setContactDefaultAddress.do', {
+  return request('/web/lcl/contact/setContactDefaultAddress.do', {
     method: 'POST',
     data: params,
   });
@@ -71,7 +71,7 @@ export async function setContactDefaultAddress(params = {}) {
  * @param params
  */
 export async function cancelContactDefaultAddress(params = {}) {
-  return request('/api/web/lcl/contact/cancelContactDefaultAddress.do', {
+  return request('/web/lcl/contact/cancelContactDefaultAddress.do', {
     method: 'POST',
     data: params,
   });

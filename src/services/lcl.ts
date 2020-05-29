@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param data
  */
 export async function queryLclList(data = {}) {
-  return request('/api/web/lcl/list.do', {
+  return request('/web/lcl/list.do', {
     method: 'POST',
     data,
   });
@@ -19,7 +19,7 @@ export async function queryLclList(data = {}) {
  * @returns
  */
 export async function queryLclDetail(data) {
-  return request('/api/web/lcl/orderInfo.do', {
+  return request('/web/lcl/orderInfo.do', {
     method: 'POST',
     data,
   });
@@ -33,7 +33,7 @@ export async function queryLclDetail(data) {
  * @returns
  */
 export async function doOrderSubmit(data) {
-  return request('/api/web/lcl/order/orderSubmit.do', {
+  return request('/web/lcl/order/orderSubmit.do', {
     method: 'POST',
     data,
   });
@@ -48,7 +48,7 @@ export async function doOrderSubmit(data) {
  * @returns
  */
 export async function queryLclTotalPrice(data) {
-  return request('/api/web/lcl/getTotalPrice.do', {
+  return request('/web/lcl/getTotalPrice.do', {
     method: 'POST',
     data,
   });

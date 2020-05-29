@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param data
  */
 export async function queryOrderList(data = {}) {
-  return request('/api/web/lcl/order/list.do', {
+  return request('/web/lcl/order/list.do', {
     method: 'POST',
     data,
   });
@@ -16,7 +16,7 @@ export async function queryOrderList(data = {}) {
  * @param data
  */
 export async function queryOrderDetail(data = {}) {
-  return request('/api/web/lcl/order/orderDetail.do', {
+  return request('/web/lcl/order/orderDetail.do', {
     method: 'POST',
     data,
   });
@@ -30,7 +30,7 @@ export async function queryOrderDetail(data = {}) {
  * @returns
  */
 export async function queryOrderFeeDetail(data) {
-  return request('/api/web/lcl/order/orderPayfeeList.do', {
+  return request('/web/lcl/order/orderPayfeeList.do', {
     method: 'POST',
     data,
   });
@@ -44,7 +44,7 @@ export async function queryOrderFeeDetail(data) {
  * @returns
  */
 export async function sendCancelOrder(data) {
-  return request('/api/web/lcl/order/cancelOrder.do', {
+  return request('/web/lcl/order/cancelOrder.do', {
     method: 'POST',
     data,
   });
@@ -58,7 +58,7 @@ export async function sendCancelOrder(data) {
  * @returns
  */
 export async function sendOrderFeeConfirm(data) {
-  return request('/api/web/lcl/order/confirmOrderFee.do', {
+  return request('/web/lcl/order/confirmOrderFee.do', {
     method: 'POST',
     data,
   });
@@ -72,7 +72,7 @@ export async function sendOrderFeeConfirm(data) {
  * @returns
  */
 export async function queryPaymentOrCode(data) {
-  return request('/api/web/lcl/order/getPaymentQRCode.do', {
+  return request('/web/lcl/order/getPaymentQRCode.do', {
     method: 'POST',
     data,
   });
@@ -86,7 +86,7 @@ export async function queryPaymentOrCode(data) {
  * @returns
  */
 export async function queryAllPaymentOrCode(data) {
-  return request('/api/web/lcl/order/getPaymentQRCodeAll.do', {
+  return request('/web/lcl/order/getPaymentQRCodeAll.do', {
     method: 'POST',
     data,
   });

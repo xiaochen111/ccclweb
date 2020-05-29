@@ -5,7 +5,7 @@ import request from '@/utils/request';
  * @param params
  */
 export async function updateWebUserInfo(params) {
-  return request('/api/web/webuser/update_web_user_info.do', {
+  return request('/web/webuser/update_web_user_info.do', {
     method: 'POST',
     data: params,
   });
@@ -15,7 +15,7 @@ export async function updateWebUserInfo(params) {
  * @param params
  */
 export async function updateUserPwd(params) {
-  return request('/api/web/webuser/update_user_pwd.do', {
+  return request('/web/webuser/update_user_pwd.do', {
     method: 'POST',
     data: params,
   });

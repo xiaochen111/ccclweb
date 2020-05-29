@@ -63,7 +63,7 @@ const Protocols = (modalVisible, setModalVisible) => {
     <p className={styles.pTitle}>欢迎您进行注册成为环球义达会员，请您在注册时阅读以下交易条款：</p>
     <p className={styles.pTitle}>一、关于会员资格</p>
     <p className={styles.pTxt}>1、凡承认本网站会员注册条款的自然人均可成为环球义达会员。</p>
-    <p className={styles.pTxt}>2、会员须提供详尽、准确的个人资料，且经常更新注册资料以符</p>
+    <p className={styles.pTxt}>2、会员须提供详尽、准确的个人资料，且经常更新注册资料以符。</p>
     <p className={styles.pTitle}>二、本网站会员注册条款的接受</p>
     <p className={styles.pTxt}>1、本网站运作权和解释权归www.ccc-l.com所有。</p>
     <p className={styles.pTxt}>2、用户要想成为本网站会员，享受本网站的服务，必须完全接受和严格遵守会员注册条款。如果用户注册成功，即表示用户同意接受本注册条款，成为本网站会员，享受本网站规定的服务。</p>
@@ -113,18 +113,8 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
   prvTabValue:any = {};
 
   componentDidMount() {
-    this.init();
     this.stopCountdown();
   }
-
-  init = () => {
-    const { dispatch } = this.props;
-
-    dispatch({
-      type: 'login/getCaptchImage',
-    });
-  };
-
 
 
   handleChangeTab = (tab: any) => {

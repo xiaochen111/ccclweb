@@ -7,7 +7,7 @@ import request from '@/utils/request';
  * @returns
  */
 export async function webNewsListPage(data = {}) {
-  return request('/api/web/webnews/webNewsListPage.do', {
+  return request('/web/webnews/webNewsListPage.do', {
     method: 'POST',
     data
   });
@@ -19,7 +19,7 @@ export async function webNewsListPage(data = {}) {
  * @returns
  */
 export async function webQueryNewsById(data = {}) {
-  return request('/api/web/webnews/webQueryNewsById.do', {
+  return request('/web/webnews/webQueryNewsById.do', {
     method: 'POST',
     data
   });
@@ -31,7 +31,7 @@ export async function webQueryNewsById(data = {}) {
  * @returns
  */
 export async function queryLimit(data = {}) {
-  return request('/api/web/webnews/queryLimit.do', {
+  return request('/web/webnews/queryLimit.do', {
     method: 'POST',
     data
   });

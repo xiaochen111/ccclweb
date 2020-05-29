@@ -47,11 +47,11 @@ const config: IConfig = {
     ie: 10,
   },
   proxy: {
-    '/api': {
+    '/yapi': {
       // target: 'http://192.168.3.29:8081/website',
       // target: 'http://192.168.20.114:8080',
-      // target: 'http://192.168.50.239:8090/website',
-      target: 'http://116.62.53.234:8081/',
+      target: 'http://192.168.50.239:8090/website',
+      // target: 'http://116.62.53.234:8081/',
       changeOrigin: true,
     },
   },

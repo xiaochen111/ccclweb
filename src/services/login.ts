@@ -8,7 +8,7 @@ import request from '@/utils/request';
  * @returns
  */
 export async function queryCaptchImage() {
-  return request('/api/web/veriy_code/get_img.do', {
+  return request('/web/veriy_code/get_img.do', {
     method: 'POST',
   });
 }
@@ -18,7 +18,7 @@ export async function queryCaptchImage() {
  * @param params
  */
 export async function doLogin(params) {
-  return request('/api/web/webuser/login.do', {
+  return request('/web/webuser/login.do', {
     method: 'POST',
     data: params,
   });
@@ -29,7 +29,7 @@ export async function doLogin(params) {
  * @param params
  */
 export async function sendRegistPhoneMsg(params) {
-  return request('/api/web/veriy_code/send_regist_msg.do', {
+  return request('/web/veriy_code/send_regist_msg.do', {
     method: 'POST',
     data: params,
   });
@@ -40,7 +40,7 @@ export async function sendRegistPhoneMsg(params) {
  * @param params
  */
 export async function sendRegistEmailMsg(params) {
-  return request('/api/web/veriy_code/send_regist_email.do', {
+  return request('/web/veriy_code/send_regist_email.do', {
     method: 'POST',
     data: params,
   });
@@ -51,7 +51,7 @@ export async function sendRegistEmailMsg(params) {
  * @param params
  */
 export async function doRegister(params) {
-  return request('/api/web/webuser/register.do', {
+  return request('/web/webuser/register.do', {
     method: 'POST',
     data: params,
   });
@@ -62,7 +62,7 @@ export async function doRegister(params) {
  * @param params
  */
 export async function doResetPassword(params) {
-  return request('/api/web/webuser/reset_password.do', {
+  return request('/web/webuser/reset_password.do', {
     method: 'POST',
     data: params,
   });
@@ -73,7 +73,7 @@ export async function doResetPassword(params) {
  * @param params
  */
 export async function doPhoneSendRepasswordMsg(params) {
-  return request('/api/web/veriy_code/send_repassword_msg.do', {
+  return request('/web/veriy_code/send_repassword_msg.do', {
     method: 'POST',
     data: params,
   });
@@ -85,7 +85,7 @@ export async function doPhoneSendRepasswordMsg(params) {
  * @param params
  */
 export async function doSendRepasswordEmail(params) {
-  return request('/api/web/veriy_code/send_repassword_email.do', {
+  return request('/web/veriy_code/send_repassword_email.do', {
     method: 'POST',
     data: params,
   });
