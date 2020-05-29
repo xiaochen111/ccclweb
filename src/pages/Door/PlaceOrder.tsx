@@ -534,7 +534,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                   getValueFromEvent: this.normFile,
                 })(
                   <Upload.Dragger
-                    action="/web/lcl/upload.do"
+                    action="/yapi/web/lcl/upload.do"
                     beforeUpload={this.handleBeforeUpload}
                     accept={`image/*, ${accepts}`}
                   >

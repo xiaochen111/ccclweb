@@ -119,7 +119,8 @@ class orderDetailPage extends PureComponent<IProps, IState> {
                   orderDetail.fileList.map(item => (
                     <li key={item.sysFileId}>
                       <Icon type="link" style={{ marginRight: 5 }}/>
-                      <a href={item.fileUrl} download target="_blank" rel="noopener noreferrer">{item.nameUrl}</a>
+                      <a href={item.fileUrl} target="_blank" rel="noopener noreferrer">{item.nameUrl}</a>
+                      {/* <a href={item.fileUrl} rel="external nofollow" download>{item.nameUrl}</a> */}
                       {/* <span style={{ color: '#2556F2' }}>{item.nameUrl}</span> */}
                     </li>
                   ))

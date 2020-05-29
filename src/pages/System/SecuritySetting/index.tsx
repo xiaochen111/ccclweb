@@ -18,7 +18,7 @@ class SecuritySettingPage extends PureComponent {
           <p className={styles.title}>登录密码管理</p>
           <div className={styles.contxt}>
             <img src={imgIcon} alt="" />
-            <p>安全性高的密码可以使账户号更安全.建议您定期更换密码,且设置一个包含数字和字母，且长度超过6位以上的密码</p>
+            <p>请设置包含数字或字母且长度在8-16位的密码。</p>
             <Button type="primary" onClick={this.goModify}>
               修改密码
             </Button>
