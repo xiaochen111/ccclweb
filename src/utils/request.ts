@@ -134,6 +134,7 @@ request.interceptors.response.use(async response => {
  */
 export default extend({
   errorHandler, // 默认错误处理
+  prefix: '/yapi',
   credentials: 'include', // 默认请求是否带上cookie
   paramsSerializer: function(params) {
     return IsEmptyObject(params) ? '' : ObjectToUrl({ params: JSON.stringify(params) });
