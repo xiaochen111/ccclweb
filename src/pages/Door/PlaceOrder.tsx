@@ -21,6 +21,7 @@ import {
 import { FormComponentProps } from 'antd/lib/form';
 import PageLoading from '@/components/PageLoading';
 import StandardTable from '@/components/StandardTable';
+import FooterToolbar from '@/components/FooterToolbar';
 import { GetPageQuery } from '@/utils/utils';
 import { GetAccountInfo } from '@/utils/cache';
 import { router } from 'umi';
@@ -44,7 +45,6 @@ interface IProps extends FormComponentProps {
 }
 interface IState {
   id: string;
-  isSticky: boolean;
   routeType: string;
   visible: boolean;
   addressPageNo: number;
@@ -54,6 +54,7 @@ interface IState {
   selectedRows: any[];
   defaultAddress: string;
   protocolVisible: boolean;
+  protocolValue: boolean;
 }
 
 interface ParamsState {
@@ -89,8 +90,6 @@ interface ParamsState {
 class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   state = {
     id: this.props.match.params && this.props.match.params.id,
-    isSticky: false,
-    fixedRight: (document.body.clientWidth - 1200) / 2,
     routeType: this.props.route.type ? this.props.route.type : '',
     visible: false,
     addressPageNo: 1,
@@ -100,6 +99,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     selectedRows: [],
     defaultAddress: '',
     protocolVisible: false,
+    protocolValue: false
   };
 
   private ref: any;
@@ -123,10 +123,6 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     const { dispatch } = this.props;
     const params = GetPageQuery();
 
-    if (this.ref) {
-      window.addEventListener('scroll', this.handlePageScroll);
-    }
-
     const data  = {
       freightLclId: id,
       kgs: params.kgs,
@@ -144,11 +140,6 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     this.handleGetDefaultAddress();
     this.getAddressList();
     this.handlePackageTypeSearch('');
-  }
-
-  componentWillUnmount() {
-    this.ref = null;
-    window.removeEventListener('scroll', this.handlePageScroll);
   }
 
   handleGetTotalPrice = debounce((type, value) => {
@@ -194,16 +185,6 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     dispatch({
       type: 'address/getContactAddress',
       payload: params,
-    });
-  };
-
-  handlePageScroll = () => {
-    const sTop =
-      document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-    const { top } = this.ref.getBoundingClientRect();
-
-    this.setState({
-      isSticky: sTop >= top,
     });
   };
 
@@ -269,7 +250,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   }
 
   handleSubmit = () => {
-    const { id } = this.state;
+    const { id, protocolValue } = this.state;
 
     const {
       dispatch,
@@ -285,6 +266,11 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
           file,
           deliveryDate,
         } = values;
+
+        if (!protocolValue) {
+          message.error('请勾选委托协议');
+          return;
+        }
 
         let params: ParamsState = {
           startTruck,
@@ -344,9 +330,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
 
   render() {
     const {
-      isSticky,
       routeType,
-      fixedRight,
       visible,
       addressPageNo,
       addressPageSize,
@@ -354,6 +338,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       selectedRowKeys,
       defaultAddress,
       protocolVisible,
+      protocolValue
     } = this.state;
 
     const {
@@ -389,275 +374,255 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         routeType
           ? { width: '100%', padding: '0 20px' }
           : { width: 1200, margin: '0 auto', padding: 20 }
-      }
-      >
-        <div className={styles.container} onScroll={this.handlePageScroll}>
+      }>
+        <Form layout="vertical" hideRequiredMark className={styles.container}>
           <div className={styles.mainContent}>
-            <h2>重要信息区（建议填写）</h2>
-            <Card title="航运信息" bordered={false} style={{ height: 358 }}>
-              <div className={styles.shippingInformation}>
-                <div className={styles.routes}>
-                  <div className={styles.left}>
-                    <span className={styles.addressTitle}>收货地</span>
-                    <span className={styles.addressText}>YIWU/义乌</span>
-                  </div>
-                  <span className={styles.middle}>
-                    <span>
-                      <Icon type="clock-circle" style={{ marginRight: 5 }} />
-                      {lclOrderInfo.effectiveDays}天
-                    </span>
-                    <i className="iconfont iconicon-dao" style={{ fontSize: 6, color: '#D8D8D8FF' }}/>
-                  </span>
-                  <div className={styles.right}>
-                    <span className={styles.addressTitle}>交货地</span>
-                    <span className={styles.addressText}>{lclOrderInfo.endTruck}</span>
-                  </div>
-                </div>
-                <div className={styles.subContent}>
-                  <Badge status="processing" text={lclOrderInfo.supplierName} />
-                  <Badge
-                    status="processing"
-                    text={`有效船期 : ${lclOrderInfo.startTime} 至${lclOrderInfo.endTime}`}
-                  />
-                </div>
-                <div className={styles.priceInfo}>
-                  <div className={styles.leftContent}>
-                    <h5>单价:</h5>
-                    <div className={styles.desc}>体重比 : {lclOrderInfo.cbm}立方 : {lclOrderInfo.kgs}公斤</div>
-                  </div>
-                  <div className={styles.priceContent}>
-                    <div className={styles.info}>
+            <h2 style={{ margin: 0 }}>重要信息区（建议填写）</h2>
+            <Card title="委托人信息" bordered={false} style={{ marginTop: 18 }}>
+              <Row gutter={22}>
+                <Col span={24}>
+                  <Form.Item label="公司名称（必填）">
+                    {getFieldDecorator('contactCompanyName', {
+                      initialValue: GetAccountInfo().companyName,
+                      rules: [
+                        { required: true, message: '请输入公司名称' },
+                        { max: 100, message: '不能超过100字' }
+                      ],
+                    })(<Input placeholder="请输入公司名称" />)}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="联系人">
+                    {getFieldDecorator('contact', {
+                      initialValue: GetAccountInfo().name || GetAccountInfo().userName,
+                      rules: [
+                        { max: 30, message: '不能超过30字' }
+                      ],
+                    })(<Input placeholder="请输入联系人姓名" />)}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="手机（必填）">
+                    {getFieldDecorator('contactTel', {
+                      initialValue: GetAccountInfo().phone,
+                      rules: [
+                        { required: true, message: '请输入手机号' },
+                        { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
+                      ],
+                    })(<Input placeholder="请输入手机号" />)}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="邮箱">
+                    {getFieldDecorator('contactEmail', {
+                      initialValue: GetAccountInfo().email,
+                      rules: [
+                        { max: 120, message: '不能超过120字' }
+                      ],
+                    })(<Input placeholder="请输入邮箱" />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row>
+                <Col span={24}>
+                  <Form.Item
+                    label={
                       <span>
-                        立方 <strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.tossPriceStandrd}</strong>
-                      </span>
-                      <span>
-                        公斤 <strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.heavyPriceStandrd}</strong>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </Card>
-            <Form layout="vertical" hideRequiredMark>
-              <Card title="委托人信息" bordered={false} style={{ marginTop: 30 }}>
-                <Row gutter={22}>
-                  <Col span={24}>
-                    <Form.Item label="公司名称（必填）">
-                      {getFieldDecorator('contactCompanyName', {
-                        initialValue: GetAccountInfo().companyName,
-                        rules: [
-                          { required: true, message: '请输入公司名称' },
-                          { max: 200, message: '不能超过200字' }
-                        ],
-                      })(<Input placeholder="请输入公司名称" />)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="联系人">
-                      {getFieldDecorator('contact', {
-                        initialValue: GetAccountInfo().name || GetAccountInfo().userName,
-                        rules: [
-                          { max: 120, message: '不能超过120字' }
-                        ],
-                      })(<Input placeholder="请输入联系人姓名" />)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="手机（必填）">
-                      {getFieldDecorator('contactTel', {
-                        initialValue: GetAccountInfo().phone,
-                        rules: [
-                          { required: true, message: '请输入手机号' },
-                          { pattern: REGEX.MOBILE, message: '手机号格式不正确' },
-                        ],
-                      })(<Input placeholder="请输入手机号" />)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="邮箱">
-                      {getFieldDecorator('contactEmail', {
-                        initialValue: GetAccountInfo().email,
-                        rules: [
-                          { max: 120, message: '不能超过120字' }
-                        ],
-                      })(<Input placeholder="请输入邮箱" />)}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col span={24}>
-                    <Form.Item
-                      label={
-                        <span>
                           目的地送货地址
-                          <Icon
-                            type="diff"
-                            style={{ marginLeft: 5 }}
-                            onClick={() => {
-                              this.setState({ visible: true });
-                            }}
-                          />
-                        </span>
-                      }
-                    >
-                      {getFieldDecorator('portEndAddress', {
-                        initialValue: defaultAddress,
-                        rules: [{ max: 200, message: '不能超过200字' }]
-                      })(
-                        <TextArea placeholder="请输入目的地送货地址" rows={4} />,
-                      )}
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Card>
-              <Card title="货物信息委托区" bordered={false} style={{ marginTop: 30 }}>
-                <Row>
-                  <Col span={24}>
-                    <Form.Item label="货物品名（可填写多条）">
-                      {getFieldDecorator('goodsType', {
-                        rules: [{ max: 600, message: '不能超过600字' }]
-                      })(
-                        <TextArea placeholder="请输入货物品名" rows={4} />,
-                      )}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={22}>
-                  <Col span={8}>
-                    <Form.Item label="包装类型">
-                      {getFieldDecorator('packageType')(
-                        <Select
-                          showSearch
-                          placeholder="请选择包装类型"
-                          onSearch={this.handlePackageTypeSearch}
-                        >
-                          {globalPackageTypeList.map(d => (
-                            <Option key={d.id} value={d.nameCn}>
-                              {d.nameCn}
-                            </Option>
-                          ))}
-                        </Select>,
-                      )}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="货物总件数">
-                      {getFieldDecorator('totalPiece')(<InputNumber min={1} max={999999} precision={0} placeholder="请输入货物总件数" style={{ width: '100%' }}/>)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="预计送货日">
-                      {getFieldDecorator('deliveryDate')(
-                        <DatePicker placeholder="请输入预计送货日" />,
-                      )}
-                    </Form.Item>
-                  </Col>
-                </Row>
-                <Row gutter={22}>
-                  <Col span={8}>
-                    <Form.Item label="货物总体积（立方）">
-                      {getFieldDecorator('totalCbm', {
-                        initialValue: params.cbm
-                      })(
-                        <InputNumber
-                          placeholder="请输入货物总体积"
-                          min={1}
-                          max={999999}
-                          precision={2}
-                          style={{ width: '100%' }}
-                          onChange={(value) => this.handleGetTotalPrice('cbm', value)}
-                        />)}
-                    </Form.Item>
-                  </Col>
-                  <Col span={8}>
-                    <Form.Item label="货物总量（公斤）">
-                      {getFieldDecorator('totalKgs', {
-                        initialValue: params.kgs
-                      })(
-                        <InputNumber
-                          placeholder="请输入货物总量"
-                          min={1}
-                          max={999999}
-                          precision={1}
-                          style={{ width: '100%' }}
-                          onChange={(value) => this.handleGetTotalPrice('kgs', value)}
-                        />)}
-                    </Form.Item>
-                  </Col>
-                </Row>
-              </Card>
-              <Card title="附件上传" bordered={false} style={{ marginTop: 30 }}>
-                <Form.Item extra="建议上传货物委托书、货物清单或其他货物描述文件（excel,word类型）">
-                  {getFieldDecorator('file', {
-                    // rules: [{ required: true, message: '请上传文件' }],
-                    valuePropName: 'fileList',
-                    getValueFromEvent: this.normFile,
-                  })(
-                    <Upload.Dragger
-                      action="/api/web/lcl/upload.do"
-                      beforeUpload={this.handleBeforeUpload}
-                      accept={`image/*, ${accepts}`}
-                    >
-                      <p className="ant-upload-drag-icon">
-                        <Icon type="cloud-download" />
-                      </p>
-                      <p className="ant-upload-text">将文件拖到此处或点击上传</p>
-                    </Upload.Dragger>,
-                  )}
-                </Form.Item>
-              </Card>
-              <Card title="备注" bordered={false} style={{ marginTop: 30 }}>
-                <Form.Item>
-                  {getFieldDecorator('remark', {
-                    rules: [{ max: 200, message: '不能超过200字' }]
-                  })(<TextArea placeholder="请输入备注" rows={4} />)}
-                </Form.Item>
-              </Card>
-            </Form>
-          </div>
-          <div
-            className={`${styles.instructions} ${isSticky ? styles.sticky : ''}`}
-            ref={node => (this.ref = node)}
-            style={{ right: routeType ? 40 : fixedRight }}
-          >
-            <Card title="专线说明" bordered={false}>
-              <p style={{ maxHeight: 400, overflow: 'auto' }}>
-                {lclOrderInfo.remarkOut}
-              </p>
-              <div className={styles.price}>
-                <span className={styles.text}>总价</span>
-                <span className={styles.num}>
-                  <span>{lclTotalPrice}</span>
-                  <span className={styles.symbol}>{lclOrderInfo.currency}</span>
-                </span>
-              </div>
-            </Card>
-            <Form>
-              <Form.Item className={styles.agreement}>
-                {getFieldDecorator('checked', {
-                  valuePropName: 'checked',
-                  rules: [
-                    {
-                      required: true,
-                      validator: (_, value, callback) => {
-                        if (value) {
-                          callback();
-                        } else {
-                          callback('请勾选委托协议');
-                        }
-                      }
-
+                        <Icon
+                          type="diff"
+                          style={{ marginLeft: 5 }}
+                          onClick={() => {
+                            this.setState({ visible: true });
+                          }}
+                        />
+                      </span>
                     }
-                  ],
-                })(<Checkbox />)}
-                <span className={styles.desc} onClick={() => this.setState({ protocolVisible: true })}>《环球义达委托协议》</span>
+                  >
+                    {getFieldDecorator('portEndAddress', {
+                      initialValue: defaultAddress,
+                      rules: [{ max: 200, message: '不能超过200字' }]
+                    })(
+                      <TextArea placeholder="请输入目的地送货地址" rows={4} />,
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Card>
+            <h2>货物委托信息（非必填）</h2>
+            <Card title="货物信息委托区" bordered={false} style={{ marginTop: 20 }}>
+              <Row>
+                <Col span={24}>
+                  <Form.Item label="货物品名（可填写多条）">
+                    {getFieldDecorator('goodsType', {
+                      rules: [{ max: 600, message: '不能超过600字' }]
+                    })(
+                      <TextArea placeholder="请输入货物品名" rows={4} />,
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={22}>
+                <Col span={8}>
+                  <Form.Item label="包装类型">
+                    {getFieldDecorator('packageType')(
+                      <Select
+                        showSearch
+                        placeholder="请选择包装类型"
+                        onSearch={this.handlePackageTypeSearch}
+                      >
+                        {globalPackageTypeList.map(d => (
+                          <Option key={d.id} value={d.nameCn}>
+                            {d.nameCn}
+                          </Option>
+                        ))}
+                      </Select>,
+                    )}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="货物总件数">
+                    {getFieldDecorator('totalPiece')(<InputNumber min={1} max={999999} precision={0} placeholder="请输入货物总件数" style={{ width: '100%' }}/>)}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="预计送货日">
+                    {getFieldDecorator('deliveryDate')(
+                      <DatePicker placeholder="请输入预计送货日" />,
+                    )}
+                  </Form.Item>
+                </Col>
+              </Row>
+              <Row gutter={22}>
+                <Col span={8}>
+                  <Form.Item label="货物总体积（立方）">
+                    {getFieldDecorator('totalCbm', {
+                      initialValue: params.cbm
+                    })(
+                      <InputNumber
+                        placeholder="请输入货物总体积"
+                        min={1}
+                        max={999999}
+                        precision={2}
+                        style={{ width: '100%' }}
+                        onChange={(value) => this.handleGetTotalPrice('cbm', value)}
+                      />)}
+                  </Form.Item>
+                </Col>
+                <Col span={8}>
+                  <Form.Item label="货物总量（公斤）">
+                    {getFieldDecorator('totalKgs', {
+                      initialValue: params.kgs
+                    })(
+                      <InputNumber
+                        placeholder="请输入货物总量"
+                        min={1}
+                        max={999999}
+                        precision={1}
+                        style={{ width: '100%' }}
+                        onChange={(value) => this.handleGetTotalPrice('kgs', value)}
+                      />)}
+                  </Form.Item>
+                </Col>
+              </Row>
+            </Card>
+            <Card title="附件上传" bordered={false} style={{ marginTop: 20 }}>
+              <Form.Item extra="建议上传货物委托书、货物清单或其他货物描述文件（excel,word类型）">
+                {getFieldDecorator('file', {
+                  // rules: [{ required: true, message: '请上传文件' }],
+                  valuePropName: 'fileList',
+                  getValueFromEvent: this.normFile,
+                })(
+                  <Upload.Dragger
+                    action="/api/web/lcl/upload.do"
+                    beforeUpload={this.handleBeforeUpload}
+                    accept={`image/*, ${accepts}`}
+                  >
+                    <p className="ant-upload-drag-icon">
+                      <Icon type="cloud-download" />
+                    </p>
+                    <p className="ant-upload-text">将文件拖到此处或点击上传</p>
+                  </Upload.Dragger>,
+                )}
               </Form.Item>
-            </Form>
-            <Button type="primary" className={styles.submitBtn} loading={submitLoading} onClick={this.handleSubmit}>
-              提交委托
-            </Button>
+            </Card>
+            <Card title="备注" bordered={false} style={{ marginTop: 20 }}>
+              <Form.Item>
+                {getFieldDecorator('remark', {
+                  rules: [{ max: 200, message: '不能超过200字' }]
+                })(<TextArea placeholder="请输入备注" rows={4} />)}
+              </Form.Item>
+            </Card>
           </div>
-        </div>
+          <Card title="航运信息" bordered={false} className={styles.subContent}>
+            <div className={styles.shippingInformation}>
+              <div className={styles.routes}>
+                <div className={styles.left}>
+                  <span className={styles.addressTitle}>收货地</span>
+                  <span className={styles.addressText}>YIWU/义乌</span>
+                </div>
+                <span className={styles.middle}>
+                  <span>
+                    <Icon type="clock-circle" style={{ marginRight: 5 }} />
+                    {lclOrderInfo.effectiveDays}天
+                  </span>
+                  <i className="iconfont iconicon-dao" style={{ fontSize: 6, color: '#D8D8D8FF' }}/>
+                </span>
+                <div className={styles.right}>
+                  <span className={styles.addressTitle}>交货地</span>
+                  <span className={styles.addressText}>{lclOrderInfo.endTruck}</span>
+                </div>
+              </div>
+              <div className={styles.panelInfo}>
+                <ul className={styles.infoList}>
+                  <li>
+                    <span>供应商:</span>
+                    <span>{lclOrderInfo.supplierName}</span>
+                  </li>
+                  <li>
+                    <span>有效船期: </span>
+                    <span>{` ${lclOrderInfo.startTime} 至${lclOrderInfo.endTime}`}</span>
+                  </li>
+                  <li>
+                    <span>体重比:</span>
+                    <span>{lclOrderInfo.cbm}立方 : {lclOrderInfo.kgs}公斤</span>
+                  </li>
+                </ul>
+                <div className={styles.priceInfo}>
+                  <span className={styles.label}>单价</span>
+                  <div className={styles.value}>
+                    <div>立方<strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.cbm}</strong></div>
+                    <div>公斤<strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.kgs}</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.lineExp}>
+              <h6>专线说明</h6>
+              <p>{lclOrderInfo.remarkOut}</p>
+            </div>
+            <div className={styles.totalPrice}>
+              <h5>总价</h5>
+              <span className={styles.num}>
+                <span>{lclTotalPrice}</span>
+                <span className={styles.symbol}>{lclOrderInfo.currency}</span>
+              </span>
+            </div>
+          </Card>
+          <FooterToolbar
+            extra={<Button onClick={() => { router.goBack(); }}>返回</Button>}
+          >
+            <div className={styles.footWrapper}>
+              <div className={styles.agreement}>
+                <Checkbox checked={protocolValue} onChange={e => this.setState({ protocolValue: e.target.checked })}/>
+                <span className={styles.desc} onClick={() => this.setState({ protocolVisible: true })}>《环球义达委托协议》</span>
+              </div>
+              <Button type="primary" size="large" className={styles.submitBtn} loading={submitLoading} onClick={this.handleSubmit}>
+                提交委托
+              </Button>
+            </div>
+          </FooterToolbar>
+        </Form>
 
         <Modal
           title="目的地送货地址"

@@ -27,7 +27,7 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
       router.push('/control');
       break;
     case 'mdify':
-      router.push('/control/system/modify');
+      router.push('/control/system/security-setting/modify');
       break;
     case 'logout':
       this.logout();

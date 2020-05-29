@@ -151,7 +151,7 @@ export class PricePlan extends Component<IProps, IState> {
       const { routeType } = this.state;
 
       router.push({
-        pathname: routeType ? `/control/mdoor-order/${info.id}` : `/door/place-order/${info.id}`,
+        pathname: routeType ? `/control/mdoor/order/${info.id}` : `/door/place-order/${info.id}`,
         search: stringify({
           cbm,
           kgs,
