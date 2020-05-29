@@ -79,12 +79,12 @@ export class PricePlan extends Component<IProps, IState> {
     },
     {
       title: '公斤',
-      key: 'HEAVY_PRICE_STANDRDd',
+      key: 'HEAVY_PRICE_STANDRD',
       width: '13%',
     },
     {
       title: '总价',
-      key: 'TOTAL',
+      key: 'TOTAL_PRICE',
       width: '13%',
     },
   ];

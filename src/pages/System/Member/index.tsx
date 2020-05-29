@@ -73,12 +73,7 @@ class SystemMemberPage extends PureComponent<IProps, any> {
             <Form.Item label="公司名称">
               {getFieldDecorator('companyName', {
                 initialValue: companyName,
-                rules: [
-                  {
-                    required: true,
-                    message: '请输入公司名称',
-                  },
-                ],
+                rules: [ { required: true, message: '请输入公司名称', }, { max: 200, message: '长度不能超过200个字符' } ],
               })(<Input />)}
             </Form.Item>
             <Form.Item label="姓名">

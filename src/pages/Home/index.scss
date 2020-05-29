@@ -42,13 +42,24 @@
   }
 
   .bannerInner{
-    height: 600px; background: url('../../assets/img/banner.jpg') center no-repeat;
+    height: 600px; 
+    background: url('../../assets/img/banner.jpg') center no-repeat;
+    background-size: 1920px 600px;
   }
 
   .bannerMain{
     width: 1200px;
     height: 600px;
     margin:0 auto;
+    position: relative;
+  }
+
+  .pointer{
+    width: 20px; height: 20px; display: block; background: #0060e2;  
+    border-radius: 50%; position: absolute;animation: roundpointer 1.5s infinite;
+  }
+  .startPoint{
+    right: 257px; top: 206px; 
   }
 }
 
@@ -336,13 +347,32 @@
 
 .drawLine{
   stroke-width:3;
-  stroke:#ff7700;
-  animation: dash 5s linear infinite;
+  stroke:#6deffc;
+  animation: dash 3s linear infinite;
 }
 
 
 @keyframes dash {
   to {
     stroke-dashoffset: 0;
+  }
+}
+
+
+@keyframes roundpointer{
+  0% {
+      transform: scale(1);
+  }
+  25% {
+      transform: scale(1.2);
+  }
+  50% {
+      transform: scale(1.5);
+  }
+  75% {
+      transform: scale(1.2);
+  }
+  100% {
+      transform: scale(1);
   }
 }
