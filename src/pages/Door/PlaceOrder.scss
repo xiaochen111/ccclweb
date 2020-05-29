@@ -74,6 +74,7 @@
     border-bottom: 1px solid #ccc;
     .infoList {
       font-size: 14px;
+      line-height: 28px;
       color: #666;
       li {
         @extend [layout];
