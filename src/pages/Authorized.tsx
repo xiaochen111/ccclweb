@@ -26,7 +26,7 @@ export default (props) => {
       return children;
     }
     return <Redirect to={{
-      pathname: '/login',
+      pathname: '/login/index',
       search: stringify({
         backUrl: window.location.hash.split('#')[1]
       })

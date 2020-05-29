@@ -3,6 +3,7 @@
  * 更详细的 api 文档: https://github.com/umijs/umi-request
  */
 import request, { extend } from 'umi-request';
+import { Redirect } from 'umi';
 import router from 'umi/router';
 import { notification, message } from 'antd';
 import { IsEmptyObject, ObjectToUrl } from './utils';
@@ -42,9 +43,12 @@ const errorHandler = (error: { response: Response }): Response => {
     if (Number(status) === 401) {
       message.info('请重新登录');
       RemoveAllStorage();
+      console.log(window.location.hash.split('#')[1]);
+      // return;
 
-      router.replace({
-        pathname: '/login',
+
+      router.push({
+        pathname: '/login/index',
         search: stringify({
           backUrl: window.location.hash.split('#')[1]
         })
