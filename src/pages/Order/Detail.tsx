@@ -3,6 +3,7 @@ import { PageHeader, Card, Descriptions, Divider, Col, Row, Icon, Button } from 
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 import { router } from 'umi';
+import moment from 'moment';
 import { StateType } from './model';
 import PageLoading from '@/components/PageLoading';
 import StandardTable from '@/components/StandardTable';
@@ -93,6 +94,12 @@ class orderDetailPage extends PureComponent<IProps, IState> {
               </Descriptions.Item>
               <Descriptions.Item label="运输专线">
                 {orderDetail.startTruck}--{orderDetail.endTruck}
+              </Descriptions.Item>
+              <Descriptions.Item label="供应商">
+                {orderDetail.supplierName}
+              </Descriptions.Item>
+              <Descriptions.Item label="下单时间">
+                {moment(orderDetail.createTime).format('YYYY-MM-DD')}
               </Descriptions.Item>
             </Descriptions>
             <Divider/>

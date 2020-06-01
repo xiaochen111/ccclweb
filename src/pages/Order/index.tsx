@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Form, PageHeader, Tabs, Card, Input, Button, Modal, Popconfirm, Popover } from 'antd';
+import { Form, PageHeader, Tabs, Card, Input, Button, Modal, Popconfirm, Popover, DatePicker, Row, Col } from 'antd';
 import { Dispatch, AnyAction } from 'redux';
 import { connect } from 'dva';
 import router from 'umi/router';
@@ -10,6 +10,7 @@ import StandardTable from '@/components/StandardTable';
 import styles from './index.scss';
 
 const { TabPane } = Tabs;
+const { RangePicker } = DatePicker;
 
 interface IProps extends FormComponentProps, StateType {
   dispatch: Dispatch<AnyAction>;
@@ -44,6 +45,7 @@ class OrderPage extends PureComponent<IProps, IState> {
       orderNo: '',
       startTruck: '',
       endTruck: '',
+      time: []
     },
     visible: false,
     current: {},
@@ -182,7 +184,7 @@ class OrderPage extends PureComponent<IProps, IState> {
       pageNo,
       pageSize,
       orderStatus,
-      searchValues: { orderNo, startTruck, endTruck },
+      searchValues: { orderNo, startTruck, endTruck, time },
     } = this.state;
     const { dispatch } = this.props;
 
@@ -206,6 +208,10 @@ class OrderPage extends PureComponent<IProps, IState> {
     }
     if (endTruck) {
       params['endTruck'] = endTruck;
+    }
+    if (time && time.length) {
+      params['startCreateTime'] = time[0].format('YYYY-MM-DD');
+      params['endCreateTime'] = time[1].format('YYYY-MM-DD');
     }
 
     dispatch({
@@ -384,20 +390,29 @@ class OrderPage extends PureComponent<IProps, IState> {
         <div className={styles.main}>
           <div className={styles.search}>
             <Form layout="inline">
-              <Form.Item label="CCCL NO">
-                {getFieldDecorator('orderNo')(<Input placeholder="请输入CCCL NO" allowClear />)}
-              </Form.Item>
-              <Form.Item label="收货地">
-                {getFieldDecorator('startTruck')(<Input placeholder="请输入收货地" allowClear />)}
-              </Form.Item>
-              <Form.Item label="交货地">
-                {getFieldDecorator('endTruck')(<Input placeholder="请输入交货地" allowClear />)}
-              </Form.Item>
-              <Form.Item>
-                <Button type="primary" onClick={this.handleSearch}>
-                  搜索
-                </Button>
-              </Form.Item>
+              <Row>
+                <Col span={22}>
+                  <Form.Item label="CCCL NO">
+                    {getFieldDecorator('orderNo')(<Input placeholder="请输入CCCL NO" allowClear />)}
+                  </Form.Item>
+                  <Form.Item label="收货地">
+                    {getFieldDecorator('startTruck')(<Input placeholder="请输入收货地" allowClear />)}
+                  </Form.Item>
+                  <Form.Item label="交货地">
+                    {getFieldDecorator('endTruck')(<Input placeholder="请输入交货地" allowClear />)}
+                  </Form.Item>
+                  <Form.Item label="下单时间">
+                    {getFieldDecorator('time')(<RangePicker allowClear />)}
+                  </Form.Item>
+                </Col>
+                <Col span={2}>
+                  <Form.Item>
+                    <Button type="primary" onClick={this.handleSearch}>
+                    搜索
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
             </Form>
           </div>
           <Card bordered={false}>
