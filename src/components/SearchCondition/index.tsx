@@ -179,7 +179,7 @@ export class SearchCondition extends Component<IProps, any> {
             <Form.Item>
               {getFieldDecorator('cbm', {
                 initialValue: defaultValue.cbm,
-                rules: [{ pattern: REGEX.BIGNUM_TOW, message: '请填写大于0的数，如有小数可保留最多两位' }, { max: 10, message: '长度不能超过10位' }],
+                rules: [{ pattern: REGEX.BIGNUM_TOW, message: '请填写大于0最大6位的整数，如有小数可保留最多两位' }, { max: 10, message: '长度不能超过10位' }],
               })(<Input placeholder="体积" size="large" suffix={<span>立方</span>} />)}
             </Form.Item>
           </div>
@@ -187,7 +187,7 @@ export class SearchCondition extends Component<IProps, any> {
             <Form.Item>
               {getFieldDecorator('kgs', {
                 initialValue: defaultValue.kgs,
-                rules: [{ pattern: REGEX.BIGNUM_TOW, message: '请填写大于0的数，如有小数可保留最多两位' }, { max: 10, message: '长度不能超过10位' }],
+                rules: [{ pattern: REGEX.BIGNUM_TOW, message: '请填写大于0最大6位的整数，如有小数可保留最多两位' }, { max: 10, message: '长度不能超过10位' }],
               })(<Input placeholder="重量" size="large" suffix={<span>公斤</span>} />)}
             </Form.Item>
           </div>
