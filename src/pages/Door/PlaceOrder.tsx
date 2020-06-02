@@ -11,7 +11,6 @@ import {
   Input,
   InputNumber,
   message,
-  Badge,
   Checkbox,
   Button,
   DatePicker,
@@ -85,7 +84,7 @@ interface ParamsState {
   lclOrderInfo: door.lclOrderInfo,
   lclTotalPrice: door.lclTotalPrice,
   globalPackageTypeList: global.globalPackageTypeList,
-  submitLoading: loading.models['door/orderSubmit']
+  submitLoading: loading.effects['door/orderSubmit']
 }))
 class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
   state = {
@@ -427,6 +426,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       lclTotalPrice
     } = this.props;
 
+    console.log(submitLoading, 'submitLoading');
     const params = GetPageQuery();
 
     if (!lclOrderInfo) return <PageLoading />;
