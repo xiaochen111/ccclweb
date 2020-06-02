@@ -577,7 +577,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     })(
                       <InputNumber
                         placeholder="请输入货物总体积"
-                        min={1}
+                        min={0.01}
                         max={999999}
                         precision={2}
                         style={{ width: '100%' }}
@@ -592,9 +592,9 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     })(
                       <InputNumber
                         placeholder="请输入货物总量"
-                        min={1}
+                        min={0.01}
                         max={999999}
-                        precision={1}
+                        precision={2}
                         style={{ width: '100%' }}
                         onChange={(value) => this.handleGetTotalPrice('kgs', value)}
                       />)}
