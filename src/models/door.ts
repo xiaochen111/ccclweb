@@ -43,7 +43,7 @@ const model: DoorModelType = {
       if (response && response.code === '1') {
         yield put({
           type: 'setLclList',
-          payload: response.resMap.page,
+          payload: response.page,
         });
       }
     },
@@ -81,8 +81,8 @@ const model: DoorModelType = {
     setLclList(state, { payload }) {
       return {
         ...state,
-        lclList: payload.result,
-        totalCount: payload.totalCount,
+        lclList: payload.list,
+        totalCount: payload.total,
       };
     },
     saveLclOrderInfo(state, { payload }) {
