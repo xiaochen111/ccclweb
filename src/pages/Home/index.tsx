@@ -158,8 +158,8 @@ class HomePage extends Component<IProps, any> {
 
   news = () => {
     const {  newsList, LimitList } = this.props;
-    const LimitNews = LimitList.slice(0, 2);
-    const LimitNewsList = newsList.slice(0, 5);
+    const LimitNews = LimitList && LimitList.slice(0, 2) || [];
+    const LimitNewsList = newsList && newsList.slice(0, 5) || [];
 
     return (
       <div className={styles.middleWrap}>

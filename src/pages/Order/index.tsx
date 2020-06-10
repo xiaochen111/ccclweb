@@ -375,6 +375,8 @@ class OrderPage extends PureComponent<IProps, IState> {
       pageSize,
     };
 
+    console.log(orderList);
+
     return (
       <div className={styles.container}>
         <PageHeader

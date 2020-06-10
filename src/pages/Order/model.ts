@@ -45,7 +45,7 @@ const Model: LoginModelType = {
       if (response && response.code === '1') {
         yield put({
           type: 'saveOrderList',
-          payload: response.resMap.page,
+          payload: response.page,
         });
       }
     },
@@ -55,7 +55,7 @@ const Model: LoginModelType = {
       if (response && response.code === '1') {
         yield put({
           type: 'saveOrderListDetail',
-          payload: response.resMap.order,
+          payload: response.resMap.page,
         });
 
         return response.resMap.order;
@@ -100,8 +100,8 @@ const Model: LoginModelType = {
     saveOrderList(state, { payload }) {
       return {
         ...state,
-        orderList: convertList(payload.result),
-        orderTotal: payload.totalCount,
+        orderList: convertList(payload.list),
+        orderTotal: payload.total,
       };
     },
     saveOrderListDetail(state, { payload }) {
