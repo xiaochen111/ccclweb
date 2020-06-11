@@ -63,29 +63,34 @@ export class PricePlan extends Component<IProps, IState> {
 
   private columns = [
     {
-      title: '线路',
+      title: '运输专线',
       key: 'a',
-      width: '35%',
+      width: '30%',
     },
     {
       title: '时效',
       key: 'days',
-      width: '13%',
+      width: '10%',
     },
     {
-      title: '立方',
+      title: '体重比',
+      key: 'weight',
+      width: '15%',
+    },
+    {
+      title: '每立方',
       key: 'TOSS_PRICE_STANDRD',
-      width: '13%',
+      width: '15%',
     },
     {
-      title: '公斤',
+      title: '每公斤',
       key: 'HEAVY_PRICE_STANDRD',
-      width: '13%',
+      width: '15%',
     },
     {
       title: '总价',
       key: 'TOTAL_PRICE',
-      width: '13%',
+      width: '15%',
     },
   ];
 
