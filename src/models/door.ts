@@ -9,7 +9,7 @@ export interface StateType {
   lclList: any[];
   totalCount: number;
   lclOrderInfo: any;
-  lclTotalPrice: number;
+  lclTotalPriceInfo: any;
 }
 
 export interface DoorModelType {
@@ -34,7 +34,7 @@ const model: DoorModelType = {
     lclList: [],
     totalCount: 0,
     lclOrderInfo: null,
-    lclTotalPrice: 0,
+    lclTotalPriceInfo: {},
   },
   effects: {
     *getLclList({ payload }, { call, put }) {
@@ -43,7 +43,7 @@ const model: DoorModelType = {
       if (response && response.code === '1') {
         yield put({
           type: 'setLclList',
-          payload: response.page,
+          payload: response.resMap.page,
         });
       }
     },
@@ -72,17 +72,18 @@ const model: DoorModelType = {
       if (response && response.code === '1') {
         yield put({
           type: 'saveLclTotalPrice',
-          payload: response.resMap.totalPrice,
+          payload: response.resMap,
         });
       }
     },
   },
   reducers: {
     setLclList(state, { payload }) {
+      console.log('setLclList -> payload', payload);
       return {
         ...state,
-        lclList: payload.list,
-        totalCount: payload.total,
+        lclList: payload.result,
+        totalCount: payload.totalCount,
       };
     },
     saveLclOrderInfo(state, { payload }) {
@@ -94,7 +95,7 @@ const model: DoorModelType = {
     saveLclTotalPrice(state, { payload }) {
       return {
         ...state,
-        lclTotalPrice: payload,
+        lclTotalPriceInfo: payload,
       };
     },
   },

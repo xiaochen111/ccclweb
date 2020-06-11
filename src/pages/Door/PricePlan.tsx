@@ -35,7 +35,6 @@ interface IState {
   routeType: string;
   pageNo: number;
   pageSize: number;
-  currentExplain: string;
 }
 
 @connect(({ door, global, loading }) => ({
@@ -56,7 +55,6 @@ export class PricePlan extends Component<IProps, IState> {
     routeType: this.props.route.type ? this.props.route.type : '',
     pageNo: 1,
     pageSize: 10,
-    currentExplain: '',
   };
 
   private index = 1;
@@ -64,33 +62,27 @@ export class PricePlan extends Component<IProps, IState> {
   private columns = [
     {
       title: '运输专线',
-      key: 'a',
-      width: '30%',
+      key: 'line',
     },
     {
       title: '时效',
       key: 'days',
-      width: '10%',
     },
     {
       title: '体重比',
       key: 'weight',
-      width: '15%',
     },
     {
       title: '每立方',
       key: 'TOSS_PRICE_STANDRD',
-      width: '15%',
     },
     {
       title: '每公斤',
       key: 'HEAVY_PRICE_STANDRD',
-      width: '15%',
     },
     {
       title: '总价',
       key: 'TOTAL_PRICE',
-      width: '15%',
     },
   ];
 
@@ -216,7 +208,7 @@ export class PricePlan extends Component<IProps, IState> {
 
   render() {
     const { lclList, totalCount, countryDropList, tableLoading } = this.props;
-    const { sortInstance, orderBy, country, kgs, cbm, routeType, pageNo, pageSize, currentExplain } = this.state;
+    const { sortInstance, orderBy, country, kgs, cbm, routeType, pageNo, pageSize } = this.state;
     const searchDefaultValue = { country, kgs, cbm };
     const pagination = {
       total: totalCount,
@@ -271,63 +263,49 @@ export class PricePlan extends Component<IProps, IState> {
               <ul className={styles.tableBody}>
                 {lclList && lclList.length ? (
                   lclList.map((item, index) => (
-                    <li key={index} className={styles.tableItem} onMouseEnter={() => this.setState({ currentExplain: item.id })}>
+                    <li key={index} className={styles.tableItem}>
                       {
                         item.specialFlag && item.specialFlag === 1 ? <i className={styles.specialFlag}/> : null
                       }
                       <div className={styles.rowInfos}>
-                        <div className={`${styles.line} ${styles.columsWidth}`}>
-                          <div className={styles.lineMain}>
-                            {/* {item.startTruck} */}
-                            <div className={styles.startTruck}>
-                              {item.startTruck}&nbsp;
-                              <img src={arrow} alt="" />
+                        <div className={styles.columsWidth}>
+                          <span>{item.startTruck}&nbsp;</span>
+                          <img src={arrow} alt="" />
                               &nbsp;
-                            </div>
-                            <p className={styles.endTruck}>
-                              <Tooltip placement="top" title={item.endTruck}>
-                                <span>{item.endTruck}</span>
-                              </Tooltip>
-                            </p>
-                          </div>
+                          <Tooltip placement="top" title={item.endTruck}>
+                            <span>{item.endTruck}</span>
+                          </Tooltip>
                         </div>
                         <div className={`${styles.voyage} ${styles.columsWidth}`}>
                           {item.days}天
                         </div>
-                        <div className={`${styles.price} ${styles.columsWidth}`}>
+                        <div className={`${styles.weight} ${styles.columsWidth}`}>
+                          {item.cbm} : {item.kgs}
+                        </div>
+                        <div className={styles.columsWidth}>
                           {convertCurrency(item.currency)}{item.tossStandsPrice}
                         </div>
-                        <div className={`${styles.price} ${styles.columsWidth}`}>
+                        <div className={styles.columsWidth}>
                           {convertCurrency(item.currency)}{item.heavyStandsPrice}
                         </div>
-                        <div className={`${styles.total} ${styles.columsWidth}`}>
-                          {convertCurrency(item.currency)}{item.totalPrice}
-                        </div>
-                        <div className={`${styles.columsWidth}`}>
-                          <span className={styles.btn} onClick={() => this.handleLinkToOrder(item)}>
-                            下单
-                          </span>
+                        <div className={styles.columsWidth}>
+                          <div className={styles.total}>
+                            <div className={styles.num}>
+                              {convertCurrency(item.currency)}{item.totalPrice}
+                            </div>
+                            <span className={styles.desc}>{convertCurrency(item.priceStandrd)}{item.heavyStandsPrice}={item.kgsCbm} X {convertCurrency(item.currency)}{item.heavyStandsPrice}</span>
+                          </div>
                         </div>
                       </div>
-                      <div className={styles.expandeContent}>
-                        <span>{item.supplierName}</span>
-                        <span style={{ marginRight: 50 }} className={styles.validityTime}>
-                          {`体重比 : ${item.cbm}立方 : ${item.kgs}公斤`}
-                        </span>
-                        <span style={{ marginRight: 50 }} className={styles.validityTime}>
-                          有效船期 : {item.startTime} 至 {item.endTime}
-                        </span>
-                        <span style={{ color: currentExplain === item.id ? '#2556F2' : '' }}>
-                          <Icon type="exclamation-circle" theme="filled"/> 专线说明
-                        </span>
+                      <div className={styles.subInfos}>
+                        <span><i>供应商：</i>{item.supplierName}</span>
+                        <span><i>体重比说明：</i>每立方超过{item.kgs}公斤按公斤费</span>
+                        <div className={styles.btn} onClick={() => this.handleLinkToOrder(item)}>下单</div>
                       </div>
-                      {
-                        currentExplain === item.id ?
-                          <div className={styles.explain}>
-                            <div className={styles.title}><Icon type="exclamation-circle" theme="filled" /> 专线说明</div>
-                            <p>{item.remarkOut}</p>
-                          </div> : null
-                      }
+                      <div className={styles.explain}>
+                        <div className={styles.title}>专线说明</div>
+                        <p>{item.remarkOut}</p>
+                      </div>
                     </li>
                   ))
                 ) : (

@@ -37,7 +37,7 @@ const Model: NewsModelType = {
       if (response && response.code === '1'){
         yield put({
           type: 'setNewsList',
-          payload: response.page
+          payload: response.resMap.page
         });
       }
     },
@@ -70,8 +70,8 @@ const Model: NewsModelType = {
     setNewsList(state, { payload }){
       return {
         ...state,
-        newsList: payload.list,
-        listTotal: payload.total
+        newsList: payload.result,
+        listTotal: payload.totalCount
       };
     },
     setNewsDetail(state, { payload }){

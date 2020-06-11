@@ -75,11 +75,27 @@
     .infoList {
       font-size: 14px;
       line-height: 28px;
-      color: #666;
+      color: #999;
       li {
         @extend [layout];
         @extend [layout='row'];
         @extend [layout-align='space-between center'];
+        .value {
+          color: #666;
+        }
+        .weight {
+          .desc {
+            font-size: 12px;
+            color: #FF8A01;
+          }
+        }
+      }
+      .desc {
+        // display: inline-block;
+        width: 100%;
+        font-size: 12px;
+        color: #FF8A01;
+        text-align: right;
       }
     }
   }
@@ -88,7 +104,7 @@
     @extend [layout];
     @extend [layout='row'];
     @extend [layout-align='space-between start'];
-    font-size: 18px;
+    font-size: 14px;
     margin-top: 25px;
     .label {
       color: #333;
@@ -98,8 +114,8 @@
       color: #666;
       strong {
         font-size: 22px;
-        color: #FF7D14;
-        margin-left: 5px;
+        color: #333;
+        margin-right: 5px;
       }
     }
   }
@@ -132,7 +148,9 @@
       height: 24px;
       color: #f80000;
       vertical-align: bottom;
-
+      .kgsCbm {
+        color: #333;
+      }
       .symbol {
         margin-left: 5px;
         font-size: 14px;
@@ -155,12 +173,6 @@
       margin-left: 4px;
       color: #2556f2;
     }
-  }
-
-  .submitBtn {
-    // width: 200px;
-    // height: 50px;
-    // font-size: 20px;
   }
 }
 

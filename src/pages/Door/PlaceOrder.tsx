@@ -40,7 +40,7 @@ interface IProps extends FormComponentProps {
   addressList: any[];
   addressTotal: number;
   submitLoading: boolean;
-  lclTotalPrice: number;
+  lclTotalPriceInfo: any;
 }
 interface IState {
   id: string;
@@ -82,7 +82,7 @@ interface ParamsState {
   addressList: address.addressList,
   addressTotal: address.addressTotal,
   lclOrderInfo: door.lclOrderInfo,
-  lclTotalPrice: door.lclTotalPrice,
+  lclTotalPriceInfo: door.lclTotalPriceInfo,
   globalPackageTypeList: global.globalPackageTypeList,
   submitLoading: loading.effects['door/orderSubmit']
 }))
@@ -330,7 +330,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     const {
       dispatch,
       lclOrderInfo,
-      lclTotalPrice,
+      lclTotalPriceInfo = {},
       form: { validateFields },
     } = this.props;
 
@@ -350,7 +350,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         let params: ParamsState = {
           startTruck,
           endTruck,
-          totalPrice: lclTotalPrice,
+          totalPrice: lclTotalPriceInfo.lclTotalPrice,
           totalPriceCurrency: currency,
           contactCompanyName: values.contactCompanyName,
           contactTel: values.contactTel,
@@ -423,10 +423,10 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
       addressList,
       addressTotal,
       submitLoading,
-      lclTotalPrice
+      lclTotalPriceInfo
     } = this.props;
 
-    console.log(submitLoading, 'submitLoading');
+    const { totalPrice = 0, totalPriceFormula = {} } = lclTotalPriceInfo;
     const params = GetPageQuery();
 
     if (!lclOrderInfo) return <PageLoading />;
@@ -653,22 +653,27 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                 <ul className={styles.infoList}>
                   <li>
                     <span>供应商:</span>
-                    <span>{lclOrderInfo.supplierName}</span>
+                    <span className={styles.value}>{lclOrderInfo.supplierName}</span>
                   </li>
                   <li>
                     <span>有效船期: </span>
-                    <span>{` ${lclOrderInfo.startTime} 至${lclOrderInfo.endTime}`}</span>
+                    <span className={styles.value}>{` ${lclOrderInfo.startTime} 至${lclOrderInfo.endTime}`}</span>
                   </li>
                   <li>
                     <span>体重比:</span>
-                    <span>{lclOrderInfo.cbm}立方 : {lclOrderInfo.kgs}公斤</span>
+                    <span className={styles.value}>
+                      {lclOrderInfo.cbm}立方 : {lclOrderInfo.kgs}公斤
+                    </span>
+                  </li>
+                  <li>
+                    <span className={styles.desc}>每立方超过350公斤按公斤费用进行计算</span>
                   </li>
                 </ul>
                 <div className={styles.priceInfo}>
                   <span className={styles.label}>单价</span>
                   <div className={styles.value}>
-                    <div>立方<strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.tossPriceStandrd}</strong></div>
-                    <div>公斤<strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.heavyPriceStandrd}</strong></div>
+                    <div><strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.tossPriceStandrd}</strong>每立方</div>
+                    <div><strong>{lclOrderInfo.currency === 'USD' ? '$' : '¥'}{lclOrderInfo.heavyPriceStandrd}</strong>每公斤</div>
                   </div>
                 </div>
               </div>
@@ -680,7 +685,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
             <div className={styles.totalPrice}>
               <h5>总价</h5>
               <span className={styles.num}>
-                <span>{lclTotalPrice}</span>
+                <span className={styles.kgsCbm}>{totalPriceFormula.kgsCbm}x{totalPriceFormula.priceStandrd}=</span>
+                <span>{totalPrice}</span>
                 <span className={styles.symbol}>{lclOrderInfo.currency}</span>
               </span>
             </div>

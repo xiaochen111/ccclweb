@@ -5,45 +5,17 @@
   .tableHeader,
   .rowInfos {
     width: 100%;
-    padding: 0 30px;
-
     .columsWidth {
       display: inline-block;
-      width: 12%;
+      width: 14%;
       text-align: left;
     }
 
     .columsWidth:nth-child(1) {
-      width: 40%;
+      width: 30%;
     }
 
-    .lineMain {
-      display: flex;
-      flex-flow: row;
-      align-items: center;
-    }
-
-    .startTruck {
-      display: flex;
-      align-items: center;
-    }
-
-    .endTruck {
-      display: flex;
-      flex-shrink: 0;
-      align-items: center;
-      width: calc(100% - 130px);
-
-      span {
-        display: inline-block;
-        overflow: hidden;
-        line-height: 1;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-    }
-
-    .ColumsWidth:nth-child(6) {
+    .columsWidth:nth-child(6) {
       text-align: right;
     }
   }
@@ -54,16 +26,18 @@
     font-size: 16px;
     line-height: 60px;
     background-color: #ebebeb;
+    padding: 0 30px;
   }
 
   .tableBody {
     width: 100%;
     background-color: #fff;
-
-    li {
+    
+    .tableItem {
       width: 100%;
-      border-bottom: 1px solid #999;
+      border-bottom: 1px solid #ccc;
       position: relative;
+      padding: 30px;
       .specialFlag {
         position: absolute;
         top: 0;
@@ -74,71 +48,150 @@
         background-size: cover;
       }
       .rowInfos {
-        height: 80px;
-        line-height: 80px;
-
-        .line {
-          display: inline-block;
-          font-size: 24px;
-        }
-
+        // padding-top: 15px;
+        font-size: 20px;
+        color: #333;
+        font-weight: bold;
         .voyage {
+          font-weight: normal;
           color: #666;
-          font-size: 20px;
         }
-
-        .price {
-          color: #ff7d14;
-          font-weight: bold;
-          font-size: 20px;
+        .weight {
+          font-weight: normal;
         }
-
         .total {
-          color: #ff0808;
-          font-weight: bold;
-          font-size: 20px;
-        }
-
-        .btn {
-          display: inline-block;
-          width: 90px;
-          height: 30px;
-          color: #fff;
-          line-height: 30px;
-          text-align: center;
-          background-color: #2556f2;
-          border-radius: 4px;
-          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          justify-content: end;
+          // align-items: center;
+          .num {
+            color: #ff0808;
+            font-size: 24px;
+          }
+          .desc {
+            color: #4A90E2;
+            font-size: 12px;
+            font-weight: normal;
+          }
         }
       }
-
-      .expandeContent {
+      .subInfos {
         display: flex;
-        align-items: center;
         justify-content: space-between;
-        height: 58px;
-        margin: 0 30px;
-        color: #999;
+        align-items: center;
         font-size: 14px;
-        line-height: 58px;
-        border-top: 1px dashed #ccc;
-        color: #999;
+        margin-top: 20px;
+        i {
+          font-style: normal;
+          color: #999;
+        }
+        .btn {
+          cursor: pointer;
+          width: 100px;
+          height: 32px;
+          border-radius: 16px;
+          background-color: #FF8A01;
+          color: #fff;
+          text-align: center;
+          line-height: 32px;
+          font-weight: bold;
+        }
       }
-
       .explain {
-        border-top: 1px dashed #ccc;
-        margin: 0 30px;
-        padding: 12px 0;
+        width: 100%;
+        background-color: #F7F8FA;
+        border-radius: 8px;
+        padding: 20px;
+        font-size: 14px;
+        margin-top: 20px;
         .title {
           color: #2556F2;
-          font-size: 14px;
         }
         p {
-          color: #999;
-          margin-top: 5px;
+          font-size: 12px;
+          color: #666;
         }
       }
     }
+    // li {
+    //   width: 100%;
+    //   border-bottom: 1px solid #999;
+    //   position: relative;
+    //   .specialFlag {
+    //     position: absolute;
+    //     top: 0;
+    //     left: 0;
+    //     width: 50px;
+    //     height: 18px;
+    //     background-image: url('../../assets/img/special-flag-icon.png');
+    //     background-size: cover;
+    //   }
+    //   .rowInfos {
+    //     height: 80px;
+    //     line-height: 80px;
+
+    //     .line {
+    //       display: inline-block;
+    //       font-size: 24px;
+    //     }
+
+    //     .voyage {
+    //       color: #666;
+    //       font-size: 20px;
+    //     }
+
+    //     .price {
+    //       color: #ff7d14;
+    //       font-weight: bold;
+    //       font-size: 20px;
+    //     }
+
+    //     .total {
+    //       color: #ff0808;
+    //       font-weight: bold;
+    //       font-size: 20px;
+    //     }
+
+    //     .btn {
+    //       display: inline-block;
+    //       width: 90px;
+    //       height: 30px;
+    //       color: #fff;
+    //       line-height: 30px;
+    //       text-align: center;
+    //       background-color: #2556f2;
+    //       border-radius: 4px;
+    //       cursor: pointer;
+    //     }
+    //   }
+
+    //   .expandeContent {
+    //     display: flex;
+    //     align-items: center;
+    //     justify-content: space-between;
+    //     height: 58px;
+    //     margin: 0 30px;
+    //     color: #999;
+    //     font-size: 14px;
+    //     line-height: 58px;
+    //     border-top: 1px dashed #ccc;
+    //     color: #999;
+    //   }
+
+    //   .explain {
+    //     border-top: 1px dashed #ccc;
+    //     margin: 0 30px;
+    //     padding: 12px 0;
+    //     .title {
+    //       color: #2556F2;
+    //       font-size: 14px;
+    //     }
+    //     p {
+    //       color: #999;
+    //       margin-top: 5px;
+    //     }
+    //   }
+    // }
   }
 }
 
