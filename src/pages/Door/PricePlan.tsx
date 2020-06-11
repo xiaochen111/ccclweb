@@ -293,13 +293,13 @@ export class PricePlan extends Component<IProps, IState> {
                             <div className={styles.num}>
                               {convertCurrency(item.currency)}{item.totalPrice}
                             </div>
-                            <span className={styles.desc}>{convertCurrency(item.priceStandrd)}{item.heavyStandsPrice}={item.kgsCbm} X {convertCurrency(item.currency)}{item.heavyStandsPrice}</span>
+                            <span className={styles.desc}>{convertCurrency(item.currency)}{item.totalPrice}={item.kgsCbm} X {convertCurrency(item.currency)}{item.priceStandrd}</span>
                           </div>
                         </div>
                       </div>
                       <div className={styles.subInfos}>
                         <span><i>供应商：</i>{item.supplierName}</span>
-                        <span><i>体重比说明：</i>每立方超过{item.kgs}公斤按公斤费</span>
+                        <span><i>体重比说明：</i>每立方超过{item.kgs}公斤按公斤费用进行计算</span>
                         <div className={styles.btn} onClick={() => this.handleLinkToOrder(item)}>下单</div>
                       </div>
                       <div className={styles.explain}>

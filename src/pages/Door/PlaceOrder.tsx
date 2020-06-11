@@ -350,7 +350,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
         let params: ParamsState = {
           startTruck,
           endTruck,
-          totalPrice: lclTotalPriceInfo.lclTotalPrice,
+          totalPrice: lclTotalPriceInfo.totalPrice,
           totalPriceCurrency: currency,
           contactCompanyName: values.contactCompanyName,
           contactTel: values.contactTel,
@@ -666,7 +666,7 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
                     </span>
                   </li>
                   <li>
-                    <span className={styles.desc}>每立方超过350公斤按公斤费用进行计算</span>
+                    <span className={styles.desc}>每立方超过{lclOrderInfo.kgs}公斤按公斤费用进行计算</span>
                   </li>
                 </ul>
                 <div className={styles.priceInfo}>
