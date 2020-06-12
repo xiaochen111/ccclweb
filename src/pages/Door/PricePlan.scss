@@ -57,12 +57,13 @@
           transform: translateY(4px);
           .address {
             display: inline-block;
-            max-width: 100px;
+            max-width: 200px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
           }
           img {
+            width: 40px;
             vertical-align: 40%;
           }
         }
