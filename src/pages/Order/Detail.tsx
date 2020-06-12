@@ -99,7 +99,7 @@ class orderDetailPage extends PureComponent<IProps, IState> {
                 {orderDetail.supplierName}
               </Descriptions.Item>
               <Descriptions.Item label="下单时间">
-                {moment(orderDetail.createTime).format('YYYY-MM-DD')}
+                {orderDetail.createTime}
               </Descriptions.Item>
             </Descriptions>
             <Divider/>
