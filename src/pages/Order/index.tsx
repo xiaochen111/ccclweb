@@ -70,9 +70,7 @@ class OrderPage extends PureComponent<IProps, IState> {
     { title: '收货地', dataIndex: 'startTruck', key: 'startTruck' },
     { title: '交货地', dataIndex: 'endTruck', key: 'endTruck' },
     { title: '品名', dataIndex: 'goodsType', key: 'goodsType', render: text =>  <span>{text ? text.substring(0, 50) : ''}</span> },
-    { title: '下单时间', dataIndex: 'createTime', key: 'createTime',
-      render: text => moment(text).format('YYYY-MM-DD HH:mm:ss')
-    },
+    { title: '下单时间', dataIndex: 'createTime', key: 'createTime' },
     {
       title: '订单状态',
       dataIndex: 'status',
