@@ -385,7 +385,7 @@ class RegisterPage extends Component<RegisterProps, RegisterState> {
         <Form.Item label="公司名称(必填)">
           {getFieldDecorator('company', {
             getValueFromEvent: event => event.target.value.trim(),
-            rules: [{ required: true, message: '公司名称' }],
+            rules: [{ required: true, message: '公司名称' }, { max: 30, message: '长度不能超过30位', }],
           })(<Input size="large" placeholder="请输入公司名称" style={{ width: 370 }} />)}
         </Form.Item>
         {selectedTab === 1 ? (
