@@ -70,7 +70,7 @@ export class PricePlan extends Component<IProps, IState> {
     },
     {
       title: '体重比',
-      key: 'weight',
+      key: 'KGS',
     },
     {
       title: '每立方',
