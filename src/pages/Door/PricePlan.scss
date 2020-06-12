@@ -52,6 +52,20 @@
         font-size: 20px;
         color: #333;
         font-weight: bold;
+        .line {
+          line-height: 1;
+          transform: translateY(4px);
+          .address {
+            display: inline-block;
+            max-width: 100px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          img {
+            vertical-align: 40%;
+          }
+        }
         .voyage {
           font-weight: normal;
           color: #666;

@@ -222,6 +222,8 @@ class DoorPlaceOrderPage extends PureComponent<IProps, IState> {
     const { dispatch, form: { getFieldsValue } } = this.props;
     const { totalCbm, totalKgs } = getFieldsValue(['totalCbm', 'totalKgs']);
 
+    if (!value || !REGEX.BIGNUM_TOW.test(value)) return;
+
     dispatch({
       type: 'door/getTotalPrice',
       payload: {

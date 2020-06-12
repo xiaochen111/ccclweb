@@ -268,12 +268,12 @@ export class PricePlan extends Component<IProps, IState> {
                         item.specialFlag && item.specialFlag === 1 ? <i className={styles.specialFlag}/> : null
                       }
                       <div className={styles.rowInfos}>
-                        <div className={styles.columsWidth}>
-                          <span>{item.startTruck}&nbsp;</span>
+                        <div className={`${styles.line} ${styles.columsWidth}`}>
+                          <span className={styles.address}>{item.startTruck}&nbsp;</span>
                           <img src={arrow} alt="" />
                               &nbsp;
                           <Tooltip placement="top" title={item.endTruck}>
-                            <span>{item.endTruck}</span>
+                            <span className={styles.address}>{item.endTruck}</span>
                           </Tooltip>
                         </div>
                         <div className={`${styles.voyage} ${styles.columsWidth}`}>

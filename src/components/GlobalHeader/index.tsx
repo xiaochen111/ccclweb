@@ -40,13 +40,12 @@ class GlonbalHeader extends PureComponent<GlonbalHeaderProps, any> {
   render() {
     const { location, isLogin } = this.props;
 
-    console.log('render -> location', window.location);
     const navs = isLogin
       ? []
       : [
         { name: '首页', link: '/home' },
         { name: '门到门专区', link: '/door' },
-        { name: '新闻中心', link: '/news' },
+        { name: '行业资讯', link: '/news' },
         // { name: '关于我们', link: '/about' },
       ];
 

@@ -47,10 +47,10 @@ export class NewsDetail extends Component<IProps, any> {
       <PageWrapper wrapperClassName={styles.newMainBox}>
         <Breadcrumb>
           <Breadcrumb.Item>
-            <Link to="/news">新闻列表</Link>
+            <Link to="/news">行业资讯</Link>
           </Breadcrumb.Item>
           <Breadcrumb.Item>
-            新闻详情
+            资讯详情
           </Breadcrumb.Item>
         </Breadcrumb>
 

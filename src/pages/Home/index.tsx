@@ -182,7 +182,7 @@ class HomePage extends Component<IProps, any> {
             </ul>
 
             <p className={styles.newTit}>
-              <span>新闻公告</span>
+              <span>最新资讯</span>
               <Link to="/news">更多&gt;&gt;</Link>
             </p>
 
