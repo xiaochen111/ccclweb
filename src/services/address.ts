@@ -55,6 +55,18 @@ export async function updateContactAddress(params = {}) {
 }
 
 /**
+ * 删除
+ * @param params
+ */
+
+export async function deleteContactAddress(params = {}) {
+  return request('/web/lcl/contact/deleteContactAddress.do', {
+    method: 'POST',
+    data: params,
+  });
+}
+
+/**
  * 设置默认
  * @param params
  */

@@ -6,6 +6,7 @@ import {
   contactAddress,
   saveContactAddress,
   updateContactAddress,
+  deleteContactAddress,
   setContactDefaultAddress,
   cancelContactDefaultAddress,
   queryDefaultAddress
@@ -23,6 +24,7 @@ export interface AddressModelType {
     getContactAddress: Effect;
     doSaveContactAddress: Effect;
     doUpdateContactAddress: Effect;
+    doDeleteContactAddress: Effect;
     doSetContactDefaultAddress: Effect;
     doCancelContactDefaultAddress: Effect;
     getDefaultAddress: Effect;
@@ -68,6 +70,14 @@ const Modal: AddressModelType = {
 
       if (respone && respone.code === '1') {
         message.success('修改成功');
+        return true;
+      }
+    },
+    *doDeleteContactAddress({ payload }, { call }) {
+      const respone = yield call(deleteContactAddress, payload);
+
+      if (respone && respone.code === '1') {
+        message.success('删除成功');
         return true;
       }
     },

@@ -23,10 +23,10 @@ interface IProps extends FormComponentProps, StateType {
   dispatch: Dispatch<AnyAction>;
 }
 
-@connect(({ address, Loading }) => ({
+@connect(({ address, loading }) => ({
   addressList: address.addressList,
   addressTotal: address.addressTotal,
-  tableLoading: Loading,
+  tableLoading: loading.models['address']
 }))
 export class index extends Component<IProps, IState> {
   state = {
@@ -65,10 +65,6 @@ export class index extends Component<IProps, IState> {
       });
     }
     if (type === 'edit') {
-      // if (selectedRows.length > 1) {
-      //   message.warn('最多只能选择一条修改');
-      //   return;
-      // }
       if (selectedRows.length === 0) {
         message.warn('至少选择一条修改');
         return;
@@ -81,6 +77,21 @@ export class index extends Component<IProps, IState> {
           flag: '2',
         }),
       });
+    }
+
+    if (type === 'delete') {
+      if (selectedRows.length === 0) {
+        message.warn('至少选择一条删除');
+        return;
+      }
+      const res = await dispatch({
+        type: 'address/doDeleteContactAddress',
+        payload: { lclContactId: selectedRows[0].lclContactId * 1 },
+      });
+
+      if (res) {
+        this.resetState(this.getAddressList);
+      }
     }
 
     if (type === 'default') {
@@ -124,8 +135,8 @@ export class index extends Component<IProps, IState> {
 
   resetState = cb => {
     this.setState({
-      pageNo: 0,
-      pageSize: 0,
+      pageNo: 1,
+      pageSize: 10,
       selectedRowKeys: [],
       selectedRows: [],
     }, () => cb());
@@ -239,9 +250,12 @@ export class index extends Component<IProps, IState> {
             </button>
             <button
               onClick={() => {
-                this.handleActions('cancal');
+                this.handleActions('delete');
               }}
             >
+              删除
+            </button>
+            <button onClick={() => { this.handleActions('cancal'); }}>
               取消默认
             </button>
           </div>
