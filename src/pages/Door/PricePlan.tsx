@@ -271,7 +271,7 @@ export class PricePlan extends Component<IProps, IState> {
                       <div className={styles.rowInfos}>
                         <div className={`${styles.supplier} ${styles.columsWidth}`}>
                           <div className={styles.logo}>
-                            <img src={item.logo ? item.logo : require('../../assets/img/default-logo.svg')} alt=""/>
+                            <img src={item.logo ? item.logo : require('../../assets/img/default-logo.svg')} alt="" />
                           </div>
                           {
                             item.specialFlag && item.specialFlag === 1 ? <i className={styles.specialFlag}/> : null
