@@ -268,8 +268,8 @@ export class PricePlan extends Component<IProps, IState> {
                 {lclList && lclList.length ? (
                   lclList.map((item, index) => (
                     <li key={index} className={styles.tableItem}>
-                      <div className={styles.rowInfos}>
-                        <div className={`${styles.supplier} ${styles.columsWidth}`}>
+                      <div className={styles.mainContent}>
+                        <div className={styles.supplier}>
                           <div className={styles.logo}>
                             <img src={item.logo ? item.logo : require('../../assets/img/default-logo.svg')} alt="" />
                           </div>
@@ -277,39 +277,43 @@ export class PricePlan extends Component<IProps, IState> {
                             item.specialFlag && item.specialFlag === 1 ? <i className={styles.specialFlag}/> : null
                           }
                         </div>
-                        <div className={`${styles.line} ${styles.columsWidth}`}>
-                          <span className={styles.address}>{item.startTruck}&nbsp;</span>
-                          <img src={arrow} alt="" />
+                        <div className={styles.middleInfo}>
+                          <div className={styles.rowInfos}>
+                            <div className={`${styles.line} ${styles.columsWidth}`}>
+                              <span className={styles.address}>{item.startTruck}&nbsp;</span>
+                              <img src={arrow} alt="" />
                               &nbsp;
-                          <Tooltip placement="top" title={item.endTruck}>
-                            <span className={styles.address}>{item.endTruck}</span>
-                          </Tooltip>
-                        </div>
-                        <div className={`${styles.voyage} ${styles.columsWidth}`}>
-                          {item.days}天
-                        </div>
-                        <div className={`${styles.weight} ${styles.columsWidth}`}>
-                          {item.cbm} : {item.kgs}
-                        </div>
-                        <div className={styles.columsWidth}>
-                          {convertCurrency(item.currency)}{item.tossStandsPrice}
-                        </div>
-                        <div className={styles.columsWidth}>
-                          {convertCurrency(item.currency)}{item.heavyStandsPrice}
-                        </div>
-                        <div className={styles.columsWidth}>
-                          <div className={styles.total}>
-                            <div className={styles.num}>
-                              {convertCurrency(item.currency)}{item.totalPrice}
+                              <Tooltip placement="top" title={item.endTruck}>
+                                <span className={styles.address}>{item.endTruck}</span>
+                              </Tooltip>
                             </div>
-                            <span className={styles.desc}>{convertCurrency(item.currency)}{item.totalPrice}={item.kgsCbm} X {convertCurrency(item.currency)}{item.priceStandrd}</span>
+                            <div className={`${styles.voyage} ${styles.columsWidth}`}>
+                              {item.days}天
+                            </div>
+                            <div className={`${styles.weight} ${styles.columsWidth}`}>
+                              {item.cbm} : {item.kgs}
+                            </div>
+                            <div className={styles.columsWidth}>
+                              {convertCurrency(item.currency)}{item.tossStandsPrice}
+                            </div>
+                            <div className={styles.columsWidth}>
+                              {convertCurrency(item.currency)}{item.heavyStandsPrice}
+                            </div>
+                            <div className={styles.columsWidth}>
+                              <div className={styles.total}>
+                                <div className={styles.num}>
+                                  {convertCurrency(item.currency)}{item.totalPrice}
+                                </div>
+                                <span className={styles.desc}>{convertCurrency(item.currency)}{item.totalPrice}={item.kgsCbm} X {convertCurrency(item.currency)}{item.priceStandrd}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className={styles.subInfos}>
+                            <span><i>供应商：</i>{item.supplierName}</span>
+                            <span><i>体重比说明：</i>每立方超过{item.kgs}公斤按公斤费用进行计算</span>
+                            <div className={styles.btn} onClick={() => this.handleLinkToOrder(item)}>下单</div>
                           </div>
                         </div>
-                      </div>
-                      <div className={styles.subInfos}>
-                        <span><i>供应商：</i>{item.supplierName}</span>
-                        <span><i>体重比说明：</i>每立方超过{item.kgs}公斤按公斤费用进行计算</span>
-                        <div className={styles.btn} onClick={() => this.handleLinkToOrder(item)}>下单</div>
                       </div>
                       <div className={styles.explain}>
                         <div className={styles.title}>专线说明</div>

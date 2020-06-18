@@ -2,8 +2,7 @@
   // width: 1200px;
   margin-top: 16px;
 
-  .tableHeader,
-  .rowInfos {
+  .tableHeader {
     width: 100%;
     .columsWidth {
       display: inline-block;
@@ -23,6 +22,8 @@
     }
   }
 
+
+
   .tableHeader {
     height: 60px;
     color: #333;
@@ -41,95 +42,118 @@
       border-bottom: 1px solid #ccc;
       position: relative;
       padding: 30px;
-      .rowInfos {
-        // padding-top: 15px;
-        font-size: 20px;
-        color: #333;
-        font-weight: bold;
-        .supplier {
-          position: relative;
-          .logo {
-            display: block;
-            width: 160px;
-            height: 120px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            overflow: hidden;
+      .mainContent {
+        display: flex;
+        justify-content: flex-start;
+        align-self: start;
+      }
+      .supplier {
+        position: relative;
+        display: inline-block;
+        flex: 2;
+        .logo {
+          display: block;
+          width: 160px;
+          height: 120px;
+          border-radius: 8px;
+          border: 1px solid #ccc;
+          overflow: hidden;
+          img {
+            width: 100%;
+            // height: 100%;
+          }
+        }
+        .specialFlag {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 50px;
+          height: 18px;
+          background-image: url('../../assets/img/special-flag-icon.png');
+          background-size: cover;
+        }
+      }
+      .middleInfo {
+        flex: 8;
+        .rowInfos {
+          width: 100%;
+          font-size: 20px;
+          color: #333;
+          font-weight: bold;
+          .columsWidth {
+            display: inline-block;
+            width: 14%;
+            text-align: left;
+          }
+          .columsWidth:nth-child(1) {
+            width: 30%;
+          }
+      
+          .columsWidth:nth-child(6) {
+            text-align: right;
+          }
+          .line {
+            line-height: 1;
+            transform: translateY(4px);
+            .address {
+              display: inline-block;
+              max-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+            }
             img {
-              width: 100%;
-              // height: 100%;
+              width: 40px;
+              vertical-align: 40%;
             }
           }
-          .specialFlag {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 50px;
-            height: 18px;
-            background-image: url('../../assets/img/special-flag-icon.png');
-            background-size: cover;
+          .voyage {
+            font-weight: normal;
+            color: #666;
           }
-        }
-        .line {
-          line-height: 1;
-          transform: translateY(4px);
-          .address {
-            display: inline-block;
-            max-width: 200px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-          }
-          img {
-            width: 40px;
-            vertical-align: 40%;
-          }
-        }
-        .voyage {
-          font-weight: normal;
-          color: #666;
-        }
-        .weight {
-          font-weight: normal;
-        }
-        .total {
-          display: flex;
-          flex-direction: column;
-          justify-content: end;
-          // align-items: center;
-          .num {
-            color: #ff0808;
-            font-size: 24px;
-          }
-          .desc {
-            color: #4A90E2;
-            font-size: 12px;
+          .weight {
             font-weight: normal;
           }
+          .total {
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            // align-items: center;
+            .num {
+              color: #ff0808;
+              font-size: 24px;
+            }
+            .desc {
+              color: #4A90E2;
+              font-size: 12px;
+              font-weight: normal;
+            }
+          }
+        }
+        .subInfos {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 14px;
+          margin-top: 20px;
+          i {
+            font-style: normal;
+            color: #999;
+          }
+          .btn {
+            cursor: pointer;
+            width: 100px;
+            height: 32px;
+            border-radius: 16px;
+            background-color: #FF8A01;
+            color: #fff;
+            text-align: center;
+            line-height: 32px;
+            font-weight: bold;
+          }
         }
       }
-      .subInfos {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 14px;
-        margin-top: 20px;
-        i {
-          font-style: normal;
-          color: #999;
-        }
-        .btn {
-          cursor: pointer;
-          width: 100px;
-          height: 32px;
-          border-radius: 16px;
-          background-color: #FF8A01;
-          color: #fff;
-          text-align: center;
-          line-height: 32px;
-          font-weight: bold;
-        }
-      }
+      
       .explain {
         width: 100%;
         background-color: #F7F8FA;
@@ -146,85 +170,6 @@
         }
       }
     }
-    // li {
-    //   width: 100%;
-    //   border-bottom: 1px solid #999;
-    //   position: relative;
-    //   .specialFlag {
-    //     position: absolute;
-    //     top: 0;
-    //     left: 0;
-    //     width: 50px;
-    //     height: 18px;
-    //     background-image: url('../../assets/img/special-flag-icon.png');
-    //     background-size: cover;
-    //   }
-    //   .rowInfos {
-    //     height: 80px;
-    //     line-height: 80px;
-
-    //     .line {
-    //       display: inline-block;
-    //       font-size: 24px;
-    //     }
-
-    //     .voyage {
-    //       color: #666;
-    //       font-size: 20px;
-    //     }
-
-    //     .price {
-    //       color: #ff7d14;
-    //       font-weight: bold;
-    //       font-size: 20px;
-    //     }
-
-    //     .total {
-    //       color: #ff0808;
-    //       font-weight: bold;
-    //       font-size: 20px;
-    //     }
-
-    //     .btn {
-    //       display: inline-block;
-    //       width: 90px;
-    //       height: 30px;
-    //       color: #fff;
-    //       line-height: 30px;
-    //       text-align: center;
-    //       background-color: #2556f2;
-    //       border-radius: 4px;
-    //       cursor: pointer;
-    //     }
-    //   }
-
-    //   .expandeContent {
-    //     display: flex;
-    //     align-items: center;
-    //     justify-content: space-between;
-    //     height: 58px;
-    //     margin: 0 30px;
-    //     color: #999;
-    //     font-size: 14px;
-    //     line-height: 58px;
-    //     border-top: 1px dashed #ccc;
-    //     color: #999;
-    //   }
-
-    //   .explain {
-    //     border-top: 1px dashed #ccc;
-    //     margin: 0 30px;
-    //     padding: 12px 0;
-    //     .title {
-    //       color: #2556F2;
-    //       font-size: 14px;
-    //     }
-    //     p {
-    //       color: #999;
-    //       margin-top: 5px;
-    //     }
-    //   }
-    // }
   }
 }
 
