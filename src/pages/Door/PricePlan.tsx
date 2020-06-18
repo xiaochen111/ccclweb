@@ -61,6 +61,10 @@ export class PricePlan extends Component<IProps, IState> {
 
   private columns = [
     {
+      title: '供应商',
+      key: 'logo',
+    },
+    {
       title: '运输专线',
       key: 'line',
     },
@@ -264,10 +268,15 @@ export class PricePlan extends Component<IProps, IState> {
                 {lclList && lclList.length ? (
                   lclList.map((item, index) => (
                     <li key={index} className={styles.tableItem}>
-                      {
-                        item.specialFlag && item.specialFlag === 1 ? <i className={styles.specialFlag}/> : null
-                      }
                       <div className={styles.rowInfos}>
+                        <div className={`${styles.supplier} ${styles.columsWidth}`}>
+                          <div className={styles.logo}>
+                            <img src={item.logo ? item.logo : require('../../assets/img/default-logo.svg')} alt=""/>
+                          </div>
+                          {
+                            item.specialFlag && item.specialFlag === 1 ? <i className={styles.specialFlag}/> : null
+                          }
+                        </div>
                         <div className={`${styles.line} ${styles.columsWidth}`}>
                           <span className={styles.address}>{item.startTruck}&nbsp;</span>
                           <img src={arrow} alt="" />

@@ -40,59 +40,59 @@ const Modal: AddressModelType = {
   },
   effects: {
     *getContactAddress({ payload }, { call, put }) {
-      const respone = yield call(contactAddress, payload);
+      const response = yield call(contactAddress, payload);
 
-      if (respone && respone.code === '1') {
+      if (response && response.code === '1') {
         yield put({
           type: 'saveAddressList',
-          payload: respone.resMap.contactListByPage,
+          payload: response.resMap.contactListByPage,
         });
         return true;
       }
     },
     *getDefaultAddress({ payload }, { call, put }) {
-      const respone = yield call(queryDefaultAddress, payload);
+      const response = yield call(queryDefaultAddress, payload);
 
-      if (respone && respone.code === '1') {
-        return respone.resMap;
+      if (response && response.code === '1') {
+        return response.resMap;
       }
     },
     *doSaveContactAddress({ payload }, { call }) {
-      const respone = yield call(saveContactAddress, payload);
+      const response = yield call(saveContactAddress, payload);
 
-      if (respone && respone.code === '1') {
+      if (response && response.code === '1') {
         message.success('新增成功');
         return true;
       }
     },
     *doUpdateContactAddress({ payload }, { call }) {
-      const respone = yield call(updateContactAddress, payload);
+      const response = yield call(updateContactAddress, payload);
 
-      if (respone && respone.code === '1') {
+      if (response && response.code === '1') {
         message.success('修改成功');
         return true;
       }
     },
     *doDeleteContactAddress({ payload }, { call }) {
-      const respone = yield call(deleteContactAddress, payload);
+      const response = yield call(deleteContactAddress, payload);
 
-      if (respone && respone.code === '1') {
+      if (response && response.code === '1') {
         message.success('删除成功');
         return true;
       }
     },
     *doSetContactDefaultAddress({ payload }, { call }) {
-      const respone = yield call(setContactDefaultAddress, payload);
+      const response = yield call(setContactDefaultAddress, payload);
 
-      if (respone && respone.code === '1') {
+      if (response && response.code === '1') {
         message.success('设置默认地址成功');
         return true;
       }
     },
     *doCancelContactDefaultAddress({ payload }, { call }) {
-      const respone = yield call(cancelContactDefaultAddress, payload);
+      const response = yield call(cancelContactDefaultAddress, payload);
 
-      if (respone && respone.code === '1') {
+      if (response && response.code === '1') {
         message.success('取消默认地址成功');
         return true;
       }
