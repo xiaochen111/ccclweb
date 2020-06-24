@@ -53,3 +53,18 @@ export async function queryLclTotalPrice(data) {
     data,
   });
 }
+
+
+/**
+ * 获取供应商详情
+ *
+ * @export
+ * @param {*} data
+ * @returns
+ */
+export async function queryLclSupplierDetail(data) {
+  return request('/web/lcl/supplier/detail.do', {
+    method: 'POST',
+    data,
+  });
+}

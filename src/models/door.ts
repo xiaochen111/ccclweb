@@ -3,7 +3,7 @@ import { Reducer } from 'redux';
 import { routerRedux } from 'dva/router';
 import { message } from 'antd';
 import moment from 'moment';
-import { queryLclList, queryLclDetail, doOrderSubmit, queryLclTotalPrice } from '@/services/lcl';
+import { queryLclList, queryLclDetail, doOrderSubmit, queryLclTotalPrice, queryLclSupplierDetail } from '@/services/lcl';
 
 export interface StateType {
   lclList: any[];
@@ -20,6 +20,7 @@ export interface DoorModelType {
     getLclDetail: Effect;
     orderSubmit: Effect;
     getTotalPrice: Effect;
+    getLclSupplierDetail: Effect;
   };
   reducers: {
     setLclList: Reducer<StateType>;
@@ -57,7 +58,7 @@ const model: DoorModelType = {
         });
       }
     },
-    *orderSubmit({ payload }, { call, put }) {
+    *orderSubmit({ payload }, { call }) {
       const response = yield call(doOrderSubmit, payload);
 
       if (response && response.code === '1') {
@@ -74,6 +75,13 @@ const model: DoorModelType = {
           type: 'saveLclTotalPrice',
           payload: response.resMap,
         });
+      }
+    },
+    *getLclSupplierDetail({ payload }, { call }) {
+      const response = yield call(queryLclSupplierDetail, payload);
+
+      if (response && response.code === '1') {
+        return response.resMap.detail;
       }
     },
   },

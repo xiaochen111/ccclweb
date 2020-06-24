@@ -11,10 +11,10 @@
     }
 
     .columsWidth:nth-child(1) {
-      width: 20%;
+      width: 17%;
     }
     .columsWidth:nth-child(2) {
-      width: 25%;
+      width: 26%;
     }
 
     .columsWidth:nth-child(7) {
@@ -50,7 +50,7 @@
       .supplier {
         position: relative;
         display: inline-block;
-        flex: 2;
+        flex: 1.6;
         .logo {
           display: block;
           width: 160px;
@@ -82,11 +82,11 @@
           font-weight: bold;
           .columsWidth {
             display: inline-block;
-            width: 14%;
+            width: 13%;
             text-align: left;
           }
           .columsWidth:nth-child(1) {
-            width: 30%;
+            width: 32%;
           }
       
           .columsWidth:nth-child(6) {
@@ -188,5 +188,23 @@
       color: #0d46ef;
       font-weight: normal;
     }
+  }
+}
+
+.supplierWrapper {
+  .top {
+    display: flex;
+    justify-content: start;
+    align-items: flex-start;
+  }
+  .logo {
+    width: 160px;
+    height: 120px;
+  }
+  h3 {
+    margin: 13px 0 0 17px;
+  }
+  .content {
+    width: 100%;
   }
 }

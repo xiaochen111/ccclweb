@@ -3,7 +3,7 @@ import H from 'history';
 import { connect } from 'dva';
 import { Dispatch, AnyAction } from 'redux';
 import router from 'umi/router';
-import { Pagination, Icon, Empty, Spin, Tooltip } from 'antd';
+import { Pagination, Drawer, Empty, Spin, Tooltip } from 'antd';
 import { StateType } from '@/models/door';
 import SearchCondition, { searchType } from '@/components/SearchCondition';
 import { GetPageQuery } from '@/utils/utils';
@@ -35,6 +35,8 @@ interface IState {
   routeType: string;
   pageNo: number;
   pageSize: number;
+  visible: boolean;
+  currentSupplier: any
 }
 
 @connect(({ door, global, loading }) => ({
@@ -55,6 +57,9 @@ export class PricePlan extends Component<IProps, IState> {
     routeType: this.props.route.type ? this.props.route.type : '',
     pageNo: 1,
     pageSize: 10,
+
+    visible: false,
+    currentSupplier: {}
   };
 
   private index = 1;
@@ -188,6 +193,31 @@ export class PricePlan extends Component<IProps, IState> {
     );
   };
 
+  handleGetSupplierDetail = async(item) => {
+    const { dispatch } = this.props;
+
+    if (!item.logo || !item.supplierId) return;
+
+    let result = await dispatch({
+      type: 'door/getLclSupplierDetail',
+      payload: { id: item.supplierId }
+    });
+
+    if (result) {
+      this.setState({
+        visible: true,
+        currentSupplier: result
+      });
+    }
+  }
+
+  handleDraweronClose = () => {
+    this.setState({
+      visible: false,
+      currentSupplier: {}
+    });
+  }
+
   handleTabelChange = current => {
     this.setState({
       pageNo: current,
@@ -212,7 +242,7 @@ export class PricePlan extends Component<IProps, IState> {
 
   render() {
     const { lclList, totalCount, countryDropList, tableLoading } = this.props;
-    const { sortInstance, orderBy, country, kgs, cbm, routeType, pageNo, pageSize } = this.state;
+    const { sortInstance, orderBy, country, kgs, cbm, routeType, pageNo, pageSize, visible, currentSupplier } = this.state;
     const searchDefaultValue = { country, kgs, cbm };
     const pagination = {
       total: totalCount,
@@ -270,7 +300,7 @@ export class PricePlan extends Component<IProps, IState> {
                     <li key={index} className={styles.tableItem}>
                       <div className={styles.mainContent}>
                         <div className={styles.supplier}>
-                          <div className={styles.logo}>
+                          <div className={styles.logo} onClick={() => this.handleGetSupplierDetail(item)}>
                             <img src={item.logo ? item.logo : require('../../assets/img/default-logo.svg')} alt="" />
                           </div>
                           {
@@ -333,6 +363,25 @@ export class PricePlan extends Component<IProps, IState> {
               <Pagination showQuickJumper showSizeChanger {...pagination} onChange={this.handleTabelChange} onShowSizeChange={this.handleTableSizeChange}/>
             </div>
           </div>
+
+          <Drawer
+            width={650}
+            title="供应商简介"
+            visible={visible}
+            closable={false}
+            onClose={this.handleDraweronClose}
+          >
+            <div className={styles.supplierWrapper}>
+              <div className={styles.top}>
+                <img src={currentSupplier['logo']} className={styles.logo} alt=""/>
+                <h3>{currentSupplier['nameCn']}</h3>
+              </div>
+              {
+                currentSupplier['description'] ?
+                  <img src={currentSupplier['description']} className={styles.content} alt=""/> : null
+              }
+            </div>
+          </Drawer>
         </Spin>
       </div>
     );
