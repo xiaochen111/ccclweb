@@ -37,10 +37,15 @@ const tailFormItemLayout = {
   },
 };
 
-@connect(({ system, loading }) => ({
+@connect(({ system, global, loading }) => ({
   submitLoading: loading.effects['system/doUpdateWebUserInfo'],
 }))
 class SystemMemberPage extends PureComponent<IProps, any> {
+
+  state = {
+    getUserInfoFlag: false
+  }
+
   saveUserInfo = () => {
     const { dispatch, form } = this.props;
 
@@ -52,6 +57,23 @@ class SystemMemberPage extends PureComponent<IProps, any> {
       });
     });
   };
+
+  componentDidMount(){
+    this.getUserInfo();
+  }
+
+  getUserInfo =  async () => {
+    const { dispatch } = this.props;
+    //获取个人信息
+    const res = await dispatch({
+      type: 'global/getGlobalUserInfo',
+    });
+
+    //小程序端可能修改了信息 所以每次进入这个页面都要从服务端获取最新的信息 为了执行render函数重新获取最新的个人信息
+    this.setState({
+      getUserInfoFlag: res
+    });
+  }
 
   render() {
     const {
